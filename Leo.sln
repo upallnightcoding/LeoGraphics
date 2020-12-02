@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{515FE115-02E5-4ABB-8F61-F02875A5348A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeoLib", "LeoLib\LeoLib.csproj", "{312AEB3C-3FCC-4908-989B-65CCF292E55D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{515FE115-02E5-4ABB-8F61-F02875A5348A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{515FE115-02E5-4ABB-8F61-F02875A5348A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{515FE115-02E5-4ABB-8F61-F02875A5348A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{515FE115-02E5-4ABB-8F61-F02875A5348A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{312AEB3C-3FCC-4908-989B-65CCF292E55D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{312AEB3C-3FCC-4908-989B-65CCF292E55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{312AEB3C-3FCC-4908-989B-65CCF292E55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{312AEB3C-3FCC-4908-989B-65CCF292E55D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C300A854-6E38-4DD9-BC3C-861D8621A797}
+	EndGlobalSection
+EndGlobal
