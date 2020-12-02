@@ -1,12 +1,13 @@
-﻿using System;
+﻿using LeoLib;
+using System;
 
-namespace Client
+namespace Leo
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Game game = new Game("Program Title ..."); 
         }
     }
 }
