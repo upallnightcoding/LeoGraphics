@@ -115,10 +115,10 @@ namespace LeoLib
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
 
-            const string SHADER_VERT = @"D:\Application\cs\LeoLib\LeoLib\glsl\shader.vert";
-            const string LIGHTING_FRAG = @"D:\Application\cs\LeoLib\LeoLib\glsl\lighting.frag";
-            const string SHADER_FRAG = @"D:\Application\cs\LeoLib\LeoLib\glsl\shader.frag";
-            const string RESOURCE = @"D:\Application\cs\Leo\Leo\resources\";
+            const string SHADER_VERT = @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader.vert";
+            const string LIGHTING_FRAG = @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\lighting.frag";
+            const string SHADER_FRAG = @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader.frag";
+            const string RESOURCE = @"D:\Application\cs\LeoGraphics\Leo\Client\resources\";
 
             _lightingShader = new Shader(SHADER_VERT, LIGHTING_FRAG);
             _lampShader = new Shader(SHADER_VERT, SHADER_FRAG);
@@ -168,15 +168,15 @@ namespace LeoLib
             _specularMap.Use(TextureUnit.Texture1);
             _lightingShader.Use();
 
-            _lightingShader.SetMatrix4("view", _camera.GetViewMatrix());
-            _lightingShader.SetMatrix4("projection", _camera.GetProjectionMatrix());
+            _lightingShader.SetUniform("view", _camera.GetViewMatrix());
+            _lightingShader.SetUniform("projection", _camera.GetProjectionMatrix());
 
-            _lightingShader.SetVector3("viewPos", _camera.Position);
+            _lightingShader.SetUniform("viewPos", _camera.Position);
 
-            _lightingShader.SetInt("material.diffuse", 0);
-            _lightingShader.SetInt("material.specular", 1);
-            _lightingShader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
-            _lightingShader.SetFloat("material.shininess", 32.0f);
+            _lightingShader.SetUniform("material.diffuse", 0);
+            _lightingShader.SetUniform("material.specular", 1);
+            _lightingShader.SetUniform("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
+            _lightingShader.SetUniform("material.shininess", 32.0f);
 
             /*
                Here we set all the uniforms for the 5/6 types of lights we have. We have to set them manually and index
@@ -185,34 +185,34 @@ namespace LeoLib
                by using 'Uniform buffer objects', but that is something we'll discuss in the 'Advanced GLSL' tutorial.
             */
             // Directional light
-            _lightingShader.SetVector3("dirLight.direction", new Vector3(-0.2f, -1.0f, -0.3f));
-            _lightingShader.SetVector3("dirLight.ambient", new Vector3(0.05f, 0.05f, 0.05f));
-            _lightingShader.SetVector3("dirLight.diffuse", new Vector3(0.4f, 0.4f, 0.4f));
-            _lightingShader.SetVector3("dirLight.specular", new Vector3(0.5f, 0.5f, 0.5f));
+            _lightingShader.SetUniform("dirLight.direction", new Vector3(-0.2f, -1.0f, -0.3f));
+            _lightingShader.SetUniform("dirLight.ambient", new Vector3(0.05f, 0.05f, 0.05f));
+            _lightingShader.SetUniform("dirLight.diffuse", new Vector3(0.4f, 0.4f, 0.4f));
+            _lightingShader.SetUniform("dirLight.specular", new Vector3(0.5f, 0.5f, 0.5f));
 
             // Point lights
             for (int i = 0; i < _pointLightPositions.Length; i++)
             {
-                _lightingShader.SetVector3($"pointLights[{i}].position", _pointLightPositions[i]);
-                _lightingShader.SetVector3($"pointLights[{i}].ambient", new Vector3(0.05f, 0.05f, 0.05f));
-                _lightingShader.SetVector3($"pointLights[{i}].diffuse", new Vector3(0.8f, 0.8f, 0.8f));
-                _lightingShader.SetVector3($"pointLights[{i}].specular", new Vector3(1.0f, 1.0f, 1.0f));
-                _lightingShader.SetFloat($"pointLights[{i}].constant", 1.0f);
-                _lightingShader.SetFloat($"pointLights[{i}].linear", 0.09f);
-                _lightingShader.SetFloat($"pointLights[{i}].quadratic", 0.032f);
+                _lightingShader.SetUniform($"pointLights[{i}].position", _pointLightPositions[i]);
+                _lightingShader.SetUniform($"pointLights[{i}].ambient", new Vector3(0.05f, 0.05f, 0.05f));
+                _lightingShader.SetUniform($"pointLights[{i}].diffuse", new Vector3(0.8f, 0.8f, 0.8f));
+                _lightingShader.SetUniform($"pointLights[{i}].specular", new Vector3(1.0f, 1.0f, 1.0f));
+                _lightingShader.SetUniform($"pointLights[{i}].constant", 1.0f);
+                _lightingShader.SetUniform($"pointLights[{i}].linear", 0.09f);
+                _lightingShader.SetUniform($"pointLights[{i}].quadratic", 0.032f);
             }
 
             // Spot light
-            _lightingShader.SetVector3("spotLight.position", _camera.Position);
-            _lightingShader.SetVector3("spotLight.direction", _camera.Front);
-            _lightingShader.SetVector3("spotLight.ambient", new Vector3(0.0f, 0.0f, 0.0f));
-            _lightingShader.SetVector3("spotLight.diffuse", new Vector3(1.0f, 1.0f, 1.0f));
-            _lightingShader.SetVector3("spotLight.specular", new Vector3(1.0f, 1.0f, 1.0f));
-            _lightingShader.SetFloat("spotLight.constant", 1.0f);
-            _lightingShader.SetFloat("spotLight.linear", 0.09f);
-            _lightingShader.SetFloat("spotLight.quadratic", 0.032f);
-            _lightingShader.SetFloat("spotLight.cutOff", (float)Math.Cos(MathHelper.DegreesToRadians(12.5f)));
-            _lightingShader.SetFloat("spotLight.outerCutOff", (float)Math.Cos(MathHelper.DegreesToRadians(12.5f)));
+            _lightingShader.SetUniform("spotLight.position", _camera.Position);
+            _lightingShader.SetUniform("spotLight.direction", _camera.Front);
+            _lightingShader.SetUniform("spotLight.ambient", new Vector3(0.0f, 0.0f, 0.0f));
+            _lightingShader.SetUniform("spotLight.diffuse", new Vector3(1.0f, 1.0f, 1.0f));
+            _lightingShader.SetUniform("spotLight.specular", new Vector3(1.0f, 1.0f, 1.0f));
+            _lightingShader.SetUniform("spotLight.constant", 1.0f);
+            _lightingShader.SetUniform("spotLight.linear", 0.09f);
+            _lightingShader.SetUniform("spotLight.quadratic", 0.032f);
+            _lightingShader.SetUniform("spotLight.cutOff", (float)Math.Cos(MathHelper.DegreesToRadians(12.5f)));
+            _lightingShader.SetUniform("spotLight.outerCutOff", (float)Math.Cos(MathHelper.DegreesToRadians(12.5f)));
 
             for (int i = 0; i < _cubePositions.Length; i++)
             {
@@ -220,7 +220,7 @@ namespace LeoLib
                 model *= Matrix4.CreateTranslation(_cubePositions[i]);
                 float angle = 20.0f * i;
                 model *= Matrix4.CreateFromAxisAngle(new Vector3(1.0f, 0.3f, 0.5f), angle);
-                _lightingShader.SetMatrix4("model", model);
+                _lightingShader.SetUniform("model", model);
 
                 GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
             }
@@ -229,8 +229,8 @@ namespace LeoLib
 
             _lampShader.Use();
 
-            _lampShader.SetMatrix4("view", _camera.GetViewMatrix());
-            _lampShader.SetMatrix4("projection", _camera.GetProjectionMatrix());
+            _lampShader.SetUniform("view", _camera.GetViewMatrix());
+            _lampShader.SetUniform("projection", _camera.GetProjectionMatrix());
             // We use a loop to draw all the lights at the proper position
             for (int i = 0; i < _pointLightPositions.Length; i++)
             {
@@ -238,7 +238,7 @@ namespace LeoLib
                 lampMatrix *= Matrix4.CreateScale(0.2f);
                 lampMatrix *= Matrix4.CreateTranslation(_pointLightPositions[i]);
 
-                _lampShader.SetMatrix4("model", lampMatrix);
+                _lampShader.SetUniform("model", lampMatrix);
 
                 GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
             }
@@ -333,8 +333,8 @@ namespace LeoLib
             GL.DeleteVertexArray(_vaoModel);
             GL.DeleteVertexArray(_vaoLamp);
 
-            GL.DeleteProgram(_lampShader.Handle);
-            GL.DeleteProgram(_lightingShader.Handle);
+            GL.DeleteProgram(_lampShader.handle);
+            GL.DeleteProgram(_lightingShader.handle);
 
             base.OnUnload();
         }

@@ -7,7 +7,9 @@ namespace Leo
     {
         static void Main(string[] args)
         {
-            Game game = new Game("Program Title ..."); 
+            //Game game = new Game("Leo Client ..."); 
+
+            Script script = new Script();
         }
     }
 }
