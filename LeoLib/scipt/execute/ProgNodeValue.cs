@@ -12,6 +12,11 @@ namespace LeoLib.script.execute
         private int ivalue = 0;
         private float fvalue = 0.0f;
         private string svalue = "";
+        private bool bvalue = false;
+
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
 
         public ProgNodeValue(Token token)
         { 
@@ -34,6 +39,79 @@ namespace LeoLib.script.execute
                     svalue = token.GetString();
                     break;
             }
+        }
+
+        /**************************/
+        /*** Override Functions ***/
+        /**************************/
+
+        public override ProgNodeValue Evaluate()
+        {
+            return (this);
+        }
+
+        /************************/
+        /*** Public Functions ***/
+        /************************/
+
+        public float GetFloat()
+        {
+            float value = 0.0f;
+
+            switch(type)
+            {
+                case ProgExecValueType.FLOAT:
+                    value = fvalue;
+                    break;
+                case ProgExecValueType.INTEGER:
+                    value = ivalue;
+                    break;
+                case ProgExecValueType.STRING:
+                    value = float.Parse(svalue);
+                    break;
+            }
+
+            return (value);
+        }
+
+        public float GetInteger()
+        {
+            int value = 0;
+
+            switch (type)
+            {
+                case ProgExecValueType.FLOAT:
+                    value = (int)fvalue;
+                    break;
+                case ProgExecValueType.INTEGER:
+                    value = ivalue;
+                    break;
+                case ProgExecValueType.STRING:
+                    value = int.Parse(svalue);
+                    break;
+            }
+
+            return (value);
+        }
+
+        public string GetString()
+        {
+            string value = "";
+
+            switch (type)
+            {
+                case ProgExecValueType.FLOAT:
+                    value = fvalue.ToString();
+                    break;
+                case ProgExecValueType.INTEGER:
+                    value = ivalue.ToString();
+                    break;
+                case ProgExecValueType.STRING:
+                    value = svalue;
+                    break;
+            }
+
+            return (value);
         }
     }
 }

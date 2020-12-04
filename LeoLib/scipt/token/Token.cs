@@ -50,15 +50,14 @@ namespace LeoLib.script
         /*** Predicate Functoins ***/
         /***************************/
 
-        /// <summary>
-        /// IsEos() - Returns true if the token is a "end of statement" <br/>
-        /// character.  If the token is not, a false is returned.
-        /// </summary>
-        /// 
-        /// <returns></returns>
         public bool IsEos()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (cvalue == ';'));
+            return ((type == TokenType.SIMPLE_TOKEN) && (cvalue == Constant.EOS));
+        }
+
+        public bool IsSeparator()
+        {
+            return ((type == TokenType.SIMPLE_TOKEN) && (cvalue == Constant.EXP_SEPARATOR));
         }
 
         /*********************/

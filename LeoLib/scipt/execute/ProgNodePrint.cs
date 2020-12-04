@@ -15,5 +15,14 @@ namespace LeoLib.script.execute
                 arguments.Add(node);
             }
         }
+
+        public override ProgNodeValue Evaluate()
+        {
+            foreach(var node in arguments) {
+                Console.WriteLine("Print: " + node.Evaluate().GetString());
+            }
+
+            return(null);
+        }
     }
 }

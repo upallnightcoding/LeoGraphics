@@ -9,6 +9,7 @@ namespace LeoLib
     {
         // Source code string
         private string source = "   print 1, 2, 3, \" Test Text \", 123.345, 0.098;";
+        //private string source = "   print 1, 2, 3, 123.345, 0.098;";
 
         // Active source code character pointer
         private int sourcePtr = 0;
@@ -25,9 +26,10 @@ namespace LeoLib
 
             SkipBlanks();
 
-            ProgCmdPrint cmdPrint = new ProgCmdPrint();
             GetToken();
+            ProgCmdPrint cmdPrint = new ProgCmdPrint();
             ProgNode progNode = cmdPrint.Parse(this);
+            progNode.Evaluate();
 
             while (IsNotEof())
             {
