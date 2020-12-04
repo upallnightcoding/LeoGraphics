@@ -10,6 +10,7 @@ namespace LeoLib.script
         SIMPLE_TOKEN,
         COMPLEX,
         STRING,
+        BOOLEAN,
         KEYWORD,
         INTEGER,
         FLOAT

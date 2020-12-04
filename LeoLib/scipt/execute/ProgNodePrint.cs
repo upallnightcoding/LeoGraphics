@@ -6,7 +6,16 @@ namespace LeoLib.script.execute
 {
     class ProgNodePrint : ProgNode
     {
-        private List<ProgNode> arguments = new List<ProgNode>();
+        private List<ProgNode> arguments = null;
+
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
+
+        public ProgNodePrint()
+        {
+            arguments = new List<ProgNode>();
+        }
 
         public void Add(ProgNode node)
         {
@@ -16,11 +25,17 @@ namespace LeoLib.script.execute
             }
         }
 
+        /**************************/
+        /*** Override Functions ***/
+        /**************************/
+
         public override ProgNodeValue Evaluate()
         {
             foreach(var node in arguments) {
-                Console.WriteLine($"Print: {node.Evaluate().GetString()}");
+                Console.Write($"{node.Evaluate().GetString()}");
             }
+
+            Console.WriteLine();
 
             return(null);
         }

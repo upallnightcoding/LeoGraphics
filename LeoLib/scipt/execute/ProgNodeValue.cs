@@ -7,7 +7,7 @@ namespace LeoLib.script.execute
 {
     class ProgNodeValue : ProgNode
     {
-        private ProgExecValueType type = ProgExecValueType.UNKNOWN;
+        public ProgNodeValueType Type { get; set; } = ProgNodeValueType.UNKNOWN;
 
         private int ivalue = 0;
         private float fvalue = 0.0f;
@@ -23,22 +23,54 @@ namespace LeoLib.script.execute
             switch(token.GetTokenType())
             {
                 case TokenType.INTEGER:
-                    type = ProgExecValueType.INTEGER;
+                    Type = ProgNodeValueType.INTEGER;
                     ivalue = token.GetInteger();
                     break;
                 case TokenType.FLOAT:
-                    type = ProgExecValueType.FLOAT;
+                    Type = ProgNodeValueType.FLOAT;
                     fvalue = token.GetFloat();
                     break;
                 case TokenType.KEYWORD:
-                    type = ProgExecValueType.KEYWORD;
+                    Type = ProgNodeValueType.KEYWORD;
                     svalue = token.GetString();
                     break;
                 case TokenType.STRING:
-                    type = ProgExecValueType.STRING;
+                    Type = ProgNodeValueType.STRING;
                     svalue = token.GetString();
                     break;
+                case TokenType.BOOLEAN:
+                    Type = ProgNodeValueType.BOOLEAN;
+                    bvalue = token.GetBoolean();
+                    break;
             }
+        }
+
+        public ProgNodeValue(float value)
+        {
+            Type = ProgNodeValueType.FLOAT;
+
+            fvalue = value;
+        }
+
+        public ProgNodeValue(int value)
+        {
+            Type = ProgNodeValueType.INTEGER;
+
+            ivalue = value;
+        }
+
+        public ProgNodeValue(string value)
+        {
+            Type = ProgNodeValueType.STRING;
+
+            svalue = value;
+        }
+
+        public ProgNodeValue(bool value)
+        {
+            Type = ProgNodeValueType.BOOLEAN;
+
+            bvalue = value;
         }
 
         /**************************/
@@ -58,36 +90,42 @@ namespace LeoLib.script.execute
         {
             float value = 0.0f;
 
-            switch(type)
+            switch(Type)
             {
-                case ProgExecValueType.FLOAT:
+                case ProgNodeValueType.FLOAT:
                     value = fvalue;
                     break;
-                case ProgExecValueType.INTEGER:
+                case ProgNodeValueType.INTEGER:
                     value = ivalue;
                     break;
-                case ProgExecValueType.STRING:
+                case ProgNodeValueType.STRING:
                     value = float.Parse(svalue);
+                    break;
+                case ProgNodeValueType.BOOLEAN:
+                    value = (bvalue) ? 1.0f : 0.0f;
                     break;
             }
 
             return (value);
         }
 
-        public float GetInteger()
+        public int GetInteger()
         {
             int value = 0;
 
-            switch (type)
+            switch (Type)
             {
-                case ProgExecValueType.FLOAT:
+                case ProgNodeValueType.FLOAT:
                     value = (int)fvalue;
                     break;
-                case ProgExecValueType.INTEGER:
+                case ProgNodeValueType.INTEGER:
                     value = ivalue;
                     break;
-                case ProgExecValueType.STRING:
+                case ProgNodeValueType.STRING:
                     value = int.Parse(svalue);
+                    break;
+                case ProgNodeValueType.BOOLEAN:
+                    value = (bvalue) ? 1 : 0;
                     break;
             }
 
@@ -98,16 +136,42 @@ namespace LeoLib.script.execute
         {
             string value = "";
 
-            switch (type)
+            switch (Type)
             {
-                case ProgExecValueType.FLOAT:
+                case ProgNodeValueType.FLOAT:
                     value = fvalue.ToString();
                     break;
-                case ProgExecValueType.INTEGER:
+                case ProgNodeValueType.INTEGER:
                     value = ivalue.ToString();
                     break;
-                case ProgExecValueType.STRING:
+                case ProgNodeValueType.STRING:
                     value = svalue;
+                    break;
+                case ProgNodeValueType.BOOLEAN:
+                    value = (bvalue) ? Constant.TRUE : Constant.FALSE;
+                    break;
+            }
+
+            return (value);
+        }
+
+        public bool GetBool()
+        {
+            bool value = false;
+
+            switch (Type)
+            {
+                case ProgNodeValueType.FLOAT:
+                    value = (fvalue > 0.0f);
+                    break;
+                case ProgNodeValueType.INTEGER:
+                    value = (ivalue > 0);
+                    break;
+                case ProgNodeValueType.STRING:
+                    value = Constant.TRUE.Equals(svalue);
+                    break;
+                case ProgNodeValueType.BOOLEAN:
+                    value = bvalue;
                     break;
             }
 

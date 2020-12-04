@@ -8,7 +8,7 @@ namespace LeoLib
     public class Script
     {
         // Source code string
-        private string source = "   print 1, 2, 3, \" Test Text \", 123.345, 0.098;";
+        private string source = "   print 1, \" \" , 2, \" \", 3, \" Test Text \", 123.345, \" \", 0.098;";
         //private string source = "   print 1, 2, 3, 123.345, 0.098;";
 
         // Active source code character pointer

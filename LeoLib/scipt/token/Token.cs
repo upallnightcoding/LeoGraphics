@@ -46,6 +46,13 @@ namespace LeoLib.script
             this.fvalue = whole.getAsWholeNumber() + fraction.getAsFractional();
         }
 
+        public Token(bool bvalue)
+        {
+            this.type = TokenType.BOOLEAN;
+
+            this.bvalue = bvalue;
+        }
+
         /***************************/
         /*** Predicate Functoins ***/
         /***************************/
@@ -84,6 +91,11 @@ namespace LeoLib.script
             return (svalue);
         }
 
+        public bool GetBoolean()
+        {
+            return (bvalue);
+        }
+
         public void Print()
         {
             switch (type) {
@@ -99,6 +111,9 @@ namespace LeoLib.script
                     break;
                 case TokenType.SIMPLE_TOKEN:
                     Console.WriteLine("Value (SIMPLE): " + cvalue);
+                    break;
+                case TokenType.BOOLEAN:
+                    Console.WriteLine("Value (BOOLEAN): " + bvalue);
                     break;
             }
         }

@@ -12,6 +12,16 @@ namespace LeoLib.script
 
         private List<ErrorCode> errorList = null;
 
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
+
+        public ProgNode()
+        {
+            errorList = new List<ErrorCode>();
+            IsOK = true;
+        }
+
         /**************************/
         /*** Abstract Functions ***/
         /**************************/
@@ -21,12 +31,6 @@ namespace LeoLib.script
         /************************/
         /*** Public Functions ***/
         /************************/
-
-        public ProgNode()
-        {
-            IsOK = true;
-            errorList = new List<ErrorCode>();
-        }
 
         public void Error(ErrorCode code)
         {

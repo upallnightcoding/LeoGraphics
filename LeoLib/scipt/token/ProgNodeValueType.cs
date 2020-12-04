@@ -4,12 +4,13 @@ using System.Text;
 
 namespace LeoLib.script.token
 {
-    public enum ProgExecValueType
+    public enum ProgNodeValueType
     {
         UNKNOWN,
         STRING,
         KEYWORD,
         FLOAT,
+        BOOLEAN,
         INTEGER
     }
 }
