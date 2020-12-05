@@ -8,7 +8,7 @@ namespace LeoLib.script
     class ProgCmdPrint : ProgCmd
     {
 
-        public override ProgNode Parse(Script script)
+        public override ProgNode Parse(Parser script)
         {
             ProgNodePrint command = new ProgNodePrint();
 

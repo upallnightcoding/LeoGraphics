@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LeoLib.game
+namespace LeoLib.game.model.asset
 {
-    public enum ErrorCode
+    class Renderer
     {
-        ERROR_COMMA_OR_EOS
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LeoLib.script
 {
-    abstract class ProgNode
+    public abstract class ProgNode
     {
         public bool IsOK { get; set; } = true;
 

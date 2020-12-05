@@ -6,6 +6,6 @@ namespace LeoLib.script
 {
     abstract class ProgCmd
     {
-        abstract public ProgNode Parse(Script script);
+        abstract public ProgNode Parse(Parser script);
     }
 }

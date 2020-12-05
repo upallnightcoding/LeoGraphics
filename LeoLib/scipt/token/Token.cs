@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LeoLib.scipt.token;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,6 +8,7 @@ namespace LeoLib.script
     public class Token
     {
         private TokenType type = TokenType.UNKNOWN;
+        private TokenSimpleType simpleType = TokenSimpleType.UNKNOWN;
 
         private int ivalue = 0;
         private float fvalue = 0.0f;
@@ -18,11 +20,11 @@ namespace LeoLib.script
         /*** Constructor ***/
         /*******************/
 
-        public Token(char simpleToken)
+        public Token(TokenSimpleType simpleType)
         {
             this.type = TokenType.SIMPLE_TOKEN;
 
-            this.cvalue = simpleToken;
+            this.simpleType = simpleType;
         }
 
         public Token(string svalue, TokenType type)
@@ -57,14 +59,19 @@ namespace LeoLib.script
         /*** Predicate Functoins ***/
         /***************************/
 
+        public bool IsEoe()
+        {
+            return (IsSeparator() || IsEos());
+        }
+
         public bool IsEos()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (cvalue == Constant.EOS));
+            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.EOS));
         }
 
         public bool IsSeparator()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (cvalue == Constant.EXP_SEPARATOR));
+            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.EXP_SEPARATOR));
         }
 
         /*********************/
@@ -110,7 +117,7 @@ namespace LeoLib.script
                     Console.WriteLine("Value (" + type.ToString() + "): " + svalue);
                     break;
                 case TokenType.SIMPLE_TOKEN:
-                    Console.WriteLine("Value (SIMPLE): " + cvalue);
+                    Console.WriteLine("Value (SIMPLE): " + simpleType);
                     break;
                 case TokenType.BOOLEAN:
                     Console.WriteLine("Value (BOOLEAN): " + bvalue);

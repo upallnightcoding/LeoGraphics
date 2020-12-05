@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LeoLib.script.execute
 {
-    class ProgNodeValue : ProgNode
+    public class ProgNodeValue : ProgNode
     {
         public ProgNodeValueType Type { get; set; } = ProgNodeValueType.UNKNOWN;
 

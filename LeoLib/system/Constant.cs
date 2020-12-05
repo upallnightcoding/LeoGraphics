@@ -12,7 +12,7 @@ namespace LeoLib.script
         public static char EXP_SEPARATOR = ',';
         public static char STRING_CHARACTER = '"';
         public static char FRACTIONAL_DOT = '.';
-        public static string SIMPLE_TOKENS = ",;(){}";
+        public static string SIMPLE_TOKENS = "+-*/,;()";
 
         // True or False Constants
         //------------------------
