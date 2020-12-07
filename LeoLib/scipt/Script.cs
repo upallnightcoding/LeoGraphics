@@ -1,7 +1,5 @@
-﻿using LeoLib.script;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LeoLib.scipt.command;
+using LeoLib.script;
 
 namespace LeoLib.scipt
 {
@@ -9,29 +7,30 @@ namespace LeoLib.scipt
     {
         public Script(Parser parser)
         {
-            parser.GetToken();
+            while(parser.IsNotEof())
+            {
+                ProgNode node = GetCommand(parser);
 
-            //ProgCmdPrint cmdPrint = new ProgCmdPrint();
-            //ProgNode node = cmdPrint.Parse(parser);
-            //node.Evaluate();
-
-            Expression(parser);
+                node.Evaluate();
+            }
         }
 
-        public ProgNode Expression(Parser parser)
+        /************************/
+        /*** Public Functions ***/
+        /************************/
+
+        public ProgNode GetCommand(Parser parser)
         {
-            ProgNode expression = null;
+            Token keyword = parser.GetToken();
 
-            Token token = parser.GetToken();
+            ProgCmd command = new ProgCmdPrint();
 
-            while (!token.IsEoe())
-            {
-                token.Print();
+            return (command.Construct(parser));
+        }
 
-                token = parser.GetToken();
-            }
-
-            return (expression);
+        private void Populate()
+        {
+            ProgCmd command = new ProgCmdEnd();
         }
     }
 }

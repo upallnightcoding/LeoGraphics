@@ -26,7 +26,7 @@ namespace LeoLib.game.model.entity
             // VAO Construction
             //-----------------
             vao = GL.GenVertexArray();
-            GL. (vao);
+            //GL. (vao);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
         }

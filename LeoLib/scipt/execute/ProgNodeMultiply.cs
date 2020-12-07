@@ -7,16 +7,16 @@ using System.Text;
 
 namespace LeoLib.scipt.execute
 {
-    class ProgNodeMultiply : ProgNode
+    public class ProgNodeMultiply : script.ProgNode
     {
-        private ProgNode leftExp = null;
-        private ProgNode rightExp = null;
+        private script.ProgNode leftExp = null;
+        private script.ProgNode rightExp = null;
 
         /*******************/
         /*** Constructor ***/
         /*******************/
 
-        public ProgNodeMultiply(ProgNode leftExp, ProgNode rightExp)
+        public ProgNodeMultiply(script.ProgNode leftExp, script.ProgNode rightExp)
         {
             this.leftExp = leftExp;
             this.rightExp = rightExp;

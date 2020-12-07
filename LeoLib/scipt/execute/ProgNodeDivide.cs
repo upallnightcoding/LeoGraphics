@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LeoLib.scipt.execute
 {
-    class ProgNodeDivide : ProgNode
+    public class ProgNodeDivide : ProgNode
     {
         private ProgNode leftExp = null;
         private ProgNode rightExp = null;

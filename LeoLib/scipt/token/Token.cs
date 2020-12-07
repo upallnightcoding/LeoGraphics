@@ -20,6 +20,16 @@ namespace LeoLib.script
         /*** Constructor ***/
         /*******************/
 
+        public Token()
+        {
+
+        }
+
+        public Token(TokenType type)
+        {
+            this.type = type;
+        }
+
         public Token(TokenSimpleType simpleType)
         {
             this.type = TokenType.SIMPLE_TOKEN;
@@ -55,15 +65,80 @@ namespace LeoLib.script
             this.bvalue = bvalue;
         }
 
+        /************************/
+        /*** Public Functions ***/
+        /************************/
+
+        public int Rank()
+        {
+            int value = -1;
+
+            if (IsSimpleToken())
+            {
+                switch(simpleType)
+                {
+                    case TokenSimpleType.DIVIDE:
+                    case TokenSimpleType.MULTIPLY:
+                        value = 20;
+                        break;
+                    case TokenSimpleType.MINUS:
+                    case TokenSimpleType.PLUS:
+                        value = 10;
+                        break;
+                    case TokenSimpleType.LEFT_PAREN:
+                        value = 1;
+                        break;
+                    case TokenSimpleType.BOTTOM_EXP_STACK:
+                        value = 0;
+                        break;
+                }
+            }
+
+            return (value);
+        }
+
         /***************************/
         /*** Predicate Functoins ***/
         /***************************/
 
-        public bool IsEoe()
+        public bool IsOperator()
         {
-            return (IsSeparator() || IsEos());
+            bool oper = false;
+
+            if (IsSimpleToken())
+            {
+                switch (simpleType)
+                {
+                    case TokenSimpleType.DIVIDE:
+                    case TokenSimpleType.MULTIPLY:
+                    case TokenSimpleType.MINUS:
+                    case TokenSimpleType.PLUS:
+                        oper = true;
+                        break;
+                }
+            }
+
+            return (oper);
         }
 
+        public bool IsEof()
+        {
+            return (type == TokenType.EOF);
+        }
+
+        public bool  IsEoe()
+        {
+            return (IsSeparator() || IsEos() || IsEof());
+        }
+
+        /// <summary>
+        /// IsEos() - Returns true, if the current token is an end of <br/>
+        /// statement token.  This token marks the end of a command that <br/>
+        /// is marked by a semi-colon.  All commands should end in a <br/>
+        /// semi-colon else a syntax error should be thrown. <br/>
+        /// </summary>
+        /// 
+        /// <returns>true/false</returns>
         public bool IsEos()
         {
             return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.EOS));
@@ -74,6 +149,26 @@ namespace LeoLib.script
             return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.EXP_SEPARATOR));
         }
 
+        public bool IsSimpleToken()
+        {
+            return (type == TokenType.SIMPLE_TOKEN);
+        }
+
+        public bool IsLeftParen()
+        {
+            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.LEFT_PAREN));
+        }
+
+        public bool IsRightParen()
+        {
+            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.RIGHT_PAREN));
+        }
+
+        public bool IsBottomOfOperStack()
+        {
+            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.BOTTOM_EXP_STACK));
+        }
+
         /*********************/
         /*** Get Functions ***/
         /*********************/
@@ -81,6 +176,11 @@ namespace LeoLib.script
         public TokenType GetTokenType()
         {
             return (type);
+        }
+
+        public TokenSimpleType GetSimpleType()
+        {
+            return (simpleType);
         }
 
         public float GetFloat()

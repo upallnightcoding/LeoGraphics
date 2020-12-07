@@ -8,6 +8,7 @@ namespace LeoLib.script
     {
         UNKNOWN,
         SIMPLE_TOKEN,
+        EOF,
         COMPLEX,
         STRING,
         BOOLEAN,

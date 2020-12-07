@@ -6,6 +6,13 @@ namespace LeoLib.script
 {
     abstract class ProgCmd
     {
-        abstract public ProgNode Parse(Parser script);
+        public string CommandName = null;
+
+        public ProgCmd(string command)
+        {
+            this.CommandName = command;
+        }
+
+        abstract public ProgNode Construct(Parser script);
     }
 }

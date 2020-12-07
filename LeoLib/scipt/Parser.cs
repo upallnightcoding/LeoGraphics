@@ -1,5 +1,7 @@
-﻿using LeoLib.scipt.token;
+﻿using LeoLib.scipt.execute;
+using LeoLib.scipt.token;
 using LeoLib.script;
+using LeoLib.script.execute;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,9 +10,7 @@ namespace LeoLib
 {
     public class Parser
     {
-        // Source code string
-        private string source = "   print 1, \" \" , 2, \" \", 3, \" Test Text \", 123.345, \" \", 0.098;";
-        //private string source = "   print 1, 2, 3, 123.345, 0.098;";
+        private string source = null;
 
         // Active source code character pointer
         private int sourcePtr = 0;
@@ -21,36 +21,177 @@ namespace LeoLib
         // End of file flag
         private bool eof = false;
 
-        public Parser(string source)
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
+
+        public Parser(string code)
         {
-            this.source = source;
-            this.size = source.Length;
+            source = code;
+            size = code.Length;
 
             SkipBlanks();
         }
 
+        public Parser(string[] code)
+        {
+            source = "";
+
+            foreach (string line in code) 
+            {
+                source += line;
+            }
+
+            size = source.Length;
+
+            SkipBlanks();
+        }
+
+        /************************/
+        /*** Public Functions ***/
+        /************************/
+
         public Token GetToken()
         {
             Token token = null;
-            char sourceChar = GetChar();
 
-            if(Char.IsDigit(sourceChar))
+            if (IsNotEof())
             {
-                token = GetNumber();
-            } else if(Char.IsLetter(sourceChar))
+                char sourceChar = GetChar();
+
+                if (Char.IsDigit(sourceChar))
+                {
+                    token = GetNumber();
+                }
+                else if (Char.IsLetter(sourceChar))
+                {
+                    token = GetKeyWord();
+                }
+                else if (sourceChar == Constant.STRING_CHARACTER)
+                {
+                    token = GetString();
+                }
+                else if (Constant.SIMPLE_TOKENS.Contains(sourceChar))
+                {
+                    token = GetSimpleToken();
+                }
+
+                SkipBlanks();
+            } else
             {
-                token = GetKeyWord();
-            } else if(sourceChar == Constant.STRING_CHARACTER)
-            {
-                token = GetString();
-            } else if (Constant.SIMPLE_TOKENS.Contains(sourceChar))
-            {
-                token = GetSimpleToken();
+                token = new Token(TokenType.EOF);
             }
 
-            SkipBlanks();
-
             return (token);
+        }
+
+        public script.ProgNode Expression()
+        {
+            Stack<Token> operStack = new Stack<Token>();
+            Stack<script.ProgNode> varStack = new Stack<script.ProgNode>();
+
+            operStack.Push(new Token(TokenSimpleType.BOTTOM_EXP_STACK));
+
+            Token token = GetToken();
+
+            while (!token.IsEoe())
+            {
+                if (token.IsOperator())
+                {
+                    PushOperOnStack(token, operStack, varStack);
+                }
+                else if (token.IsLeftParen())
+                {
+                    PushLeftParen(token, operStack);
+                }
+                else if (token.IsRightParen())
+                {
+                    PopLeftParen(operStack, varStack);
+                }
+                else
+                {
+                    PushVarStack(token, varStack);
+                }
+
+                token = GetToken();
+            }
+
+            while (!operStack.Peek().IsBottomOfOperStack())
+            {
+                PopOperStack(operStack, varStack);
+            }
+
+            script.ProgNode value = varStack.Peek();
+            value.EndingToken = token;
+
+            return (value);
+        }
+
+        public bool IsNotEof()
+        {
+            return (!eof);
+        }
+
+        /************************************/
+        /*** Private Expression Functions ***/
+        /************************************/
+
+        private void PushLeftParen(Token token, Stack<Token> operStack)
+        {
+            operStack.Push(token);
+        }
+
+        private void PushOperOnStack(Token token, Stack<Token> operStack, Stack<script.ProgNode> varStack)
+        {
+            while (token.Rank() <= operStack.Peek().Rank())
+            {
+                PopOperStack(operStack, varStack);
+            }
+
+            operStack.Push(token);
+        }
+
+        private void PopLeftParen(Stack<Token> operStack, Stack<script.ProgNode> varStack)
+        {
+            while (!operStack.Peek().IsLeftParen())
+            {
+                PopOperStack(operStack, varStack);
+            }
+
+            operStack.Pop();
+        }
+
+        private void PopOperStack(Stack<Token> operStack, Stack<script.ProgNode> varStack)
+        {
+            script.ProgNode node = null;
+
+            script.ProgNode right = varStack.Pop();
+            script.ProgNode left = varStack.Pop();
+
+            Token oper = operStack.Pop();
+
+            switch (oper.GetSimpleType())
+            {
+                case TokenSimpleType.PLUS:
+                    node = new ProgNodePlus(left, right);
+                    break;
+                case TokenSimpleType.MULTIPLY:
+                    node = new ProgNodeMultiply(left, right);
+                    break;
+                case TokenSimpleType.MINUS:
+                    node = new ProgNodeMinus(left, right);
+                    break;
+                case TokenSimpleType.DIVIDE:
+                    node = new ProgNodeDivide(left, right);
+                    break;
+            }
+
+            varStack.Push(node);
+        }
+
+        private void PushVarStack(Token token, Stack<script.ProgNode> varStack)
+        {
+            varStack.Push(new script.execute.ProgNodeValue(token));
         }
 
         /*************************/
@@ -233,9 +374,6 @@ namespace LeoLib
             }
         }
 
-        private bool IsNotEof()
-        {
-            return (!eof);
-        }
+       
     }
 }

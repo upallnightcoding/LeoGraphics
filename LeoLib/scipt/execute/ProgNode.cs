@@ -10,6 +10,8 @@ namespace LeoLib.script
     {
         public bool IsOK { get; set; } = true;
 
+        public Token EndingToken { get; set; } = null; 
+
         private List<ErrorCode> errorList = null;
 
         /*******************/
