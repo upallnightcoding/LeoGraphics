@@ -15,13 +15,13 @@ namespace LeoLib.scipt.command
             commands = new List<ProgNode>();
         }
 
-        public override ProgNode Construct(Parser script)
+        public override ProgNode Interpret(Script script)
         {
             Token eos = script.GetToken();
 
-            ProgNode command = null;
+            ProgNode codeBlock = script.ReadCodeBlock();
 
-            return (null);
+            return (codeBlock);
         }
     }
 }

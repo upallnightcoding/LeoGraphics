@@ -25,7 +25,7 @@ namespace LeoLib.scipt.command
 
         }
 
-        public override ProgNode Construct(Parser script)
+        public override ProgNode Interpret(Script script)
         {
             // Skip over the end-of-statement character
             script.GetToken();

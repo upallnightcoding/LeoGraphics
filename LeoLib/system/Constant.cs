@@ -18,5 +18,9 @@ namespace LeoLib.script
         //------------------------
         public static string TRUE = "TRUE";
         public static string FALSE = "FALSE";
+
+        // Command Names
+        //==============
+        public static string CMD_END = "END";
     }
 }

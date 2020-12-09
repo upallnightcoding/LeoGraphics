@@ -1,4 +1,5 @@
-﻿using LeoLib.script.execute;
+﻿using LeoLib.scipt;
+using LeoLib.script.execute;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace LeoLib.script
 
         }
 
-        public override ProgNode Construct(Parser parser)
+        public override ProgNode Interpret(Script script)
         {
             ProgNodePrint command = new ProgNodePrint();
 
@@ -21,7 +22,7 @@ namespace LeoLib.script
 
             while (!endingToken.IsEos())
             {
-                ProgNode expression = parser.Expression();
+                ProgNode expression = script.Expression();
 
                 command.Add(expression);
 
@@ -29,25 +30,6 @@ namespace LeoLib.script
             }
 
             return (command);
-
-            /*Token token = parser.GetToken();
-
-            if (!token.IsEos())
-            {
-                while (!token.IsEos()) {
-                    
-                    command.Add(new ProgNodeValue(token));
-
-                    token = parser.GetToken();
-
-                    if (!token.IsEos())
-                    {
-                        token = parser.GetToken();
-                    }
-                }
-            }
-
-            return (command);*/
         }
     }
 }

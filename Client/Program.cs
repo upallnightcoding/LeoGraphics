@@ -23,11 +23,18 @@ namespace Leo
             //string source = "   print 11+((33) *6)/2, \" \" , 2, \" \", 3, \" Test Text \", 123.345, \" \", 0.098;";
             //string source = "   print \" \" , 2, \" \", 3, \" Test Text \", 123.345, \" \", 0.098;";
             //string source = "  print 120 - 4 * 5; print 45 * 4 / 3";
+
             string[] source = new string[] {
-                "print 2 +3, \" \", 7 - 2, \" \", 78.3/34, \" \", 3*8; ",
-                "print 45 * 4 / 3; ",
-                "print 45 * 34; ",
-                "print ((23 + 3) * 9);" 
+                "program;",
+                "  prnt 2 +3, \" \", 7 - 2, \" \", 78.3/34, \" \", 3*8; ",
+                "  print 45.0 * 4.8 / .23; ",
+                "  print 45 * 34; ",
+                "  print ((23 + 3) * 9);",
+                "  program;",
+                "    print \"Inner Program\";",
+                "  end;",
+                "  print ((23 * 2) * 9) * (34);",
+                "end;"
             };
 
             Parser parser = new Parser(source);

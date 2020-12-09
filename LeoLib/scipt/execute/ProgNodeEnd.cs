@@ -8,6 +8,11 @@ namespace LeoLib.scipt.execute
 {
     class ProgNodeEnd : ProgNode
     {
+        public ProgNodeEnd()
+        {
+            IsEndOfCodeBlock = true;
+        }
+
         public override ProgNodeValue Evaluate()
         {
             return (null);

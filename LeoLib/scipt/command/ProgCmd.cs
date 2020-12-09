@@ -1,18 +1,19 @@
-﻿using System;
+﻿using LeoLib.scipt;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace LeoLib.script
 {
-    abstract class ProgCmd
+    public abstract class ProgCmd
     {
-        public string CommandName = null;
+        public string CommandName { get; set; } = null;
 
         public ProgCmd(string command)
         {
             this.CommandName = command;
         }
 
-        abstract public ProgNode Construct(Parser script);
+        abstract public ProgNode Interpret(Script script);
     }
 }

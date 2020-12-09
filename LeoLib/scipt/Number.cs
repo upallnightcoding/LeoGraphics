@@ -15,12 +15,12 @@ namespace LeoLib.script
             this.n = n;
         }
 
-        public int getAsWholeNumber()
+        public int GetAsWholeNumber()
         {
             return (value);
         }
 
-        public float getAsFractional()
+        public float GetAsFractional()
         {
             return((float)(value / Math.Pow(10.0, n)));
         }

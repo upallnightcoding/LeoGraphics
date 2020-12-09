@@ -48,14 +48,14 @@ namespace LeoLib.script
         {
             this.type = TokenType.INTEGER;
 
-            this.ivalue = whole.getAsWholeNumber();
+            this.ivalue = whole.GetAsWholeNumber();
         }
 
         public Token(Number whole, Number fraction)
         {
             this.type = TokenType.FLOAT;
 
-            this.fvalue = whole.getAsWholeNumber() + fraction.getAsFractional();
+            this.fvalue = whole.GetAsWholeNumber() + fraction.GetAsFractional();
         }
 
         public Token(bool bvalue)

@@ -1,4 +1,5 @@
-﻿using LeoLib.scipt.execute;
+﻿using LeoLib.scipt.command;
+using LeoLib.scipt.execute;
 using LeoLib.scipt.token;
 using LeoLib.script;
 using LeoLib.script.execute;
@@ -10,39 +11,32 @@ namespace LeoLib
 {
     public class Parser
     {
-        private string source = null;
+        private string[] source = null;
 
         // Active source code character pointer
-        private int sourcePtr = 0;
-
-        // Size of source code (characters)
-        private int size = 0;
+        private int sourceChar = 0;
+        private int sourceLine = 0;
 
         // End of file flag
         private bool eof = false;
+
+        private int sourceLength = 0;
+
+        private Dictionary<string, ProgCmd> cmdDict = null;
 
         /*******************/
         /*** Constructor ***/
         /*******************/
 
-        public Parser(string code)
-        {
-            source = code;
-            size = code.Length;
-
-            SkipBlanks();
-        }
-
         public Parser(string[] code)
         {
-            source = "";
-
-            foreach (string line in code) 
-            {
-                source += line;
-            }
-
-            size = source.Length;
+            cmdDict = new Dictionary<string, ProgCmd>();
+            Add(new ProgCmdEnd());
+            Add(new ProgCmdPrint());
+            Add(new ProgCmdProgram());
+            
+            source = code;
+            sourceLength = code.Length;
 
             SkipBlanks();
         }
@@ -59,7 +53,7 @@ namespace LeoLib
             {
                 char sourceChar = GetChar();
 
-                if (Char.IsDigit(sourceChar))
+                if (Char.IsDigit(sourceChar) || (sourceChar == '.'))
                 {
                     token = GetNumber();
                 }
@@ -85,46 +79,16 @@ namespace LeoLib
             return (token);
         }
 
-        public script.ProgNode Expression()
+        public ProgCmd GetProgCmd(string keyword)
         {
-            Stack<Token> operStack = new Stack<Token>();
-            Stack<script.ProgNode> varStack = new Stack<script.ProgNode>();
+            ProgCmd command = null;
 
-            operStack.Push(new Token(TokenSimpleType.BOTTOM_EXP_STACK));
-
-            Token token = GetToken();
-
-            while (!token.IsEoe())
+            if (!cmdDict.TryGetValue(keyword, out command))
             {
-                if (token.IsOperator())
-                {
-                    PushOperOnStack(token, operStack, varStack);
-                }
-                else if (token.IsLeftParen())
-                {
-                    PushLeftParen(token, operStack);
-                }
-                else if (token.IsRightParen())
-                {
-                    PopLeftParen(operStack, varStack);
-                }
-                else
-                {
-                    PushVarStack(token, varStack);
-                }
+                command = null;
+            } 
 
-                token = GetToken();
-            }
-
-            while (!operStack.Peek().IsBottomOfOperStack())
-            {
-                PopOperStack(operStack, varStack);
-            }
-
-            script.ProgNode value = varStack.Peek();
-            value.EndingToken = token;
-
-            return (value);
+            return (command);
         }
 
         public bool IsNotEof()
@@ -132,71 +96,28 @@ namespace LeoLib
             return (!eof);
         }
 
-        /************************************/
-        /*** Private Expression Functions ***/
-        /************************************/
-
-        private void PushLeftParen(Token token, Stack<Token> operStack)
+        public void DisplayCodeLocation()
         {
-            operStack.Push(token);
-        }
-
-        private void PushOperOnStack(Token token, Stack<Token> operStack, Stack<script.ProgNode> varStack)
-        {
-            while (token.Rank() <= operStack.Peek().Rank())
-            {
-                PopOperStack(operStack, varStack);
-            }
-
-            operStack.Push(token);
-        }
-
-        private void PopLeftParen(Stack<Token> operStack, Stack<script.ProgNode> varStack)
-        {
-            while (!operStack.Peek().IsLeftParen())
-            {
-                PopOperStack(operStack, varStack);
-            }
-
-            operStack.Pop();
-        }
-
-        private void PopOperStack(Stack<Token> operStack, Stack<script.ProgNode> varStack)
-        {
-            script.ProgNode node = null;
-
-            script.ProgNode right = varStack.Pop();
-            script.ProgNode left = varStack.Pop();
-
-            Token oper = operStack.Pop();
-
-            switch (oper.GetSimpleType())
-            {
-                case TokenSimpleType.PLUS:
-                    node = new ProgNodePlus(left, right);
-                    break;
-                case TokenSimpleType.MULTIPLY:
-                    node = new ProgNodeMultiply(left, right);
-                    break;
-                case TokenSimpleType.MINUS:
-                    node = new ProgNodeMinus(left, right);
-                    break;
-                case TokenSimpleType.DIVIDE:
-                    node = new ProgNodeDivide(left, right);
-                    break;
-            }
-
-            varStack.Push(node);
-        }
-
-        private void PushVarStack(Token token, Stack<script.ProgNode> varStack)
-        {
-            varStack.Push(new script.execute.ProgNodeValue(token));
+            Console.WriteLine("Line: " + source[sourceLine]);
         }
 
         /*************************/
         /*** Private Functions ***/
         /*************************/
+
+        /// <summary>
+        /// Add() - Adds a command to the command dictionary.  The command is <br/>
+        /// added to the dictionary with its name as the key.  The command is <br/>
+        /// retrieved from the dictionary each time it is needed for parsing.  
+        /// </summary>
+        /// <param name="command">New command to populate the dictionary</param>
+        private void Add(ProgCmd command)
+        {
+            if (command != null)
+            {
+                cmdDict.Add(command.CommandName, command);
+            }
+        }
 
         private Token GetSimpleToken()
         {
@@ -315,20 +236,28 @@ namespace LeoLib
             return (new Number(value, n));
         }
 
+        /// <summary>
+        /// IsChar() - Returns true if the current active source code <br/>
+        /// character is equal to the target character.  If it is not, <br/>
+        /// a false is returned.
+        /// </summary>
+        /// <param name="target">Source character to test against</param>
+        /// <returns>true/false</returns>
         private bool IsChar(char target)
         {
             return (target == GetChar());
         }
 
-        /**
-         * GetChar() - Returns the current active programming line character.  
-         * The "source" string contains the source code and the "sourcePtr" 
-         * refers to the active character in the array.
-         **/
-
+        /// <summary>
+        /// GetChar() - Returns the current active programing line character.  <br/>
+        /// The source code pointer, refers to the active character in the <br/>
+        /// source code string.  This function does not check for end-of-file, <br/>
+        /// this should be done by the invoking function.
+        /// </summary>
+        /// <returns>Source Code Character</returns>
         private char GetChar()
         {
-            return (source[sourcePtr]);
+            return (source[sourceLine][sourceChar]);
         }
 
         /// <summary>
@@ -342,25 +271,41 @@ namespace LeoLib
         {
             char sourceChar = ' ';
 
-            if (++sourcePtr < size)
+            MoveNextChar();
+
+            if (!eof)
             {
                 sourceChar = GetChar();
-            } else
-            {
-                eof = true;
             }
 
             return (sourceChar);
         }
 
+        /// <summary>
+        /// MoveNextChar() - Moves the source code pointer to the very next <br/>
+        /// source code character.  If the source code pointer reaches beyond <br/>
+        /// the size of the source code, the end-of-file flag is set to true.
+        /// </summary>
         private void MoveNextChar()
         {
-            if (!(++sourcePtr < size))
+            if (!(++sourceChar < source[sourceLine].Length))
             {
-                eof = true;
+                if (!(++sourceLine < source.Length))
+                {
+                    eof = true;
+                } else
+                {
+                    sourceChar = 0;
+                }
             }
         }
 
+        /// <summary>
+        /// SkipBlanks() - Skips all of the white space that is between two <br/>
+        /// tokens.  If the end-of-file flag has been set, then this function <br/>
+        /// returns with no action taken.  If the end-of-file flag is set <br/>
+        /// while skipping blanks, this function stops processing.
+        /// </summary>
         private void SkipBlanks()
         {
             if (IsNotEof())

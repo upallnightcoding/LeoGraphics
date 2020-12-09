@@ -10,7 +10,9 @@ namespace LeoLib.script
     {
         public bool IsOK { get; set; } = true;
 
-        public Token EndingToken { get; set; } = null; 
+        public Token EndingToken { get; set; } = null;
+
+        public bool IsEndOfCodeBlock { get; set; } = false;
 
         private List<ErrorCode> errorList = null;
 
@@ -28,7 +30,7 @@ namespace LeoLib.script
         /*** Abstract Functions ***/
         /**************************/
 
-        abstract public ProgNodeValue Evaluate();
+        public abstract ProgNodeValue Evaluate();
 
         /************************/
         /*** Public Functions ***/

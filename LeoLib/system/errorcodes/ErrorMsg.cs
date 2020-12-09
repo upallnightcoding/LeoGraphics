@@ -4,9 +4,9 @@ using System.Text;
 
 namespace LeoLib.game
 {
-    class SystemMsg
+    class ErrorMsg
     {
-        private static SystemMsg INSTANCE = null;
+        private static ErrorMsg INSTANCE = null;
 
         private readonly Dictionary<ErrorCode, string> errorMsg = null;
 
@@ -14,7 +14,7 @@ namespace LeoLib.game
         /*** Constructor ***/
         /*******************/
 
-        private SystemMsg()
+        private ErrorMsg()
         {
             errorMsg = new Dictionary<ErrorCode, string>();
 
@@ -25,11 +25,11 @@ namespace LeoLib.game
         /*** Public Functions ***/
         /************************/
 
-        public static SystemMsg GetInstance()
+        public static ErrorMsg GetInstance()
         {
             if (INSTANCE == null)
             {
-                INSTANCE = new SystemMsg();
+                INSTANCE = new ErrorMsg();
             }
 
             return (INSTANCE);
@@ -47,7 +47,9 @@ namespace LeoLib.game
         private void PopulateErrors()
         {
             errorMsg[ErrorCode.ERROR_COMMA_OR_EOS] = 
-                "Expecting either a comma or end of statement token in this statement";
+                "Expecting either a comma or end of statement token in this statement.";
+            errorMsg[ErrorCode.ERROR_UNKNOWN_COMMAND] =
+                "The command used for this statement is not supported.";
         }
     }
 }
