@@ -23,7 +23,7 @@ namespace LeoLib.scipt
         {
             this.parser = parser;
 
-            while(parser.IsNotEof())
+            while(!parser.IsEof())  
             {
                 ProgNode node = GetCommand();
 
@@ -40,8 +40,8 @@ namespace LeoLib.scipt
 
         public void SyntaxError(ErrorCode code)
         {
-            parser.DisplayCodeLocation();
-            Console.WriteLine(ErrorMsg.GetInstance().GetMsg(code));
+            parser.DisplayErrorAndRecover(code);
+
             errorSwitch = true;
         }
 
@@ -63,11 +63,11 @@ namespace LeoLib.scipt
 
         public ProgNode GetCommand()
         {
+            ProgNode node = null;
+
             string keyword = parser.GetToken().GetString().ToUpper();
 
             ProgCmd command = parser.GetProgCmd(keyword);
-
-            ProgNode node = null;
 
             if (command != null)
             {
@@ -80,6 +80,11 @@ namespace LeoLib.scipt
             return (node);
         }
 
+        /// <summary>
+        /// GetToken() - Returns the next token by the parser.  If the parser <br/>
+        /// is at the end-of-file state, a null token is returned.<br/>
+        /// </summary>
+        /// <returns>Next source code token</returns>
         public Token GetToken()
         {
             return (parser.GetToken());

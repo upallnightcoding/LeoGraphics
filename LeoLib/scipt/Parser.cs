@@ -1,4 +1,5 @@
-﻿using LeoLib.scipt.command;
+﻿using LeoLib.game;
+using LeoLib.scipt.command;
 using LeoLib.scipt.execute;
 using LeoLib.scipt.token;
 using LeoLib.script;
@@ -49,7 +50,7 @@ namespace LeoLib
         {
             Token token = null;
 
-            if (IsNotEof())
+            if (!IsEof())
             {
                 char sourceChar = GetChar();
 
@@ -91,14 +92,32 @@ namespace LeoLib
             return (command);
         }
 
-        public bool IsNotEof()
+        /// <summary>
+        /// IsEof() - Returns the current end-of-file state of the parser.  <br/>
+        /// If the parser has reached the end-of-file, this function <br/>
+        /// returns a true.  A false is returned if the parser has NOT <br/>
+        /// reached the end-of-file state.
+        /// </summary>
+        /// <returns>true/false</returns>
+        public bool IsEof()
         {
-            return (!eof);
+            return (eof);
         }
 
-        public void DisplayCodeLocation()
+        public void DisplayErrorAndRecover(ErrorCode code)
         {
-            Console.WriteLine("Line: " + source[sourceLine]);
+            string errMsg = ErrorMsg.GetInstance().GetMsg(code);
+
+            Console.WriteLine(String.Format("Line({0, 4}): {1}", sourceChar, source[sourceLine]));
+            Console.WriteLine(new string(' ', sourceChar + 12) + '^');
+            Console.WriteLine(errMsg);
+
+            Token token = GetToken();
+
+            while (!IsEof() && !token.IsEos())
+            {
+                token = GetToken();
+            }
         }
 
         /*************************/
@@ -165,7 +184,7 @@ namespace LeoLib
 
             char sourceChar = GetChar();
 
-            while (IsNotEof() && !IsChar(Constant.STRING_CHARACTER))
+            while (!IsEof() && !IsChar(Constant.STRING_CHARACTER))
             {
                 strg += sourceChar;
 
@@ -183,7 +202,7 @@ namespace LeoLib
 
             char sourceChar = GetChar();
 
-            while (IsNotEof() && Char.IsLetterOrDigit(sourceChar))
+            while (!IsEof() && Char.IsLetterOrDigit(sourceChar))
             {
                 keyword += sourceChar;
 
@@ -197,11 +216,11 @@ namespace LeoLib
         {
             Token token = null;
 
-            if (IsNotEof())
+            if (!IsEof())
             {
                 Number whole = GetInteger();
 
-                if (IsNotEof() && IsChar(Constant.FRACTIONAL_DOT))
+                if (!IsEof() && IsChar(Constant.FRACTIONAL_DOT))
                 {
                     MoveNextChar();
 
@@ -224,7 +243,7 @@ namespace LeoLib
             int value = 0;
             int n = 0;
 
-            while(IsNotEof() && Char.IsDigit(sourceChar))
+            while(!IsEof() && Char.IsDigit(sourceChar))
             {
                 value = 10 * value + (sourceChar - '0');
 
@@ -308,11 +327,11 @@ namespace LeoLib
         /// </summary>
         private void SkipBlanks()
         {
-            if (IsNotEof())
+            if (!IsEof())
             {
                 char sourceChar = GetChar();
 
-                while (Char.IsWhiteSpace(sourceChar) && IsNotEof())
+                while (Char.IsWhiteSpace(sourceChar) && !IsEof())
                 {
                     sourceChar = GetNextChar();
                 }
