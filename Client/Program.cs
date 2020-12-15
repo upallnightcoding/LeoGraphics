@@ -1,4 +1,5 @@
 ﻿using LeoLib;
+using LeoLib.game;
 using LeoLib.scipt;
 using System;
 
@@ -10,13 +11,21 @@ namespace Leo
         {
             //TestGame01();
 
-            TestParser01();
+            TestGame2d_01();
+
+            //TestParser01();
         }
 
         static void TestGame01()
         {
-            Game game = new Game("Leo Client ..."); 
+            Game3D game = new Game3D("Leo Client ..."); 
         }
+
+        static void TestGame2d_01()
+        {
+            Game2D game = new Game2D("Leo Client ...");
+        }
+
 
         static void TestParser01()
         {
@@ -26,7 +35,7 @@ namespace Leo
 
             string[] source = new string[] {
                 "program;",
-                "  prnt 2 +3, \" \", 7 - 2, \" \", 78.3/34, \" \", 3*8; ",
+                "  print 2 +3, \" \", 7 - 2, \" \", 78.3/34, \" \", 3*8; ",
                 "  print 45.0 * 4.8 / .23; ",
                 "  print 45 * 34; ",
                 "  print ((23 + 3) * 9);",

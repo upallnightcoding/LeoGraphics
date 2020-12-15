@@ -8,9 +8,8 @@ namespace LeoLib.game.model.entity
 {
     class AssemblyCube : Assembly
     {
-        
 
-        public override void Construct(float[] vertices)
+        public override void Construct(float[] vertices, uint[] indices)
         {
             // VBO Construction
             //-----------------
@@ -25,10 +24,15 @@ namespace LeoLib.game.model.entity
 
             // VAO Construction
             //-----------------
-            vao = GL.GenVertexArray();
+            //vao = GL.GenVertexArray();
             //GL. (vao);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+        }
+
+        public override void DeConstruct()
+        {
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace LeoLib
 {
     // In this tutorial we focus on how to set up a scene with multiple lights, both of different types but also
     // with several point lights
-    public class Window : GameWindow
+    public class Window3D : GameWindow
     {
         private readonly float[] _vertices =
         {
@@ -100,7 +100,7 @@ namespace LeoLib
 
         private Vector2 _lastPos;
 
-        public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
+        public Window3D(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
         }
@@ -115,9 +115,9 @@ namespace LeoLib
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
 
-            const string SHADER_VERT = @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader.vert";
+            const string SHADER_VERT = @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader3D.vert";
             const string LIGHTING_FRAG = @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\lighting.frag";
-            const string SHADER_FRAG = @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader.frag";
+            const string SHADER_FRAG = @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader3D.frag";
             const string RESOURCE = @"D:\Application\cs\LeoGraphics\Leo\Client\resources\";
 
             _lightingShader = new Shader(SHADER_VERT, LIGHTING_FRAG);

@@ -4,6 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using LeoLib.script;
 
 namespace LeoLib
 {
@@ -26,21 +27,13 @@ namespace LeoLib
 
             handle = LinkProgram(vertexShader, fragmentShader);
 
-            // When the shader program is linked, it no longer needs the individual shaders attacked to it; the compiled code is copied into the shader program.
-            // Detach them, and then delete them.
             GL.DetachShader(handle, vertexShader);
             GL.DetachShader(handle, fragmentShader);
             GL.DeleteShader(fragmentShader);
             GL.DeleteShader(vertexShader);
 
-            // The shader is now ready to go, but first, we're going to cache all the shader uniform locations.
-            // Querying this from the shader is very slow, so we do it once on initialization and reuse those values
-            // later.
-
-            // First, we have to get the number of active uniforms in the shader.
             GL.GetProgram(handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
 
-            // Next, allocate the dictionary to hold the locations.
             uniformLocations = new Dictionary<string, int>();
 
             // Loop over all the uniforms,
@@ -100,6 +93,18 @@ namespace LeoLib
         public void Use()
         {
             GL.UseProgram(handle);
+
+        }
+
+        public void LinkDataWithShader()
+        {
+            var vertexLocation = GetAttribLocation(Constant.SHADER_POSITION);
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+
+            var texCoordLocation = GetAttribLocation(Constant.SHADER_TEXCOORD);
+            GL.EnableVertexAttribArray(texCoordLocation);
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
         }
 
         public int GetAttribLocation(string attribName)

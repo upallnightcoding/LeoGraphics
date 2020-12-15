@@ -5,8 +5,13 @@ using System.Text;
 
 namespace LeoLib.game.model.entity
 {
-    class DataCube : Data
+    class DataCube : AssetData
     {
+        public override uint[] IndicesData()
+        {
+            throw new NotImplementedException();
+        }
+
         public override float[] VertexData()
         {
              float[] vertices =

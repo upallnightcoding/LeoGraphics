@@ -4,7 +4,8 @@ using System.Text;
 
 namespace LeoLib.game.model.asset
 {
-    class Renderer
+    public abstract class Renderer
     {
+        public abstract void Render(float[] vertices, uint[] indices);
     }
 }
