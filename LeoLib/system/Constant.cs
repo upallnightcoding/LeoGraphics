@@ -19,6 +19,8 @@ namespace LeoLib.script
         public const string TRUE = "TRUE";
         public const string FALSE = "FALSE";
 
+        public const int NUMBER_OF_SCRIPT_TYPES = 4;
+
         // Command Names
         //==============
         public const string CMD_END = "END";

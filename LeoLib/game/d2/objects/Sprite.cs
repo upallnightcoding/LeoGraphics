@@ -58,9 +58,9 @@ namespace LeoLib.game.model.objects
 
             GL.BufferData(target, size, vertices, usage);
 
-            VAO = GL.GenVertexArray();
-            GL.BindVertexArray(VAO);
-            GL.BindBuffer(target, VAO);
+            Vao = GL.GenVertexArray();
+            GL.BindVertexArray(Vao);
+            GL.BindBuffer(target, Vao);
 
             ebo = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
@@ -71,7 +71,7 @@ namespace LeoLib.game.model.objects
         public override void DeConstruct()
         {
             GL.DeleteBuffer(vbo);
-            GL.DeleteVertexArray(VAO);
+            GL.DeleteVertexArray(Vao);
         }
     }
 

@@ -41,5 +41,10 @@ namespace LeoLib.script
             IsOK = false;
             errorList.Add(code);
         }
+
+        protected ProgNodeValue NAValue()
+        {
+            return (null);
+        }
     }
 }

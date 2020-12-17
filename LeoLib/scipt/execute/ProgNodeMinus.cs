@@ -55,5 +55,71 @@ namespace LeoLib.scipt.execute
 
             return (result);
         }
+
+        public ProgNodeValue xEvaluate()
+        {
+            ProgNodeValue result = null;
+
+            ProgNodeValue left = leftExp.Evaluate();
+            ProgNodeValue right = rightExp.Evaluate();
+
+            switch (left.Type)
+            {
+                case ProgNodeValueType.FLOAT:
+                    switch (right.Type)
+                    {
+                        case ProgNodeValueType.FLOAT:
+                            break;
+                        case ProgNodeValueType.INTEGER:
+                            break;
+                        case ProgNodeValueType.STRING:
+                            break;
+                        case ProgNodeValueType.BOOLEAN:
+                            break;
+                    }
+                    break;
+                case ProgNodeValueType.INTEGER:
+                    switch (right.Type)
+                    {
+                        case ProgNodeValueType.FLOAT:
+                            break;
+                        case ProgNodeValueType.INTEGER:
+                            break;
+                        case ProgNodeValueType.STRING:
+                            break;
+                        case ProgNodeValueType.BOOLEAN:
+                            break;
+                    }
+                    break;
+                case ProgNodeValueType.STRING:
+                    switch (right.Type)
+                    {
+                        case ProgNodeValueType.FLOAT:
+                            break;
+                        case ProgNodeValueType.INTEGER:
+                            break;
+                        case ProgNodeValueType.STRING:
+                            break;
+                        case ProgNodeValueType.BOOLEAN:
+                            break;
+                    }
+                    break;
+                case ProgNodeValueType.BOOLEAN:
+                    switch (right.Type)
+                    {
+                        case ProgNodeValueType.FLOAT:
+                            break;
+                        case ProgNodeValueType.INTEGER:
+                            break;
+                        case ProgNodeValueType.STRING:
+                            break;
+                        case ProgNodeValueType.BOOLEAN:
+                            break;
+                    }
+                    break;
+            }
+
+            return (result);
+        }
     }
 }
