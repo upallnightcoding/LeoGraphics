@@ -7,16 +7,17 @@ using System.Text;
 
 namespace LeoLib.scipt.boxing
 {
-    enum BoxType
-    {
-        UNKNOWN,
-        FLOAT,
-        INTEGER,
-        STRING
-    }
 
     class BoxingPlus
     {
+        enum BoxType
+        {
+            UNKNOWN,
+            FLOAT,
+            INTEGER,
+            STRING
+        }
+
         private const int NUMBER_OF_SCRIPT_TYPES = Constant.NUMBER_OF_SCRIPT_TYPES;
 
         private BoxType[,] boxing = null;

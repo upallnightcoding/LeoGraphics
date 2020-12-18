@@ -11,15 +11,13 @@ namespace LeoLib.game
 {
     public class Window2D : GameWindow
     {
-        
-
         private Shader shader;
 
         private Sprite sprite = null;
 
-        private Texture _texture;
+        private Texture texture1;
 
-        private Texture _texture2;
+        private Texture texture2;
 
         // We need an instance of the new camera class so it can manage the view and projection matrix code
         // We also need a boolean set to true to detect whether or not the mouse has been moved for the first time
@@ -30,7 +28,7 @@ namespace LeoLib.game
 
         private Vector2 lastPos;
 
-        private double _time;
+        private double etime;
 
         private double second = 0.0;
         private int fps = 0;
@@ -47,17 +45,18 @@ namespace LeoLib.game
 
             GL.Enable(EnableCap.DepthTest);
 
+            // TODO: Test the todo list ...
             sprite = new Sprite();
             sprite.OnLoad();
 
             //shader = new Shader(Constant.SHADER_VERT, Constant.SHADER_FRAG);
             //shader.Use();
 
-            _texture = new Texture(Constant.RESOURCE + "container.png");
-            _texture.Use();
+            texture1 = new Texture(Constant.RESOURCE + "face.png");
+            //texture.Use();
 
-            _texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
-            _texture2.Use(TextureUnit.Texture1);
+            texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
+            //texture2.Use(TextureUnit.Texture1);
 
             shader = new Shader(Constant.SHADER_VERT, Constant.SHADER_FRAG);
             shader.Use();
@@ -76,7 +75,7 @@ namespace LeoLib.game
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            _time += 100.0 * e.Time;
+            etime += 100.0 * e.Time;
 
             second += e.Time;
             fps += 1;
@@ -92,11 +91,13 @@ namespace LeoLib.game
 
             sprite.BindMesh();
 
-            _texture.Use();
-            _texture2.Use(TextureUnit.Texture1);
+            texture1.Use(TextureUnit.Texture0);
+            texture2.Use(TextureUnit.Texture1);
             shader.Use();
 
-            var model = Matrix4.Identity * Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
+            //var model = Matrix4.Identity * Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(etime));
+            sprite.Rotate(etime, 0.0, 0.0);
+            var model = sprite.GetModel();
             shader.SetUniform("model", model);
             shader.SetUniform("view", camera.GetViewMatrix());
             shader.SetUniform("projection", camera.GetProjectionMatrix());
@@ -199,8 +200,8 @@ namespace LeoLib.game
             sprite.OnUnLoad();
 
             GL.DeleteProgram(shader.handle);
-            GL.DeleteTexture(_texture.Handle);
-            GL.DeleteTexture(_texture2.Handle);
+            GL.DeleteTexture(texture1.handle);
+            GL.DeleteTexture(texture2.handle);
 
             base.OnUnload();
         }

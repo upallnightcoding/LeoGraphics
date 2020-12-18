@@ -1,4 +1,5 @@
 ﻿using LeoLib.game.model.asset;
+using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,9 +23,21 @@ namespace LeoLib
             this.mesh = mesh;
         }
 
+        public abstract void CreateTextures();
+
         /************************/
         /*** Public Functions ***/
         /************************/
+
+        public Matrix4 GetModel()
+        {
+            return(transform.GetModel());
+        }
+
+        public void Rotate(double x, double y, double z)
+        {
+            transform.Rotate((float) x, (float) y, (float) z);
+        }
 
         public void OnLoad()
         {

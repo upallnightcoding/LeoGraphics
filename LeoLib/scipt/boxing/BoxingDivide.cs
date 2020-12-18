@@ -8,7 +8,7 @@ using System.Text;
 namespace LeoLib.scipt.boxing
 {
 
-    class BoxingMinus
+    class BoxingDivide
     {
         enum BoxType
         {
@@ -26,7 +26,7 @@ namespace LeoLib.scipt.boxing
         /*** Constructor ***/
         /*******************/
 
-        public BoxingMinus()
+        public BoxingDivide()
         {
             boxing = new BoxType[NUMBER_OF_SCRIPT_TYPES, NUMBER_OF_SCRIPT_TYPES];
 
@@ -48,15 +48,15 @@ namespace LeoLib.scipt.boxing
                 case BoxType.UNKNOWN:
                     break;
                 case BoxType.FLOAT:
-                    float fvalue = left.GetFloat() - right.GetFloat();
+                    float fvalue = left.GetFloat() / right.GetFloat();
                     result = new ProgNodeValue(fvalue);
                     break;
                 case BoxType.INTEGER:
-                    int ivalue = left.GetInteger() - right.GetInteger();
+                    int ivalue = left.GetInteger() / right.GetInteger();
                     result = new ProgNodeValue(ivalue);
                     break;
                 case BoxType.STRING:
-                    //string svalue = left.GetString() - right.GetString();
+                    //string svalue = left.GetString() + right.GetString();
                     //result = new ProgNodeValue(svalue);
                     break;
             }

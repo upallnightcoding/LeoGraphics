@@ -14,8 +14,8 @@ namespace LeoLib
     {
         private static BoxingPlus boxing = null;
 
-        private ProgNode leftExp = null;
-        private ProgNode rightExp = null;
+        private readonly ProgNode leftExp = null;
+        private readonly ProgNode rightExp = null;
 
         /*******************/
         /*** Constructor ***/

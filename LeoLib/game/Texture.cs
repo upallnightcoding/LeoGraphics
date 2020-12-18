@@ -8,16 +8,17 @@ namespace LeoLib
     // A helper class, much like Shader, meant to simplify loading textures.
     public class Texture
     {
-        public readonly int Handle;
+        public readonly int handle;
 
         // Create texture from path.
         public Texture(string path)
         {
             // Generate handle
-            Handle = GL.GenTexture();
+            handle = GL.GenTexture();
 
             // Bind the handle
-            Use();
+            //Use();
+            GL.BindTexture(TextureTarget.Texture2D, handle);
 
             // For this example, we're going to use .NET's built-in System.Drawing library to load textures.
 
@@ -89,7 +90,7 @@ namespace LeoLib
         public void Use(TextureUnit unit = TextureUnit.Texture0)
         {
             GL.ActiveTexture(unit);
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
+            GL.BindTexture(TextureTarget.Texture2D, handle);
         }
     }
 }

@@ -34,7 +34,6 @@ namespace LeoLib.game.model.asset
             indices = data.IndicesData();
 
             assembly.Construct(vertices, indices);
-
         }
 
         public void BindMesh()

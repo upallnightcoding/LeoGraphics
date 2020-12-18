@@ -5,6 +5,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
+using LeoLib.script;
 
 namespace LeoLib.game.model.objects
 {
@@ -85,11 +86,21 @@ namespace LeoLib.game.model.objects
 
     class Sprite : Asset
     {
+        private Texture texture1;
+
+        private Texture texture2;
+
         public Sprite()
             : base(new MeshSprite())
         {
 
         }
 
+        public override void CreateTextures()
+        {
+            texture1 = new Texture(Constant.RESOURCE + "face.png");
+
+            texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
+        }
     }
 }
