@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using LeoLib.script;
+using LeoLib.game.model.objects;
 
 namespace LeoLib
 {
@@ -48,7 +49,76 @@ namespace LeoLib
                 // and then add it to the dictionary.
                 uniformLocations.Add(key, location);
             }
+
+            //GL.UseProgram(handle);
         }
+
+        public void Use()
+        {
+            GL.UseProgram(handle);
+        }
+
+        public void Use(Camera camera)
+        {
+            GL.UseProgram(handle);
+
+            SetUniform("view", camera.GetViewMatrix());
+            SetUniform("projection", camera.GetProjectionMatrix());
+        }
+
+        public void Use(Sprite sprite)
+        {
+            sprite.BindVao();
+
+            SetUniform("texture0", 0);  
+            SetUniform("texture1", 1);
+
+            SetUniform("model", sprite.GetModel());
+        }
+
+        /*public void LinkDataWithShader()
+        {
+            var vertexLocation = GetAttribLocation(Constant.SHADER_POSITION);
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+
+            var texCoordLocation = GetAttribLocation(Constant.SHADER_TEXCOORD);
+            GL.EnableVertexAttribArray(texCoordLocation);
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+        }*/
+
+        public int GetAttribLocation(string attribName)
+        {
+            return GL.GetAttribLocation(handle, attribName);
+        }
+
+        /*************************/
+        /*** Uniform Functions ***/
+        /*************************/
+
+        public void SetUniform(string name, int data)
+        {
+            GL.Uniform1(uniformLocations[name], data);
+        }
+
+        public void SetUniform(string name, float data)
+        {
+            GL.Uniform1(uniformLocations[name], data);
+        }
+
+        public void SetUniform(string name, Matrix4 data)
+        {
+            GL.UniformMatrix4(uniformLocations[name], true, ref data);
+        }
+
+        public void SetUniform(string name, Vector3 data)
+        {
+            GL.Uniform3(uniformLocations[name], data);
+        }
+
+        /*************************/
+        /*** Private Functions ***/
+        /*************************/
 
         private int CompileShader(string path, ShaderType type)
         {
@@ -89,60 +159,6 @@ namespace LeoLib
 
             return (handle);
         }
-
-        public void Use()
-        {
-            GL.UseProgram(handle);
-
-        }
-
-        public void LinkDataWithShader()
-        {
-            var vertexLocation = GetAttribLocation(Constant.SHADER_POSITION);
-            GL.EnableVertexAttribArray(vertexLocation);
-            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-
-            var texCoordLocation = GetAttribLocation(Constant.SHADER_TEXCOORD);
-            GL.EnableVertexAttribArray(texCoordLocation);
-            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
-        }
-
-        public int GetAttribLocation(string attribName)
-        {
-            return GL.GetAttribLocation(handle, attribName);
-        }
-
-        /*************************/
-        /*** Uniform Functions ***/
-        /*************************/
-
-        public void SetUniform(string name, int data)
-        {
-            GL.UseProgram(handle);
-            GL.Uniform1(uniformLocations[name], data);
-        }
-
-        public void SetUniform(string name, float data)
-        {
-            GL.UseProgram(handle);
-            GL.Uniform1(uniformLocations[name], data);
-        }
-
-        public void SetUniform(string name, Matrix4 data)
-        {
-            GL.UseProgram(handle);
-            GL.UniformMatrix4(uniformLocations[name], true, ref data);
-        }
-
-        public void SetUniform(string name, Vector3 data)
-        {
-            GL.UseProgram(handle);
-            GL.Uniform3(uniformLocations[name], data);
-        }
-
-        /*************************/
-        /*** Private Functions ***/
-        /*************************/
 
         private string LoadSource(string path)
         {

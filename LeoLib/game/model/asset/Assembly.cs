@@ -2,17 +2,16 @@
 
 namespace LeoLib.game.model.asset
 {
-    abstract public class Assembly
+    public abstract class Assembly
     {
-        protected int vbo = 0;
-        protected int ebo = 0;
-
-        public int Vao { get; set; } = 0;
+        protected int Vbo { get; set; } = 0;
+        protected int Ebo { get; set; } = 0;
+        protected int Vao { get; set; } = 0;
 
         public abstract void Construct(float[] vertices, uint[] indices);
         public abstract void DeConstruct();
 
-        public void BindMesh()
+        public void BindVao()
         {
             GL.BindVertexArray(Vao);
         }

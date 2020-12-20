@@ -28,7 +28,7 @@ namespace LeoLib.game.model.asset
         /*** Public Functions ***/
         /************************/
 
-        public void OnLoad()
+        public void Contruct()
         {
             vertices = data.VertexData();
             indices = data.IndicesData();
@@ -36,9 +36,9 @@ namespace LeoLib.game.model.asset
             assembly.Construct(vertices, indices);
         }
 
-        public void BindMesh()
+        public void BindVao()
         {
-            assembly.BindMesh();
+            assembly.BindVao();
         }
 
         public void Render()

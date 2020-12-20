@@ -5,24 +5,20 @@ using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace LeoLib
 {
-    // A helper class, much like Shader, meant to simplify loading textures.
     public class Texture
     {
         public readonly int handle;
 
-        // Create texture from path.
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
+
         public Texture(string path)
         {
-            // Generate handle
             handle = GL.GenTexture();
 
-            // Bind the handle
-            //Use();
             GL.BindTexture(TextureTarget.Texture2D, handle);
 
-            // For this example, we're going to use .NET's built-in System.Drawing library to load textures.
-
-            // Load the image
             using (var image = new Bitmap(path))
             {
                 // First, we get our pixels from the bitmap we loaded.
@@ -83,10 +79,6 @@ namespace LeoLib
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
-        // Activate texture
-        // Multiple textures can be bound, if your shader needs more than just one.
-        // If you want to do that, use GL.ActiveTexture to set which slot GL.BindTexture binds to.
-        // The OpenGL standard requires that there be at least 16, but there can be more depending on your graphics card.
         public void Use(TextureUnit unit = TextureUnit.Texture0)
         {
             GL.ActiveTexture(unit);

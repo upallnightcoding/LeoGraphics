@@ -6,6 +6,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
 using LeoLib.game.model.objects;
 using LeoLib.script;
+using LeoLib.game.d2;
 
 namespace LeoLib.game
 {
@@ -13,60 +14,53 @@ namespace LeoLib.game
     {
         private Shader shader;
 
-        private Sprite sprite = null;
+        //private Sprite sprite = null;
 
-        private Texture texture1;
-
-        private Texture texture2;
-
-        // We need an instance of the new camera class so it can manage the view and projection matrix code
-        // We also need a boolean set to true to detect whether or not the mouse has been moved for the first time
-        // Finally we add the last position of the mouse so we can calculate the mouse offset easily
         private Camera camera;
 
         private bool firstMove = true;
 
         private Vector2 lastPos;
 
-        private double etime;
-
-        private double second = 0.0;
-        private int fps = 0;
+        private Scene2D scene = null;
 
         public Window2D(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
+            scene = new Scene2D();
         }
 
 
         protected override void OnLoad()
         {
-            GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            GL.ClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
 
-            // TODO: Test the todo list ...
-            sprite = new Sprite();
-            sprite.OnLoad();
+            //sprite = new Sprite();
+            //sprite.OnLoad();
 
-            //shader = new Shader(Constant.SHADER_VERT, Constant.SHADER_FRAG);
-            //shader.Use();
+            scene.Add(new Sprite("face.png"));
 
-            texture1 = new Texture(Constant.RESOURCE + "face.png");
-            //texture.Use();
+            Sprite ss1 = new Sprite("container.png");
+            ss1.Translate(1.0f, 0.0f, 0.0f);
+            scene.Add(ss1);
 
-            texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
-            //texture2.Use(TextureUnit.Texture1);
+            Sprite ss2 = new Sprite("awesomeface.png");
+            ss2.Translate(2.0f, 0.0f, 0.0f);
+            scene.Add(ss2);
+
+            Sprite ss3 = new Sprite("container2.png");
+            ss3.Translate(3.0f, 0.0f, 0.0f);
+            scene.Add(ss3);
+
+            Sprite ss4 = new Sprite("face.png");
+            ss4.Translate(4.0f, 0.0f, 0.0f);
+            scene.Add(ss4);
 
             shader = new Shader(Constant.SHADER_VERT, Constant.SHADER_FRAG);
-            shader.Use();
-
-            shader.SetUniform("texture0", 0);
-            shader.SetUniform("texture1", 1);
-
-            shader.LinkDataWithShader();
-
-            camera = new Camera(Vector3.UnitZ * 3, Size.X / (float)Size.Y);
+           
+            camera = new Camera(Vector3.UnitZ * 5.0f, Size.X / (float) Size.Y);
 
             CursorGrabbed = true;
 
@@ -75,34 +69,13 @@ namespace LeoLib.game
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            etime += 100.0 * e.Time;
-
-            second += e.Time;
-            fps += 1;
-
-            if (second >= 1.0)
-            {
-                Console.WriteLine("Fps: " + fps);
-                fps = 0;
-                second = 0.0;
-            }
+            float deltaTime = (float) e.Time;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            sprite.BindMesh();
+            scene.Update(deltaTime); 
 
-            texture1.Use(TextureUnit.Texture0);
-            texture2.Use(TextureUnit.Texture1);
-            shader.Use();
-
-            //var model = Matrix4.Identity * Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(etime));
-            sprite.Rotate(etime, 0.0, 0.0);
-            var model = sprite.GetModel();
-            shader.SetUniform("model", model);
-            shader.SetUniform("view", camera.GetViewMatrix());
-            shader.SetUniform("projection", camera.GetProjectionMatrix());
-
-            sprite.Render();
+            scene.Render(camera, shader);
 
             SwapBuffers();
 
@@ -135,18 +108,22 @@ namespace LeoLib.game
             {
                 camera.Position -= camera.Front * cameraSpeed * (float)e.Time; // Backwards
             }
+
             if (input.IsKeyDown(Keys.A))
             {
                 camera.Position -= camera.Right * cameraSpeed * (float)e.Time; // Left
             }
+
             if (input.IsKeyDown(Keys.D))
             {
                 camera.Position += camera.Right * cameraSpeed * (float)e.Time; // Right
             }
+
             if (input.IsKeyDown(Keys.Space))
             {
                 camera.Position += camera.Up * cameraSpeed * (float)e.Time; // Up
             }
+
             if (input.IsKeyDown(Keys.LeftShift))
             {
                 camera.Position -= camera.Up * cameraSpeed * (float)e.Time; // Down
@@ -168,8 +145,10 @@ namespace LeoLib.game
                 lastPos = new Vector2(mouse.X, mouse.Y);
 
                 // Apply the camera pitch and yaw (we clamp the pitch in the camera class)
-                camera.Yaw += deltaX * sensitivity;
-                camera.Pitch -= deltaY * sensitivity; // reversed since y-coordinates range from bottom to top
+
+
+                //camera.Yaw += deltaX * sensitivity;
+                //camera.Pitch -= deltaY * sensitivity; // reversed since y-coordinates range from bottom to top
             }
 
             base.OnUpdateFrame(e);
@@ -197,11 +176,11 @@ namespace LeoLib.game
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 
-            sprite.OnUnLoad();
+            scene.OnUnLoad();
 
             GL.DeleteProgram(shader.handle);
-            GL.DeleteTexture(texture1.handle);
-            GL.DeleteTexture(texture2.handle);
+            //GL.DeleteTexture(texture1.handle);
+            //GL.DeleteTexture(texture2.handle);
 
             base.OnUnload();
         }

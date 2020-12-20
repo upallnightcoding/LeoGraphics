@@ -25,9 +25,27 @@ namespace LeoLib
             rotate.Z = z;
         }
 
+        public void Translate(float x, float y, float z)
+        {
+            translate.X = x;
+            translate.Y = y;
+            translate.Z = z;
+        }
+
+        public void Scale(float x, float y, float z)
+        {
+            scale.X = x;
+            scale.Y = y;
+            scale.Z = z;
+        }
+
         public Matrix4 GetModel()
         {
-            return (Matrix4.Identity * rotate.GetRotation());
+            Matrix4 rotation = rotate.GetRotation();
+            Matrix4 translation = translate.GetTranslation();
+            Matrix4 scaling = scale.GetScale();
+
+            return (Matrix4.Identity * rotation * translation * scaling);
         }
     }
 }

@@ -12,6 +12,8 @@ namespace LeoLib
 
         private Mesh mesh = null;
 
+        private float r = 0.0f;
+
         /*******************/
         /*** Constructor ***/
         /*******************/
@@ -23,41 +25,67 @@ namespace LeoLib
             this.mesh = mesh;
         }
 
-        public abstract void CreateTextures();
+        public abstract void AssignTextures();
+
+        public abstract void DeleteTextures();
 
         /************************/
         /*** Public Functions ***/
         /************************/
 
-        public Matrix4 GetModel()
+        public void Update(float deltaTime)
         {
-            return(transform.GetModel());
+            r += deltaTime;
+            Rotate(0.0f, 0.0f, 360*r);
+            //Translate(deltaTime / 100, 0.0f, 0.0f);
+            //Scale(deltaTime / 1000, 1.0f, 1.0f);
         }
 
-        public void Rotate(double x, double y, double z)
+        public void Construct()
         {
-            transform.Rotate((float) x, (float) y, (float) z);
-        }
-
-        public void OnLoad()
-        {
-            mesh.OnLoad();
+            mesh.Contruct();
         }
 
         public void Render()
         {
+            AssignTextures();
+            //BindVao();
             mesh.Render();
-        }
-
-        public void BindMesh()
-        {
-            mesh.BindMesh();
         }
 
         public void OnUnLoad()
         {
             mesh.OnUnLoad();
+            DeleteTextures();
         }
-       
+
+        public Matrix4 GetModel()
+        {
+            return (transform.GetModel());
+        }
+
+        /*************************/
+        /*** Private Functions ***/
+        /*************************/
+
+        public void BindVao()
+        {
+            mesh.BindVao();
+        }
+
+        private void Rotate(float x, float y, float z)
+        {
+            transform.Rotate(x, y, z);
+        }
+
+        public void Translate(float x, float y, float z)
+        {
+            transform.Translate(x, y, z);
+        }
+
+        private void Scale(float x, float y, float z)
+        {
+            transform.Scale(x, y, z);
+        }
     }
 }

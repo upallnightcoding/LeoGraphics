@@ -9,12 +9,60 @@ using LeoLib.script;
 
 namespace LeoLib.game.model.objects
 {
-    class SpriteData : AssetData
+    class MeshSprite : Mesh
     {
-        public override float[] VertexData()
+        class AssemblySprite : Assembly
         {
-            float[] vertices =
+            public override void Construct(float[] vertices, uint[] indices)
             {
+                Vbo = GL.GenBuffer();
+                GL.BindBuffer(BufferTarget.ArrayBuffer, Vbo);
+
+                int size = vertices.Length * sizeof(float);
+                BufferUsageHint usage = BufferUsageHint.StaticDraw;
+                BufferTarget target = BufferTarget.ArrayBuffer;
+
+                GL.BufferData(target, size, vertices, usage);
+
+                Vao = GL.GenVertexArray();
+                GL.BindVertexArray(Vao);
+
+                Ebo = GL.GenBuffer();
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ebo);
+                GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+
+                var vertexLocation = 0;
+                GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+                GL.EnableVertexAttribArray(vertexLocation);
+
+                var texCoordLocation = 1;
+                GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+                GL.EnableVertexAttribArray(texCoordLocation);
+
+                GL.BindVertexArray(0);
+            }
+
+            public override void DeConstruct()
+            {
+                GL.DeleteBuffer(Vbo);
+                GL.DeleteVertexArray(Vao);
+            }
+        }
+
+        class RendererSprite : Renderer
+        {
+            public override void Render(float[] vertices, uint[] indices)
+            {
+                GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            }
+        }
+
+        class SpriteData : AssetData
+        {
+            public override float[] VertexData()
+            {
+                float[] vertices =
+                {
             // Position         Texture coordinates
              0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
              0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
@@ -22,85 +70,53 @@ namespace LeoLib.game.model.objects
             -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
             };
 
-            return(vertices);
-        }
-    
-        public override uint[] IndicesData()
-        {
-            uint[] indices =
+                return (vertices);
+            }
+
+            public override uint[] IndicesData()
             {
+                uint[] indices =
+                {
                 0, 1, 3,
                 1, 2, 3
             };
 
-            return (indices);
+                return (indices);
+            }
+
         }
 
-    }
-
-    class RendererSprite : Renderer
-    {
-        public override void Render(float[] vertices, uint[] indices)
-        {
-            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
-        }
-    }
-
-    class AssemblySprite : Assembly
-    {
-        public override void Construct(float[] vertices, uint[] indices)
-        {
-            vbo = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-
-            int size = vertices.Length * sizeof(float); 
-            BufferUsageHint usage = BufferUsageHint.StaticDraw;
-            BufferTarget target = BufferTarget.ArrayBuffer;
-
-            GL.BufferData(target, size, vertices, usage);
-
-            Vao = GL.GenVertexArray();
-            GL.BindVertexArray(Vao);
-            GL.BindBuffer(target, Vao);
-
-            ebo = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
-        }
-
-        public override void DeConstruct()
-        {
-            GL.DeleteBuffer(vbo);
-            GL.DeleteVertexArray(Vao);
-        }
-    }
-
-    class MeshSprite : Mesh
-    {
         public MeshSprite() 
             : base(new SpriteData(), new RendererSprite(), new AssemblySprite())
         {
         }
     }
 
-    class Sprite : Asset
+    public class Sprite : Asset
     {
         private Texture texture1;
 
         private Texture texture2;
 
-        public Sprite()
+        public Sprite(string face)
             : base(new MeshSprite())
         {
+            //texture1 = new Texture(Constant.RESOURCE + "face.png");
+            //texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
 
+            texture1 = new Texture(Constant.RESOURCE + face);
         }
 
-        public override void CreateTextures()
+        public override void AssignTextures()
         {
-            texture1 = new Texture(Constant.RESOURCE + "face.png");
+            texture1.Use(TextureUnit.Texture0);
+            //texture2.Use(TextureUnit.Texture1);
+        }
 
-            texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
+        public override void DeleteTextures()
+        {
+            GL.DeleteTexture(texture1.handle);
+            //GL.DeleteTexture(texture2.handle);
         }
     }
 }

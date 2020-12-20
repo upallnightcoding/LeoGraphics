@@ -22,11 +22,17 @@ namespace LeoLib.script
         public const int NUMBER_OF_SCRIPT_TYPES = 4;
 
         // Command Names
-        //==============
+        //--------------
         public const string CMD_END = "END";
 
         public const string SHADER_POSITION = "aPosition";
         public const string SHADER_TEXCOORD = "aTexCoord";
+
+        // Shader Uniform Names
+        //---------------------
+        public const string SHADER_UNIFORM_MODEL = "model";
+        public const string SHADER_UNIFORM_VIEW = "view";
+        public const string SHADER_UNIFORM_PROJECTION = "projection";
 
         public const string SHADER_VERT = 
             @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader2D.vert";

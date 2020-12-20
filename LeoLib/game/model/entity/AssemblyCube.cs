@@ -13,8 +13,8 @@ namespace LeoLib.game.model.entity
         {
             // VBO Construction
             //-----------------
-            vbo = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            Vbo = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, Vbo);
 
             int size = vertices.Length * sizeof(float);
             BufferUsageHint usage = BufferUsageHint.StaticDraw;
@@ -27,7 +27,7 @@ namespace LeoLib.game.model.entity
             //vao = GL.GenVertexArray();
             //GL. (vao);
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, Vbo);
         }
 
         public override void DeConstruct()
