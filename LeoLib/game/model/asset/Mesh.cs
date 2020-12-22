@@ -7,7 +7,6 @@ namespace LeoLib.game.model.asset
     public class Mesh
     {
         public AssetData data = null;
-        public Renderer renderer = null;
         public Assembly assembly = null;
 
         private float[] vertices = null;
@@ -17,10 +16,9 @@ namespace LeoLib.game.model.asset
         /*** Constructor ***/
         /*******************/
 
-        public Mesh(AssetData data, Renderer renderer, Assembly assembly)
+        public Mesh(AssetData data, Assembly assembly)
         {
             this.data = data;
-            this.renderer = renderer;
             this.assembly = assembly;
         }
 
@@ -43,7 +41,7 @@ namespace LeoLib.game.model.asset
 
         public void Render()
         {
-            renderer.Render(vertices, indices);
+            assembly.Render(vertices, indices);
         }
 
         public void OnUnLoad()

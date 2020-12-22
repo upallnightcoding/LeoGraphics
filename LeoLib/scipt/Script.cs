@@ -28,8 +28,10 @@ namespace LeoLib.scipt
                 ProgNode node = GetCommand();
 
                 if (!errorSwitch) 
-                { 
-                    node.Evaluate();
+                {
+                    ProgNodeContext context = new ProgNodeContext();
+
+                    node.Evaluate(context);
                 }
             }
         }

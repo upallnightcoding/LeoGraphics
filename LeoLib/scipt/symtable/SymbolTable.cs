@@ -1,16 +1,40 @@
-﻿using System;
+﻿using LeoLib.script;
+using LeoLib.script.execute;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LeoLib.scipt.symtable
 {
-    class SymbolTable
+    public class SymbolTable
     {
-        private Stack<Scope> symTable = null;
+        //private Stack<Scope> SymTable { get; set; } = null;
+
+        private Scope[] SymTable = null;
+
+        private int activeScope = -1;
 
         public SymbolTable()
         {
-            symTable = new Stack<Scope>();
+            SymTable = new Scope[Constant.MAX_SYMBOL_TABLE_SCOPE];
+        }
+
+        public void NewScope()
+        {
+            SymTable[++activeScope] = new Scope();
+        }
+
+        public void DeleteScope()
+        {
+            --activeScope;
+        }
+
+        public void Declare(string variable, SymbolTableRecType type, int size, ProgNodeValue initialize)
+        {
+            SymTable[activeScope].Declare(variable, type, size, initialize);
+        }
+
+        public ProgNodeValue Get(string variable)
+        {
+            return (SymTable[activeScope].Get(variable));
         }
     }
 }

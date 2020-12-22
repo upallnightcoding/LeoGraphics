@@ -1,4 +1,5 @@
 ﻿using LeoLib.game;
+using LeoLib.scipt.execute;
 using LeoLib.script.execute;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace LeoLib.script
         /*** Abstract Functions ***/
         /**************************/
 
-        public abstract ProgNodeValue Evaluate();
+        public abstract ProgNodeValue Evaluate(ProgNodeContext context);
 
         /************************/
         /*** Public Functions ***/

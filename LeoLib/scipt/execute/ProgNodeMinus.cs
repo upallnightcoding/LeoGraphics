@@ -34,10 +34,10 @@ namespace LeoLib.scipt.execute
         /*** Override Functions ***/
         /**************************/
 
-        public override ProgNodeValue Evaluate()
+        public override ProgNodeValue Evaluate(ProgNodeContext context)
         {
-            ProgNodeValue left = leftExp.Evaluate();
-            ProgNodeValue right = rightExp.Evaluate();
+            ProgNodeValue left = leftExp.Evaluate(context);
+            ProgNodeValue right = rightExp.Evaluate(context);
 
             ProgNodeValue result = boxing.Evaluate(left, right);
 

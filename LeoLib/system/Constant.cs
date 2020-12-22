@@ -12,7 +12,7 @@ namespace LeoLib.script
         public const char EXP_SEPARATOR = ',';
         public const char STRING_CHARACTER = '"';
         public const char FRACTIONAL_DOT = '.';
-        public const string SIMPLE_TOKENS = "+-*/,;()";
+        public const string SIMPLE_TOKENS = "+-*/,;()=";
 
         // True or False Constants
         //------------------------
@@ -21,10 +21,14 @@ namespace LeoLib.script
 
         public const int NUMBER_OF_SCRIPT_TYPES = 4;
 
+        public const int MAX_SYMBOL_TABLE_SCOPE = 10;
+
         // Command Names
         //--------------
         public const string CMD_END = "END";
 
+        // Shader texture and position layout names
+        //-----------------------------------------
         public const string SHADER_POSITION = "aPosition";
         public const string SHADER_TEXCOORD = "aTexCoord";
 

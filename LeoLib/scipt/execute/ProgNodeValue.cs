@@ -1,4 +1,5 @@
-﻿using LeoLib.script.token;
+﻿using LeoLib.scipt.execute;
+using LeoLib.script.token;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -77,9 +78,19 @@ namespace LeoLib.script.execute
         /*** Override Functions ***/
         /**************************/
 
-        public override ProgNodeValue Evaluate()
+        public override ProgNodeValue Evaluate(ProgNodeContext context)
         {
-            return (this);
+            ProgNodeValue value = null;
+
+            if (Type == ProgNodeValueType.KEYWORD)
+            {
+                value = context.SymTable.Get(svalue);
+            } else
+            {
+                value = this;
+            }
+
+            return (value);
         }
 
         /************************/

@@ -23,12 +23,16 @@ namespace LeoLib.scipt.execute
             }
         }
 
-        public override ProgNodeValue Evaluate()
+        public override ProgNodeValue Evaluate(ProgNodeContext context)
         {
+            context.SymTable.NewScope();
+
             foreach(ProgNode node in nodeList)
             {
-                node.Evaluate();
+                node.Evaluate(context);
             }
+
+            context.SymTable.DeleteScope();
 
             return (null);
         }

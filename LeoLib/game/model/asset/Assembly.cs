@@ -10,6 +10,7 @@ namespace LeoLib.game.model.asset
 
         public abstract void Construct(float[] vertices, uint[] indices);
         public abstract void DeConstruct();
+        public abstract void Render(float[] vertices, uint[] indices);
 
         public void BindVao()
         {

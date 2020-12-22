@@ -1,10 +1,5 @@
 ﻿using LeoLib.game.model.asset;
-using System;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using OpenTK.Windowing.Desktop;
 using LeoLib.script;
 
 namespace LeoLib.game.model.objects
@@ -42,18 +37,15 @@ namespace LeoLib.game.model.objects
                 GL.BindVertexArray(0);
             }
 
+            public override void Render(float[] vertices, uint[] indices)
+            {
+                GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            }
+
             public override void DeConstruct()
             {
                 GL.DeleteBuffer(Vbo);
                 GL.DeleteVertexArray(Vao);
-            }
-        }
-
-        class RendererSprite : Renderer
-        {
-            public override void Render(float[] vertices, uint[] indices)
-            {
-                GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
             }
         }
 
@@ -63,12 +55,12 @@ namespace LeoLib.game.model.objects
             {
                 float[] vertices =
                 {
-            // Position         Texture coordinates
-             0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
-             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
-            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
-            };
+                    // Position         Texture coordinates
+                     0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
+                     0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
+                    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
+                    -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
+                };
 
                 return (vertices);
             }
@@ -77,9 +69,9 @@ namespace LeoLib.game.model.objects
             {
                 uint[] indices =
                 {
-                0, 1, 3,
-                1, 2, 3
-            };
+                    0, 1, 3,
+                    1, 2, 3
+                };
 
                 return (indices);
             }
@@ -87,7 +79,7 @@ namespace LeoLib.game.model.objects
         }
 
         public MeshSprite() 
-            : base(new SpriteData(), new RendererSprite(), new AssemblySprite())
+            : base(new SpriteData(), new AssemblySprite())
         {
         }
     }

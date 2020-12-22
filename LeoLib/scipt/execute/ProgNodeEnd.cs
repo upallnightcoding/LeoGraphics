@@ -13,7 +13,7 @@ namespace LeoLib.scipt.execute
             IsEndOfCodeBlock = true;
         }
 
-        public override ProgNodeValue Evaluate()
+        public override ProgNodeValue Evaluate(ProgNodeContext context)
         {
             return (null);
         }

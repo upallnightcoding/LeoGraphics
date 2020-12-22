@@ -13,7 +13,6 @@ namespace LeoLib.script
         private int ivalue = 0;
         private float fvalue = 0.0f;
         private string svalue = "";
-        private char cvalue = ' ';
         private bool bvalue = false;
 
         /*******************/
@@ -142,6 +141,11 @@ namespace LeoLib.script
         public bool IsEos()
         {
             return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.EOS));
+        }
+
+        public bool IsAssign()
+        {
+            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.ASSIGN));
         }
 
         public bool IsSeparator()

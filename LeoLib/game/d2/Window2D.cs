@@ -45,7 +45,7 @@ namespace LeoLib.game
             Sprite ss1 = new Sprite("container.png");
             ss1.Translate(1.0f, 0.0f, 0.0f);
             scene.Add(ss1);
-
+            
             Sprite ss2 = new Sprite("awesomeface.png");
             ss2.Translate(2.0f, 0.0f, 0.0f);
             scene.Add(ss2);

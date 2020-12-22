@@ -8,7 +8,7 @@ namespace LeoLib.scipt.execute
 {
     class ProgNodeProgram : ProgNode
     {
-        public override ProgNodeValue Evaluate()
+        public override ProgNodeValue Evaluate(ProgNodeContext context)
         {
             ProgNodeValue value = null;
 

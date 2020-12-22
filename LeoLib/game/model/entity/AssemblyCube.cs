@@ -34,5 +34,10 @@ namespace LeoLib.game.model.entity
         {
 
         }
+
+        public override void Render(float[] vertices, uint[] indices)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

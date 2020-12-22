@@ -11,9 +11,9 @@ namespace Leo
         {
             //TestGame01();
 
-            TestGame2d_01();
+            //TestGame2d_01();
 
-            //TestParser01();
+            TestParser01();
         }
 
         static void TestGame01()
@@ -35,6 +35,8 @@ namespace Leo
 
             string[] source = new string[] {
                 "program;",
+                "  integer a = 1, b = 2, c = 45+2;",
+                "  print a, b +1,c*3, a;",
                 "  print 2 +3, \" \", 34.23 + 17.9, \" \", 7 - 2, \" \", 78.3/34, \" \", 3*8; ",
                 "  print 45.0 - 4.8; ",
                 "  print 20.0 - 14.8; ",

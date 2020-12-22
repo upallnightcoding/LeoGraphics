@@ -8,8 +8,7 @@ namespace LeoLib.script
 {
     class ProgCmdPrint : ProgCmd
     {
-        public ProgCmdPrint() 
-            : base("PRINT")
+        public ProgCmdPrint() : base("PRINT")
         {
 
         }

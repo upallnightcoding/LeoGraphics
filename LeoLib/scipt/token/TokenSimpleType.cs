@@ -14,6 +14,7 @@ namespace LeoLib.scipt.token
         MULTIPLY,
         DIVIDE,
         BOTTOM_EXP_STACK,
+        ASSIGN,
         LEFT_PAREN,
         RIGHT_PAREN
     }

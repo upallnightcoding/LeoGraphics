@@ -1,6 +1,7 @@
 ﻿using LeoLib.game;
 using LeoLib.scipt.command;
 using LeoLib.scipt.execute;
+using LeoLib.scipt.symtable;
 using LeoLib.scipt.token;
 using LeoLib.script;
 using LeoLib.script.execute;
@@ -32,9 +33,11 @@ namespace LeoLib
         public Parser(string[] code)
         {
             cmdDict = new Dictionary<string, ProgCmd>();
+
             Add(new ProgCmdEnd());
             Add(new ProgCmdPrint());
             Add(new ProgCmdProgram());
+            Add(new ProgCmdDeclare("INTEGER", SymbolTableRecType.INTEGER));
             
             source = code;
             sourceLength = code.Length;
@@ -168,6 +171,9 @@ namespace LeoLib
                     break;
                 case ')':
                     simpleType = TokenSimpleType.RIGHT_PAREN;
+                    break;
+                case '=':
+                    simpleType = TokenSimpleType.ASSIGN;
                     break;
             }
 

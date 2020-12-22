@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LeoLib.scipt.execute;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -29,10 +30,10 @@ namespace LeoLib.script.execute
         /*** Override Functions ***/
         /**************************/
 
-        public override ProgNodeValue Evaluate()
+        public override ProgNodeValue Evaluate(ProgNodeContext context)
         {
             foreach(var node in arguments) {
-                Console.Write($"{node.Evaluate().GetString()}");
+                Console.Write($"{node.Evaluate(context).GetString()}");
             }
 
             Console.WriteLine();
