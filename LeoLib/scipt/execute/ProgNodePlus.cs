@@ -1,50 +1,62 @@
-﻿using LeoLib.scipt.boxing;
-using LeoLib.scipt.execute;
+﻿using LeoLib.scipt.execute;
 using LeoLib.script;
 using LeoLib.script.execute;
 using LeoLib.script.token;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LeoLib
 {
-   
-
-    class ProgNodePlus : ProgNode
+    class ProgNodePlus : ProgNodeBinaryOper
     {
-        private static BoxingPlus boxing = null;
-
-        private readonly ProgNode leftExp = null;
-        private readonly ProgNode rightExp = null;
+        private const int TYPE_INTEGER = 1;
+        private const int TYPE_FLOAT = 2;
+        private const int TYPE_STRING = 3;
 
         /*******************/
         /*** Constructor ***/
         /*******************/
 
-        public ProgNodePlus(ProgNode leftExp, ProgNode rightExp)
+        public ProgNodePlus(ProgNode leftExp, ProgNode rightExp) 
+            : base(leftExp, rightExp)
         {
-            this.leftExp    = leftExp;
-            this.rightExp   = rightExp;
 
-            if (boxing == null)
-            {
-                boxing = new BoxingPlus();
-            }
         }
 
         /**************************/
         /*** Override Functions ***/
         /**************************/
 
-        public override ProgNodeValue Evaluate(ProgNodeContext context)
+        public override ProgNodeValue ExecBoxing(ProgNodeValue left, ProgNodeValue right, int type)
         {
-            ProgNodeValue left = leftExp.Evaluate(context);
-            ProgNodeValue right = rightExp.Evaluate(context);
+            ProgNodeValue result = null;
 
-            ProgNodeValue result = boxing.Evaluate(left, right);
+            switch (type)
+            {
+                case TYPE_FLOAT:
+                    float fvalue = left.GetFloat() + right.GetFloat();
+                    result = new ProgNodeValue(fvalue);
+                    break;
+                case TYPE_INTEGER:
+                    int ivalue = left.GetInteger() + right.GetInteger();
+                    result = new ProgNodeValue(ivalue);
+                    break;
+                case TYPE_STRING:
+                    string svalue = left.GetString() + right.GetString();
+                    result = new ProgNodeValue(svalue);
+                    break;
+            }
 
             return (result);
+        }
+
+        public override void InitBoxing()
+        {
+            SetBoxType(ProgNodeValueType.INTEGER, ProgNodeValueType.INTEGER, TYPE_INTEGER);
+
+            SetBoxType(ProgNodeValueType.FLOAT, ProgNodeValueType.FLOAT, TYPE_FLOAT);
+            SetBoxType(ProgNodeValueType.FLOAT, ProgNodeValueType.INTEGER, TYPE_FLOAT);
+            SetBoxType(ProgNodeValueType.INTEGER, ProgNodeValueType.FLOAT, TYPE_FLOAT);
+
+            SetBoxType(ProgNodeValueType.STRING, ProgNodeValueType.STRING, TYPE_STRING);
         }
     }
 }

@@ -23,17 +23,24 @@ namespace LeoLib.scipt.symtable
             scope.Add(name, new SymbolTableRec(name, type, size, initialize));
         }
 
-        public ProgNodeValue Get(string variable)
+        public ProgNodeValue GetValue(string variable, int index)
         {
-            SymbolTableRec record = null;
             ProgNodeValue value = null;
 
-            if (scope.TryGetValue(variable, out record))
+            if (scope.TryGetValue(variable, out SymbolTableRec record))
             {
-                value = record.Get();
+                value = record.GetValue(index);
             }
 
             return (value);
+        }
+
+        public void Assign(string variable, ProgNodeValue value, int index)
+        {
+            if (scope.TryGetValue(variable, out SymbolTableRec record))
+            {
+                record.Assign(value, index);
+            }
         }
     }
 }

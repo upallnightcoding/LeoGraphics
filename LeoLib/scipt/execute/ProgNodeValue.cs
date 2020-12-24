@@ -84,7 +84,7 @@ namespace LeoLib.script.execute
 
             if (Type == ProgNodeValueType.KEYWORD)
             {
-                value = context.SymTable.Get(svalue);
+                value = context.SymTable.GetValue(svalue, 0);
             } else
             {
                 value = this;
@@ -166,7 +166,7 @@ namespace LeoLib.script.execute
             return (value);
         }
 
-        public bool GetBool()
+        public bool GetBoolean()
         {
             bool value = false;
 

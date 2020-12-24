@@ -10,6 +10,6 @@ namespace LeoLib.scipt.symtable
         INTEGER,
         FLOAT,
         STRING,
-        BOOL
+        BOOLEAN
     }
 }

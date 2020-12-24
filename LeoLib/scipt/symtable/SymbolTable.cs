@@ -32,9 +32,14 @@ namespace LeoLib.scipt.symtable
             SymTable[activeScope].Declare(variable, type, size, initialize);
         }
 
-        public ProgNodeValue Get(string variable)
+        public ProgNodeValue GetValue(string variable, int index)
         {
-            return (SymTable[activeScope].Get(variable));
+            return (SymTable[activeScope].GetValue(variable, index));
+        }
+
+        public void Assign(string variable, ProgNodeValue value, int index)
+        {
+            SymTable[activeScope].Assign(variable, value, index); 
         }
     }
 }

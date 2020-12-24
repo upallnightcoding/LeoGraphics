@@ -67,7 +67,8 @@ namespace LeoLib.scipt
         {
             ProgNode node = null;
 
-            string keyword = parser.GetToken().GetString().ToUpper();
+            string variable = parser.GetToken().GetString();
+            string keyword = variable.ToUpper();
 
             ProgCmd command = parser.GetProgCmd(keyword);
 
@@ -76,16 +77,22 @@ namespace LeoLib.scipt
                 node = command.Interpret(this);
             } else
             {
-                SyntaxError(ErrorCode.ERROR_UNKNOWN_COMMAND);
+                Token assignToken = parser.GetToken();
+
+                ProgNode expression = Expression();
+
+                node = new ProgNodeAssign(variable, expression);
             }
 
             return (node);
         }
 
         /// <summary>
-        /// GetToken() - Returns the next token by the parser.  If the parser <br/>
-        /// is at the end-of-file state, a null token is returned.<br/>
+        /// GetToken() - Returns the next token read by the parser.  If the parser <br/>
+        /// is at the end-of-file, the end-of-file token is returned.  This function <br/>
+        /// should always return an object.  Returning a null is an application error.<br/>
         /// </summary>
+        /// 
         /// <returns>Next source code token</returns>
         public Token GetToken()
         {
@@ -138,6 +145,15 @@ namespace LeoLib.scipt
         /*** Private Expression Functions ***/
         /************************************/
 
+        /// <summary>
+        /// Pushes a left parenthesis on the operator stack.  The left <br/>
+        /// parenthesis must be balanced by a right parenthesis to <br/>
+        /// complete the expression evaluation.  Failure to balance <br/>
+        /// the parenthesis will result in a runtime error.<br/>
+        /// </summary>
+        /// 
+        /// <param name="token"></param>
+        /// <param name="operStack"></param>
         private void PushLeftParen(Token token, Stack<Token> operStack)
         {
             operStack.Push(token);
@@ -185,6 +201,12 @@ namespace LeoLib.scipt
                     break;
                 case TokenSimpleType.DIVIDE:
                     node = new ProgNodeDivide(left, right);
+                    break;
+                case TokenSimpleType.POWER:
+                    node = new ProgNodePower(left, right);
+                    break;
+                case TokenSimpleType.MODULUS:
+                    node = new ProgNodeMod(left, right);
                     break;
             }
 

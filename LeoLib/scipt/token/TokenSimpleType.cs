@@ -9,6 +9,8 @@ namespace LeoLib.scipt.token
         UNKNOWN,
         EOS,
         EXP_SEPARATOR,
+        POWER,
+        MODULUS,
         PLUS,
         MINUS,
         MULTIPLY,

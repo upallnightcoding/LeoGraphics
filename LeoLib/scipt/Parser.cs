@@ -148,6 +148,12 @@ namespace LeoLib
 
             switch(simpleToken)
             {
+                case '^':
+                    simpleType = TokenSimpleType.POWER;
+                    break;
+                case '%':
+                    simpleType = TokenSimpleType.MODULUS;
+                    break;
                 case '+':
                     simpleType = TokenSimpleType.PLUS;
                     break;

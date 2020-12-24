@@ -33,9 +33,10 @@ namespace Leo
             //string source = "   print \" \" , 2, \" \", 3, \" Test Text \", 123.345, \" \", 0.098;";
             //string source = "  print 120 - 4 * 5; print 45 * 4 / 3";
 
-            string[] source = new string[] {
+            /*string[] source = new string[] {
                 "program;",
                 "  integer a = 1, b = 2, c = 45+2;",
+                "  a = 11;",
                 "  print a, b +1,c*3, a;",
                 "  print 2 +3, \" \", 34.23 + 17.9, \" \", 7 - 2, \" \", 78.3/34, \" \", 3*8; ",
                 "  print 45.0 - 4.8; ",
@@ -49,6 +50,26 @@ namespace Leo
                 "    print \"Inner Program\";",
                 "  end;",
                 "  print ((23 * 2) * 9) * (34);",
+                "end;"
+            };*/
+
+            /*string[] source = new string[] {
+                "program;",
+                "  integer a = 1, b = 2, c = 45+2;",
+                "  a = 11;",
+                "  print 11 ^ 2, 6 % 4;",
+                "  print a, \" \",b +1,\" \",c*3, \" \",a;",
+                "end;"
+            };*/
+
+            string[] source = new string[] {
+                "program;",
+                "  print 11 + 2, \" \", 3 % 2;",
+                "  print 11 - 2, \" \", 3 - 12;",
+                "  print 11 * 2, \" \", 3 * 12;",
+                "  print 11.0 / 2, \" \", 3 / 12.5;",
+                "  print 11 % 2, \" \", 3 % 12;",
+                "  print 11 ^ 2, \" \", 3 ^ 2;",
                 "end;"
             };
 

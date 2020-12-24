@@ -1,27 +1,20 @@
 ﻿using LeoLib.script;
 using LeoLib.script.execute;
 using LeoLib.script.token;
+using System;
 
 namespace LeoLib.scipt.execute
 {
-    public class ProgNodeMinus : ProgNodeBinaryOper
+    class ProgNodePower : ProgNodeBinaryOper
     {
         private const int TYPE_INTEGER = 1;
         private const int TYPE_FLOAT = 2;
 
-        /*******************/
-        /*** Constructor ***/
-        /*******************/
-
-        public ProgNodeMinus(ProgNode leftExp, ProgNode rightExp)
+        public ProgNodePower(ProgNode leftExp, ProgNode rightExp)
             : base(leftExp, rightExp)
         {
             
         }
-
-        /**************************/
-        /*** Override Functions ***/
-        /**************************/
 
         public override ProgNodeValue ExecBoxing(ProgNodeValue left, ProgNodeValue right, int type)
         {
@@ -30,12 +23,8 @@ namespace LeoLib.scipt.execute
             switch (type)
             {
                 case TYPE_FLOAT:
-                    float fvalue = left.GetFloat() - right.GetFloat();
+                    float fvalue = (float)(Math.Pow(left.GetFloat(), right.GetFloat()));
                     result = new ProgNodeValue(fvalue);
-                    break;
-                case TYPE_INTEGER:
-                    int ivalue = left.GetInteger() - right.GetInteger();
-                    result = new ProgNodeValue(ivalue);
                     break;
             }
 
@@ -44,13 +33,11 @@ namespace LeoLib.scipt.execute
 
         public override void InitBoxing()
         {
-            SetBoxType(ProgNodeValueType.INTEGER, ProgNodeValueType.INTEGER, TYPE_INTEGER);
+            SetBoxType(ProgNodeValueType.INTEGER, ProgNodeValueType.INTEGER, TYPE_FLOAT);
 
             SetBoxType(ProgNodeValueType.FLOAT, ProgNodeValueType.FLOAT, TYPE_FLOAT);
             SetBoxType(ProgNodeValueType.FLOAT, ProgNodeValueType.INTEGER, TYPE_FLOAT);
             SetBoxType(ProgNodeValueType.INTEGER, ProgNodeValueType.FLOAT, TYPE_FLOAT);
-
-            //Box(ProgNodeValueType.STRING, ProgNodeValueType.STRING, BoxType.STRING);
         }
     }
 }

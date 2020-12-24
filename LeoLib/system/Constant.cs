@@ -12,7 +12,7 @@ namespace LeoLib.script
         public const char EXP_SEPARATOR = ',';
         public const char STRING_CHARACTER = '"';
         public const char FRACTIONAL_DOT = '.';
-        public const string SIMPLE_TOKENS = "+-*/,;()=";
+        public const string SIMPLE_TOKENS = "^%+-*/,;()=";
 
         // True or False Constants
         //------------------------

@@ -76,6 +76,10 @@ namespace LeoLib.script
             {
                 switch(simpleType)
                 {
+                    case TokenSimpleType.POWER:
+                    case TokenSimpleType.MODULUS:
+                        value = 30;
+                        break;
                     case TokenSimpleType.DIVIDE:
                     case TokenSimpleType.MULTIPLY:
                         value = 20;
@@ -112,6 +116,8 @@ namespace LeoLib.script
                     case TokenSimpleType.MULTIPLY:
                     case TokenSimpleType.MINUS:
                     case TokenSimpleType.PLUS:
+                    case TokenSimpleType.POWER:
+                    case TokenSimpleType.MODULUS:
                         oper = true;
                         break;
                 }
