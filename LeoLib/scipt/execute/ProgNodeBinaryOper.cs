@@ -50,9 +50,9 @@ namespace LeoLib.scipt.execute
             return (ExecBoxing(left, right, type));
         }
 
-        protected void SetBoxType(ProgNodeValueType left, ProgNodeValueType right, int type)
+        protected void SetBoxType(ProgNodeValueType left, ProgNodeValueType right, int action)
         {
-            boxing[(int)left, (int)right] = type;
+            boxing[(int)left, (int)right] = action;
         }
 
         protected int GetBoxType(ProgNodeValue left, ProgNodeValue right)

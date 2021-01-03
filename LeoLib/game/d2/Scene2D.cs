@@ -1,4 +1,5 @@
-﻿using LeoLib.game.model.objects;
+﻿using LeoLib.game.model.asset;
+using LeoLib.game.model.objects;
 using LeoLib.script;
 using OpenTK.Mathematics;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace LeoLib.game.d2
 {
-    class Scene2D
+    public class Scene2D
     {
         private const string SHADER_UNIFORM_MODEL = Constant.SHADER_UNIFORM_MODEL;
 
@@ -34,10 +35,24 @@ namespace LeoLib.game.d2
             }
         }
 
+        public void Check(EventContext context)
+        {
+            foreach (Sprite sprite in scene)
+            {
+                sprite.Check(context);
+            }
+        }
+
+        public void Construct()
+        {
+            foreach (Sprite sprite in scene)
+            {
+                sprite.Construct();
+            }
+        }
+
         public void Add(Sprite sprite)
         {
-            sprite.Construct();
-
             scene.Add(sprite);
         }
 

@@ -1,13 +1,9 @@
 ﻿using LeoLib.game;
 using LeoLib.scipt.command;
-using LeoLib.scipt.execute;
 using LeoLib.scipt.symtable;
-using LeoLib.scipt.token;
 using LeoLib.script;
-using LeoLib.script.execute;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LeoLib
 {
@@ -38,6 +34,9 @@ namespace LeoLib
             Add(new ProgCmdPrint());
             Add(new ProgCmdProgram());
             Add(new ProgCmdDeclare("INTEGER", SymbolTableRecType.INTEGER));
+            Add(new ProgCmdDeclare("STRING", SymbolTableRecType.STRING));
+            Add(new ProgCmdDeclare("BOOLEAN", SymbolTableRecType.BOOLEAN));
+            Add(new ProgCmdDeclare("FLOAT", SymbolTableRecType.FLOAT));
             
             source = code;
             sourceLength = code.Length;
@@ -61,17 +60,22 @@ namespace LeoLib
                 {
                     token = GetNumber();
                 }
-                else if (Char.IsLetter(sourceChar))
+                else if (Char.IsLetter(sourceChar) || (sourceChar == '_'))
                 {
                     token = GetKeyWord();
                 }
-                else if (sourceChar == Constant.STRING_CHARACTER)
+                else if ((sourceChar == Constant.STRING_SINGLE_QUOTE) 
+                    || (sourceChar == Constant.STRING_DOUBLE_QUOTE))
                 {
-                    token = GetString();
+                    token = GetString(sourceChar);
                 }
                 else if (Constant.SIMPLE_TOKENS.Contains(sourceChar))
                 {
                     token = GetSimpleToken();
+                }
+                else if (Constant.LOGICAL_OPER.Contains(sourceChar))
+                {
+                    token = GetLogicalOper();
                 }
 
                 SkipBlanks();
@@ -141,54 +145,96 @@ namespace LeoLib
             }
         }
 
+        private Token GetLogicalOper()
+        {
+            TokenType type = TokenType.UNKNOWN;
+
+            char firstChar = GetChar();
+            char secondChar = GetNextChar();
+
+            switch (firstChar)
+            {
+                case '<':
+                    type = TokenType.LT;
+                    break;
+                case '>':
+                    type = TokenType.GT;
+                    break;
+                case '!':
+                    type = TokenType.NOT;
+                    break;
+            }
+
+            if (secondChar == '=')
+            {
+                switch(type)
+                {
+                    case TokenType.LT:
+                        type = TokenType.LE;
+                        break;
+                    case TokenType.GT:
+                        type = TokenType.GE;
+                        break;
+                    case TokenType.NOT:
+                        type = TokenType.NE;
+                        break;
+                }
+
+                MoveNextChar();
+            }
+
+
+            return (new Token(type));
+        }
+
         private Token GetSimpleToken()
         {
-            TokenSimpleType simpleType = TokenSimpleType.UNKNOWN;
+            TokenType type = TokenType.UNKNOWN;
             char simpleToken = GetChar();
 
             switch(simpleToken)
             {
                 case '^':
-                    simpleType = TokenSimpleType.POWER;
+                    type = TokenType.POWER;
                     break;
                 case '%':
-                    simpleType = TokenSimpleType.MODULUS;
+                    type = TokenType.MODULUS;
                     break;
                 case '+':
-                    simpleType = TokenSimpleType.PLUS;
+                    type = TokenType.PLUS;
                     break;
                 case '-':
-                    simpleType = TokenSimpleType.MINUS;
+                    type = TokenType.MINUS;
                     break;
                 case '*':
-                    simpleType = TokenSimpleType.MULTIPLY;
+                    type = TokenType.MULTIPLY;
                     break;
                 case '/':
-                    simpleType = TokenSimpleType.DIVIDE;
+                    type = TokenType.DIVIDE;
                     break;
                 case ',':
-                    simpleType = TokenSimpleType.EXP_SEPARATOR;
+                    type = TokenType.EXP_SEPARATOR;
                     break;
                 case ';':
-                    simpleType = TokenSimpleType.EOS;
+                    type = TokenType.EOS;
                     break;
                 case '(':
-                    simpleType = TokenSimpleType.LEFT_PAREN;
+                    type = TokenType.LEFT_PAREN;
                     break;
                 case ')':
-                    simpleType = TokenSimpleType.RIGHT_PAREN;
+                    type = TokenType.RIGHT_PAREN;
                     break;
                 case '=':
-                    simpleType = TokenSimpleType.ASSIGN;
+                    type = TokenType.ASSIGN;
                     break;
             }
 
             MoveNextChar();
 
-            return (new Token(simpleType));
+            return (new Token(type));
         }
 
-        private Token GetString()
+        private Token GetString(char stringStart)
         {
             string strg = "";
 
@@ -196,7 +242,7 @@ namespace LeoLib
 
             char sourceChar = GetChar();
 
-            while (!IsEof() && !IsChar(Constant.STRING_CHARACTER))
+            while (!IsEof() && !IsChar(stringStart))
             {
                 strg += sourceChar;
 
@@ -214,7 +260,7 @@ namespace LeoLib
 
             char sourceChar = GetChar();
 
-            while (!IsEof() && Char.IsLetterOrDigit(sourceChar))
+            while (!IsEof() && ((Char.IsLetterOrDigit(sourceChar)) || (sourceChar == '_')))
             {
                 keyword += sourceChar;
 
@@ -249,6 +295,14 @@ namespace LeoLib
             return (token);
         }
 
+        /// <summary>
+        /// GetInteger() - Returns an integer constant as a Number object.  <br/>
+        /// This function reads the integer value one character at a time.  <br/>
+        /// It continues reading until it reaches the end-of-file or the <br/>
+        /// first non-digit.
+        /// </summary>
+        /// 
+        /// <returns>Number Object</returns>
         private Number GetInteger()
         {
             char sourceChar = GetChar();
@@ -285,6 +339,7 @@ namespace LeoLib
         /// source code string.  This function does not check for end-of-file, <br/>
         /// this should be done by the invoking function.
         /// </summary>
+        /// 
         /// <returns>Source Code Character</returns>
         private char GetChar()
         {
@@ -297,6 +352,7 @@ namespace LeoLib
         /// program reaches the end of the source code string, the "eof" flag <br/>
         /// is set.
         /// </summary>
+        /// 
         /// <returns>The next active source code character</returns>
         private char GetNextChar()
         {

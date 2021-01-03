@@ -86,9 +86,12 @@ namespace LeoLib.game.model.objects
 
     public class Sprite : Asset
     {
+        public string Face { get; set; } = null;
         private Texture texture1;
 
         private Texture texture2;
+
+
 
         public Sprite(string face)
             : base(new MeshSprite())
@@ -96,11 +99,12 @@ namespace LeoLib.game.model.objects
             //texture1 = new Texture(Constant.RESOURCE + "face.png");
             //texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
 
-            texture1 = new Texture(Constant.RESOURCE + face);
+            Face = face;
         }
 
         public override void AssignTextures()
         {
+            texture1 = new Texture(Constant.RESOURCE + Face);
             texture1.Use(TextureUnit.Texture0);
             //texture2.Use(TextureUnit.Texture1);
         }

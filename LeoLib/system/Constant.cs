@@ -10,9 +10,11 @@ namespace LeoLib.script
         //--------------------------
         public const char EOS = ';';
         public const char EXP_SEPARATOR = ',';
-        public const char STRING_CHARACTER = '"';
+        public const char STRING_DOUBLE_QUOTE = '"';
+        public const char STRING_SINGLE_QUOTE = '\'';
         public const char FRACTIONAL_DOT = '.';
         public const string SIMPLE_TOKENS = "^%+-*/,;()=";
+        public const string LOGICAL_OPER = "<>!";
 
         // True or False Constants
         //------------------------

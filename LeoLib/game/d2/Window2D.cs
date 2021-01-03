@@ -7,6 +7,8 @@ using OpenTK.Windowing.Desktop;
 using LeoLib.game.model.objects;
 using LeoLib.script;
 using LeoLib.game.d2;
+using LeoLib.game.model.asset.action;
+using LeoLib.game.model.asset;
 
 namespace LeoLib.game
 {
@@ -22,47 +24,36 @@ namespace LeoLib.game
 
         private Vector2 lastPos;
 
-        private Scene2D scene = null;
+        private Scene2D Scene { get; set; } = null;
 
-        public Window2D(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
+        private EventContext eventContext { get; set; } = null;
+
+        public Window2D(Scene2D scene, GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
-            scene = new Scene2D();
+            Scene = scene;
+
+            eventContext = new EventContext();
         }
 
 
         protected override void OnLoad()
         {
+            //Color4 bg = Color4.BlueViolet;
+            //GL.ClearColor(bg);
+            //GL.ClearColor()
+
             GL.ClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 
             GL.Enable(EnableCap.DepthTest);
 
-            //sprite = new Sprite();
-            //sprite.OnLoad();
-
-            scene.Add(new Sprite("face.png"));
-
-            Sprite ss1 = new Sprite("container.png");
-            ss1.Translate(1.0f, 0.0f, 0.0f);
-            scene.Add(ss1);
-            
-            Sprite ss2 = new Sprite("awesomeface.png");
-            ss2.Translate(2.0f, 0.0f, 0.0f);
-            scene.Add(ss2);
-
-            Sprite ss3 = new Sprite("container2.png");
-            ss3.Translate(3.0f, 0.0f, 0.0f);
-            scene.Add(ss3);
-
-            Sprite ss4 = new Sprite("face.png");
-            ss4.Translate(4.0f, 0.0f, 0.0f);
-            scene.Add(ss4);
+            CursorGrabbed = true;
 
             shader = new Shader(Constant.SHADER_VERT, Constant.SHADER_FRAG);
            
             camera = new Camera(Vector3.UnitZ * 5.0f, Size.X / (float) Size.Y);
 
-            CursorGrabbed = true;
+            Scene.Construct();
 
             base.OnLoad();
         }
@@ -73,9 +64,13 @@ namespace LeoLib.game
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            scene.Update(deltaTime); 
+            eventContext.DeltaTime = deltaTime;
 
-            scene.Render(camera, shader);
+            Scene.Update(deltaTime);
+
+            Scene.Check(eventContext);
+
+            Scene.Render(camera, shader);
 
             SwapBuffers();
 
@@ -176,7 +171,7 @@ namespace LeoLib.game
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 
-            scene.OnUnLoad();
+            Scene.OnUnLoad();
 
             GL.DeleteProgram(shader.handle);
             //GL.DeleteTexture(texture1.handle);

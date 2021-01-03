@@ -1,14 +1,10 @@
-﻿using LeoLib.scipt.token;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace LeoLib.script
 {
     public class Token
     {
         private TokenType type = TokenType.UNKNOWN;
-        private TokenSimpleType simpleType = TokenSimpleType.UNKNOWN;
 
         private int ivalue = 0;
         private float fvalue = 0.0f;
@@ -27,13 +23,6 @@ namespace LeoLib.script
         public Token(TokenType type)
         {
             this.type = type;
-        }
-
-        public Token(TokenSimpleType simpleType)
-        {
-            this.type = TokenType.SIMPLE_TOKEN;
-
-            this.simpleType = simpleType;
         }
 
         public Token(string svalue, TokenType type)
@@ -72,29 +61,33 @@ namespace LeoLib.script
         {
             int value = -1;
 
-            if (IsSimpleToken())
+            switch(type)
             {
-                switch(simpleType)
-                {
-                    case TokenSimpleType.POWER:
-                    case TokenSimpleType.MODULUS:
-                        value = 30;
-                        break;
-                    case TokenSimpleType.DIVIDE:
-                    case TokenSimpleType.MULTIPLY:
-                        value = 20;
-                        break;
-                    case TokenSimpleType.MINUS:
-                    case TokenSimpleType.PLUS:
-                        value = 10;
-                        break;
-                    case TokenSimpleType.LEFT_PAREN:
-                        value = 1;
-                        break;
-                    case TokenSimpleType.BOTTOM_EXP_STACK:
-                        value = 0;
-                        break;
-                }
+                case TokenType.POWER:
+                case TokenType.MODULUS:
+                    value = 30;
+                    break;
+                case TokenType.DIVIDE:
+                case TokenType.MULTIPLY:
+                    value = 20;
+                    break;
+                case TokenType.MINUS:
+                case TokenType.PLUS:
+                    value = 10;
+                    break;
+                case TokenType.LT:
+                case TokenType.LE:
+                case TokenType.GT:
+                case TokenType.GE:
+                case TokenType.NE:
+                    value = 5;
+                    break;
+                case TokenType.LEFT_PAREN:
+                    value = 1;
+                    break;
+                case TokenType.BOTTOM_EXP_STACK:
+                    value = 0;
+                    break;
             }
 
             return (value);
@@ -108,21 +101,28 @@ namespace LeoLib.script
         {
             bool oper = false;
 
-            if (IsSimpleToken())
+            switch (type)
             {
-                switch (simpleType)
-                {
-                    case TokenSimpleType.DIVIDE:
-                    case TokenSimpleType.MULTIPLY:
-                    case TokenSimpleType.MINUS:
-                    case TokenSimpleType.PLUS:
-                    case TokenSimpleType.POWER:
-                    case TokenSimpleType.MODULUS:
-                        oper = true;
-                        break;
-                }
-            }
+                // Logical Binary Operators
+                //-------------------------
+                case TokenType.LT:
+                case TokenType.LE:
+                case TokenType.GT:
+                case TokenType.GE:
+                case TokenType.NE:
 
+                // Binary Operators
+                //-----------------
+                case TokenType.DIVIDE:
+                case TokenType.MULTIPLY:
+                case TokenType.MINUS:
+                case TokenType.PLUS:
+                case TokenType.POWER:
+                case TokenType.MODULUS:
+                    oper = true;
+                    break;
+            }
+            
             return (oper);
         }
 
@@ -146,51 +146,41 @@ namespace LeoLib.script
         /// <returns>true/false</returns>
         public bool IsEos()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.EOS));
+            return (type == TokenType.EOS);
         }
 
         public bool IsAssign()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.ASSIGN));
+            return (type == TokenType.ASSIGN);
         }
 
         public bool IsSeparator()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.EXP_SEPARATOR));
-        }
-
-        public bool IsSimpleToken()
-        {
-            return (type == TokenType.SIMPLE_TOKEN);
+            return (type == TokenType.EXP_SEPARATOR);
         }
 
         public bool IsLeftParen()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.LEFT_PAREN));
+            return (type == TokenType.LEFT_PAREN);
         }
 
         public bool IsRightParen()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.RIGHT_PAREN));
+            return (type == TokenType.RIGHT_PAREN);
         }
 
         public bool IsBottomOfOperStack()
         {
-            return ((type == TokenType.SIMPLE_TOKEN) && (simpleType == TokenSimpleType.BOTTOM_EXP_STACK));
+            return (type == TokenType.BOTTOM_EXP_STACK);
         }
 
         /*********************/
         /*** Get Functions ***/
         /*********************/
 
-        public TokenType GetTokenType()
+        public TokenType GetDataType()
         {
             return (type);
-        }
-
-        public TokenSimpleType GetSimpleType()
-        {
-            return (simpleType);
         }
 
         public float GetFloat()
@@ -225,9 +215,6 @@ namespace LeoLib.script
                 case TokenType.KEYWORD:
                 case TokenType.STRING:
                     Console.WriteLine("Value (" + type.ToString() + "): " + svalue);
-                    break;
-                case TokenType.SIMPLE_TOKEN:
-                    Console.WriteLine("Value (SIMPLE): " + simpleType);
                     break;
                 case TokenType.BOOLEAN:
                     Console.WriteLine("Value (BOOLEAN): " + bvalue);

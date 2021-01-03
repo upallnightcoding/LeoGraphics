@@ -1,5 +1,7 @@
-﻿using LeoLib;
+﻿using Client;
+using LeoLib;
 using LeoLib.game;
+using LeoLib.game.d2;
 using LeoLib.scipt;
 using System;
 
@@ -11,9 +13,9 @@ namespace Leo
         {
             //TestGame01();
 
-            //TestGame2d_01();
+            TestGame2d_01();
 
-            TestParser01();
+            //TestParser01();
         }
 
         static void TestGame01()
@@ -23,7 +25,10 @@ namespace Leo
 
         static void TestGame2d_01()
         {
-            Game2D game = new Game2D("Leo Client ...");
+            Scene2D scene = TestCase.SpinFaceTest();
+            //Scene2D scene = TestCase.SpinStateTest();
+
+            Game2D game = new Game2D("Leo Client ...", scene);
         }
 
 
@@ -64,6 +69,15 @@ namespace Leo
 
             string[] source = new string[] {
                 "program;",
+                "  print 1 > 3, \" \", 1 < 3;",
+                "  print 1.0 > 3, \" \", 1 < 3.5;",
+                "  integer a = 1, b = 2, c = 45+2;",
+                "  print a*5 > 3, \" \", 1*10 < 3;",
+                "  float x = 1.5, y = 2.5, z = 45+2;",
+                "  print a, ' ', b, ' ', c;",
+                "  print a, ' ', b, ' ', c;",
+                "  print x, ' ', y, ' ', z;",
+                "  print (a + b) * c, ' ', c % 2;",
                 "  print 11 + 2, \" \", 3 % 2;",
                 "  print 11 - 2, \" \", 3 - 12;",
                 "  print 11 * 2, \" \", 3 * 12;",

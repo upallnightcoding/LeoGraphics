@@ -21,7 +21,7 @@ namespace LeoLib.script.execute
 
         public ProgNodeValue(Token token)
         { 
-            switch(token.GetTokenType())
+            switch(token.GetDataType())
             {
                 case TokenType.INTEGER:
                     Type = ProgNodeValueType.INTEGER;

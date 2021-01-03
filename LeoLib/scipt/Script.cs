@@ -1,10 +1,7 @@
 ﻿using LeoLib.game;
-using LeoLib.scipt.command;
 using LeoLib.scipt.execute;
-using LeoLib.scipt.token;
 using LeoLib.script;
 using LeoLib.script.execute;
-using System;
 using System.Collections.Generic;
 
 namespace LeoLib.scipt
@@ -104,7 +101,7 @@ namespace LeoLib.scipt
             Stack<Token> operStack = new Stack<Token>();
             Stack<ProgNode> varStack = new Stack<ProgNode>();
 
-            operStack.Push(new Token(TokenSimpleType.BOTTOM_EXP_STACK));
+            operStack.Push(new Token(TokenType.BOTTOM_EXP_STACK));
 
             Token token = parser.GetToken();
 
@@ -186,27 +183,34 @@ namespace LeoLib.scipt
             ProgNode right = varStack.Pop();
             ProgNode left = varStack.Pop();
 
-            Token oper = operStack.Pop();
+            TokenType type = operStack.Pop().GetDataType();
 
-            switch (oper.GetSimpleType())
+            switch (type)
             {
-                case TokenSimpleType.PLUS:
+                case TokenType.PLUS:
                     node = new ProgNodePlus(left, right);
                     break;
-                case TokenSimpleType.MULTIPLY:
+                case TokenType.MULTIPLY:
                     node = new ProgNodeMultiply(left, right);
                     break;
-                case TokenSimpleType.MINUS:
+                case TokenType.MINUS:
                     node = new ProgNodeMinus(left, right);
                     break;
-                case TokenSimpleType.DIVIDE:
+                case TokenType.DIVIDE:
                     node = new ProgNodeDivide(left, right);
                     break;
-                case TokenSimpleType.POWER:
+                case TokenType.POWER:
                     node = new ProgNodePower(left, right);
                     break;
-                case TokenSimpleType.MODULUS:
+                case TokenType.MODULUS:
                     node = new ProgNodeMod(left, right);
+                    break;
+                case TokenType.LT:
+                case TokenType.LE:
+                case TokenType.GT:
+                case TokenType.GE:
+                case TokenType.NE:
+                    node = new ProgNodeLogicalOper(type, left, right);
                     break;
             }
 

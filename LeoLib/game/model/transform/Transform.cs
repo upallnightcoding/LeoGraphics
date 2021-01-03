@@ -11,12 +11,20 @@ namespace LeoLib
         private Rotate rotate;
         private Translate translate;
 
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
+
         public Transform()
         {
             scale = new Scale();
             rotate = new Rotate();
             translate = new Translate();
         }
+
+        /************************/
+        /*** Public Functions ***/
+        /************************/
 
         public void Rotate(float x, float y, float z)
         {
@@ -37,6 +45,13 @@ namespace LeoLib
             scale.X = x;
             scale.Y = y;
             scale.Z = z;
+        }
+
+        public void Add(Rotate rotate, float deltaTime)
+        {
+            this.rotate.X += rotate.X * deltaTime;
+            this.rotate.Y += rotate.Y * deltaTime;
+            this.rotate.Z += rotate.Z * deltaTime;
         }
 
         public Matrix4 GetModel()

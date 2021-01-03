@@ -1,8 +1,5 @@
 ﻿using LeoLib.game.model.asset;
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LeoLib
 {
@@ -12,7 +9,7 @@ namespace LeoLib
 
         private Mesh mesh = null;
 
-        private float r = 0.0f;
+        private Behavior bahavior = null;
 
         /*******************/
         /*** Constructor ***/
@@ -21,9 +18,14 @@ namespace LeoLib
         public Asset(Mesh mesh)
         {
             this.transform = new Transform();
+            this.bahavior = new Behavior();
 
             this.mesh = mesh;
         }
+
+        /**************************/
+        /*** Abstract Functions ***/
+        /**************************/
 
         public abstract void AssignTextures();
 
@@ -35,12 +37,37 @@ namespace LeoLib
 
         public void Update(float deltaTime)
         {
-            r += deltaTime;
-            Rotate(0.0f, 0.0f, 360*r);
-            //Translate(deltaTime / 100, 0.0f, 0.0f);
-            //Scale(deltaTime / 1000, 1.0f, 1.0f);
+            bahavior.Update(deltaTime, transform);
         }
 
+        public void Add(Action action)
+        {
+            bahavior.Add(new State("Start", action));
+        }
+
+        public void Add(State state)
+        {
+            bahavior.Add(state);
+        }
+
+        /// <summary>
+        /// Check() - Checks the behavior states of the current asset.  This <br/>
+        /// function allows the asset to traverse from one state to another.  <br/>
+        /// The "context" object contains the current context of the render <br/>
+        /// loop.
+        /// </summary>
+        /// 
+        /// <param name="context"></param>
+        public void Check(EventContext context)
+        {
+            bahavior.Check(context);
+        }
+
+        /// <summary>
+        /// Construct() - Builds the mesh that is associated with the asset.  <br/>
+        /// This is done by setting up the vbo, vao and possible ebo.  <br/>
+        /// This also includes the binding and unbinding of all buffers.
+        /// </summary>
         public void Construct()
         {
             mesh.Contruct();
@@ -49,7 +76,6 @@ namespace LeoLib
         public void Render()
         {
             AssignTextures();
-            //BindVao();
             mesh.Render();
         }
 
@@ -68,12 +94,17 @@ namespace LeoLib
         /*** Private Functions ***/
         /*************************/
 
+        /// <summary>
+        /// BindVao() - Binds the VAO of the mesh.  This is used during the <br/>
+        /// execution of the shader that is associated with the asset.  <br/>
+        /// Only one shader can be associated with a asset.
+        /// </summary>
         public void BindVao()
         {
             mesh.BindVao();
         }
 
-        private void Rotate(float x, float y, float z)
+        /*private void Rotate(float x, float y, float z)
         {
             transform.Rotate(x, y, z);
         }
@@ -86,6 +117,6 @@ namespace LeoLib
         private void Scale(float x, float y, float z)
         {
             transform.Scale(x, y, z);
-        }
+        }*/
     }
 }
