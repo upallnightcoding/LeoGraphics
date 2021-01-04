@@ -2,7 +2,7 @@
 
 namespace LeoLib.game.model.asset
 {
-    class Behavior
+    public class Behavior
     {
         private Dictionary<string, State> behavior = null;
         private State activeState = null;

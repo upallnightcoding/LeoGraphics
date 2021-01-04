@@ -9,5 +9,10 @@ namespace LeoLib.game.model.asset
         public string NextState { get; set; } = null;
 
         public abstract bool Check(EventContext context);
+
+        public Event(string aNextState)
+        {
+            NextState = aNextState;
+        }
     }
 }

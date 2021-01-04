@@ -9,18 +9,22 @@ namespace LeoLib
 
         private Mesh mesh = null;
 
-        private Behavior bahavior = null;
+        private Behavior behavior = null;
 
         /*******************/
         /*** Constructor ***/
         /*******************/
 
-        public Asset(Mesh mesh)
+        public Asset(Mesh mesh) : this(mesh, null)
+        {
+        }
+
+        public Asset(Mesh mesh, Behavior behavior)
         {
             this.transform = new Transform();
-            this.bahavior = new Behavior();
-
             this.mesh = mesh;
+
+            Add(behavior);
         }
 
         /**************************/
@@ -37,17 +41,18 @@ namespace LeoLib
 
         public void Update(float deltaTime)
         {
-            bahavior.Update(deltaTime, transform);
+            if (behavior != null)
+            {
+                behavior.Update(deltaTime, transform);
+            }
         }
 
-        public void Add(Action action)
+        public void Add(Behavior behavior)
         {
-            bahavior.Add(new State("Start", action));
-        }
-
-        public void Add(State state)
-        {
-            bahavior.Add(state);
+            if (behavior != null)
+            {
+                this.behavior = behavior;
+            }
         }
 
         /// <summary>
@@ -60,7 +65,7 @@ namespace LeoLib
         /// <param name="context"></param>
         public void Check(EventContext context)
         {
-            bahavior.Check(context);
+            behavior.Check(context);
         }
 
         /// <summary>
@@ -103,20 +108,5 @@ namespace LeoLib
         {
             mesh.BindVao();
         }
-
-        /*private void Rotate(float x, float y, float z)
-        {
-            transform.Rotate(x, y, z);
-        }
-
-        public void Translate(float x, float y, float z)
-        {
-            transform.Translate(x, y, z);
-        }
-
-        private void Scale(float x, float y, float z)
-        {
-            transform.Scale(x, y, z);
-        }*/
     }
 }

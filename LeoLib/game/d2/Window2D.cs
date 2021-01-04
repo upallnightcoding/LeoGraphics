@@ -39,11 +39,7 @@ namespace LeoLib.game
 
         protected override void OnLoad()
         {
-            //Color4 bg = Color4.BlueViolet;
-            //GL.ClearColor(bg);
-            //GL.ClearColor()
-
-            GL.ClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+            GL.ClearColor(eventContext.Bg);
 
             GL.Enable(EnableCap.DepthTest);
 
@@ -58,9 +54,9 @@ namespace LeoLib.game
             base.OnLoad();
         }
 
-        protected override void OnRenderFrame(FrameEventArgs e)
+        protected override void OnRenderFrame(FrameEventArgs eventArgs)
         {
-            float deltaTime = (float) e.Time;
+            float deltaTime = (float) eventArgs.Time;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -74,10 +70,25 @@ namespace LeoLib.game
 
             SwapBuffers();
 
-            base.OnRenderFrame(e);
+            base.OnRenderFrame(eventArgs);
         }
 
-        protected override void OnUpdateFrame(FrameEventArgs e)
+        protected override void OnUpdateFrame(FrameEventArgs eventArgs)
+        {
+            if (IsFocused) 
+            {
+                eventContext.Input = KeyboardState;
+
+                if (eventContext.Input.IsKeyDown(Keys.Escape))
+                {
+                    Close();
+                }
+            }
+
+            base.OnUpdateFrame(eventArgs);
+        }
+
+        protected void xOnUpdateFrame(FrameEventArgs e)
         {
             if (!IsFocused) // check to see if the window is focused
             {

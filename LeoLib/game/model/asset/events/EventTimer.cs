@@ -10,9 +10,8 @@ namespace LeoLib.game.model.asset
 
         private float accumulate = 0.0f;
 
-        public EventTimer(string nextState, float sleepTimeSec)
+        public EventTimer(string nextState, float sleepTimeSec) : base(nextState)
         {
-            NextState = nextState;
             SleepTimeSec = sleepTimeSec;
         }
 
@@ -21,7 +20,6 @@ namespace LeoLib.game.model.asset
             accumulate += context.DeltaTime;
 
             bool halt = accumulate > SleepTimeSec;
-            Console.WriteLine(halt + ":" + accumulate + ":" + SleepTimeSec);
 
             if (halt)
             {

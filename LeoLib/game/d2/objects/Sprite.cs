@@ -86,25 +86,40 @@ namespace LeoLib.game.model.objects
 
     public class Sprite : Asset
     {
-        public string Face { get; set; } = null;
+        public string ImagePath { get; set; } = null;
         private Texture texture1;
 
         private Texture texture2;
 
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
 
-
-        public Sprite(string face)
+        public Sprite(string imagePath)
             : base(new MeshSprite())
         {
             //texture1 = new Texture(Constant.RESOURCE + "face.png");
             //texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
 
-            Face = face;
+            ImagePath = imagePath;
         }
+
+        public Sprite(string imagePath, Behavior behavior)
+            : base(new MeshSprite(), behavior)
+        {
+            //texture1 = new Texture(Constant.RESOURCE + "face.png");
+            //texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
+
+            ImagePath = imagePath;
+        }
+
+        /**************************/
+        /*** Override Functions ***/
+        /**************************/
 
         public override void AssignTextures()
         {
-            texture1 = new Texture(Constant.RESOURCE + Face);
+            texture1 = new Texture(Constant.RESOURCE + ImagePath);
             texture1.Use(TextureUnit.Texture0);
             //texture2.Use(TextureUnit.Texture1);
         }
