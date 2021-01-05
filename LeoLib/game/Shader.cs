@@ -76,17 +76,6 @@ namespace LeoLib
             SetUniform("model", sprite.GetModel());
         }
 
-        /*public void LinkDataWithShader()
-        {
-            var vertexLocation = GetAttribLocation(Constant.SHADER_POSITION);
-            GL.EnableVertexAttribArray(vertexLocation);
-            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-
-            var texCoordLocation = GetAttribLocation(Constant.SHADER_TEXCOORD);
-            GL.EnableVertexAttribArray(texCoordLocation);
-            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
-        }*/
-
         public int GetAttribLocation(string attribName)
         {
             return GL.GetAttribLocation(handle, attribName);

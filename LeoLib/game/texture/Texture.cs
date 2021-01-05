@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using LeoLib.game.texture;
+using OpenTK.Graphics.OpenGL4;
 using System.Drawing;
 using System.Drawing.Imaging;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
@@ -7,7 +8,11 @@ namespace LeoLib
 {
     public class Texture
     {
-        public readonly int handle;
+        public int Handle { get; set; } = 0;
+
+        public TextureData Data { get; } = null;
+
+        private BitmapData imageData = null;
 
         /*******************/
         /*** Constructor ***/
@@ -15,9 +20,9 @@ namespace LeoLib
 
         public Texture(string path)
         {
-            handle = GL.GenTexture();
+            Handle = GL.GenTexture();
 
-            GL.BindTexture(TextureTarget.Texture2D, handle);
+            GL.BindTexture(TextureTarget.Texture2D, Handle);
 
             using (var image = new Bitmap(path))
             {
@@ -29,10 +34,12 @@ namespace LeoLib
                 //   we only need ReadOnly.
                 //   Next is the pixel format we want our pixels to be in. In this case, ARGB will suffice.
                 //   We have to fully qualify the name because OpenTK also has an enum named PixelFormat.
-                var data = image.LockBits(
+                imageData = image.LockBits(
                     new Rectangle(0, 0, image.Width, image.Height),
                     ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                Data = new TextureData(image.Width, image.Height);
 
                 // Now that our pixels are prepared, it's time to generate a texture. We do this with GL.TexImage2D
                 // Arguments:
@@ -53,7 +60,7 @@ namespace LeoLib
                     0,
                     PixelFormat.Bgra,
                     PixelType.UnsignedByte,
-                    data.Scan0);
+                    imageData.Scan0);
             }
 
             // Now that our texture is loaded, we can set a few settings to affect how the image appears on rendering.
@@ -82,7 +89,18 @@ namespace LeoLib
         public void Use(TextureUnit unit = TextureUnit.Texture0)
         {
             GL.ActiveTexture(unit);
-            GL.BindTexture(TextureTarget.Texture2D, handle);
+            GL.BindTexture(TextureTarget.Texture2D, Handle);
+
+            GL.TexImage2D(
+                TextureTarget.Texture2D,
+                0,
+                0,
+                0,
+                Data.Width,
+                Data.Height,
+                PixelFormat.Bgra,
+                PixelType.UnsignedByte,
+                imageData.Scan0);
         }
     }
 }

@@ -17,11 +17,17 @@ namespace Client
 
         public static Scene2D SpinFaceTest()
         {
-            Behavior behavior = new Behavior();
-            //behavior.Add(new ActionSpin(0.0f, 0.0f, (float)(360.0f * Math.PI / 180.0)));
+            const string SPIN_STATE = "Spin";
+            const float delta = (float)(-360.0f * Math.PI / 180.0);
 
-            Sprite sprite = new Sprite(FACE_IMAGE);
-            //sprite.Add();
+            State spinState = new State(SPIN_STATE);
+            spinState.Add(new ActionSpin(0.0f, 0.0f, -delta * 0.1f));
+
+            Behavior behavior = new Behavior();
+            behavior.Add(spinState);
+
+            //Sprite sprite = new Sprite(FACE_IMAGE, behavior);
+            Sprite sprite = new Sprite(LEVEL1_IMAGE);
 
             Scene2D scene = new Scene2D();
             scene.Add(sprite);
@@ -75,11 +81,44 @@ namespace Client
             behavior.Add(spinCWState);
             behavior.Add(spinCCWState);
 
-            Sprite sprite = new Sprite(LEVEL1_IMAGE);
+            Sprite sprite = new Sprite(FACE_IMAGE);
             sprite.Add(behavior);
 
             Scene2D scene = new Scene2D();
             scene.Add(sprite);
+
+            return (scene);
+        }
+
+        public static Scene2D FlipBookTest()
+        {
+            const string IDLE00_IMAGE = "animation/idleimages/Idle__000.png";
+            const string IDLE01_IMAGE = "animation/idleimages/Idle__001.png";
+            const string IDLE02_IMAGE = "animation/idleimages/Idle__002.png";
+            const string IDLE03_IMAGE = "animation/idleimages/Idle__003.png";
+            const string IDLE04_IMAGE = "animation/idleimages/Idle__004.png";
+            const string IDLE05_IMAGE = "animation/idleimages/Idle__005.png";
+            const string IDLE06_IMAGE = "animation/idleimages/Idle__006.png";
+            const string IDLE07_IMAGE = "animation/idleimages/Idle__007.png";
+            const string IDLE08_IMAGE = "animation/idleimages/Idle__008.png";
+            const string IDLE09_IMAGE = "animation/idleimages/Idle__009.png";
+
+            FlipBook fb = new FlipBook();
+            fb.Add(IDLE00_IMAGE);
+            fb.Add(IDLE01_IMAGE);
+            fb.Add(IDLE02_IMAGE);
+            fb.Add(IDLE03_IMAGE);
+            fb.Add(IDLE04_IMAGE);
+            fb.Add(IDLE05_IMAGE);
+            fb.Add(IDLE06_IMAGE);
+            fb.Add(IDLE07_IMAGE);
+            fb.Add(IDLE08_IMAGE);
+            fb.Add(IDLE09_IMAGE);
+
+            Sprite sprite = new Sprite(fb, null);
+
+            Scene2D scene = new Scene2D();
+            scene.Add(new Sprite(fb, null));
 
             return (scene);
         }

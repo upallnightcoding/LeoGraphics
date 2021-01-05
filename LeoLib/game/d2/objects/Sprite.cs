@@ -1,6 +1,7 @@
 ﻿using LeoLib.game.model.asset;
 using OpenTK.Graphics.OpenGL4;
 using LeoLib.script;
+using System;
 
 namespace LeoLib.game.model.objects
 {
@@ -86,31 +87,27 @@ namespace LeoLib.game.model.objects
 
     public class Sprite : Asset
     {
-        public string ImagePath { get; set; } = null;
-        private Texture texture1;
-
-        private Texture texture2;
+        private FlipBook flipBook = null;
 
         /*******************/
         /*** Constructor ***/
         /*******************/
 
-        public Sprite(string imagePath)
-            : base(new MeshSprite())
+        public Sprite(string imagePath) : this(imagePath, null)
         {
-            //texture1 = new Texture(Constant.RESOURCE + "face.png");
-            //texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
-
-            ImagePath = imagePath;
+            
         }
 
         public Sprite(string imagePath, Behavior behavior)
             : base(new MeshSprite(), behavior)
         {
-            //texture1 = new Texture(Constant.RESOURCE + "face.png");
-            //texture2 = new Texture(Constant.RESOURCE + "awesomeface.png");
+            this.flipBook = new FlipBook(imagePath);
+        }
 
-            ImagePath = imagePath;
+        public Sprite(FlipBook flipBook, Behavior behavior)
+            : base(new MeshSprite(), behavior) 
+        {
+            this.flipBook = flipBook;
         }
 
         /**************************/
@@ -119,15 +116,21 @@ namespace LeoLib.game.model.objects
 
         public override void AssignTextures()
         {
-            texture1 = new Texture(Constant.RESOURCE + ImagePath);
-            texture1.Use(TextureUnit.Texture0);
-            //texture2.Use(TextureUnit.Texture1);
+            flipBook.AssignTextures();
         }
 
         public override void DeleteTextures()
         {
-            GL.DeleteTexture(texture1.handle);
-            //GL.DeleteTexture(texture2.handle);
+            flipBook.DeleteTextures();
+        }
+
+        public override void CreateTextures()
+        {
+            AssetImageScale(flipBook.CreateTextures());
+
+            const float delta = (float)(-90.0f * Math.PI / 180.0);
+
+            //Rotate(0.0f, delta, 0.0f);
         }
     }
 }

@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="resources\animation\idle\**" />
+    <EmbeddedResource Remove="resources\animation\idle\**" />
+    <None Remove="resources\animation\idle\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LeoLib\LeoLib.csproj" />
   </ItemGroup>
 

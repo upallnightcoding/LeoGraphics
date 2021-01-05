@@ -47,11 +47,11 @@ namespace LeoLib
             scale.Z = z;
         }
 
-        public void Add(Rotate rotate, float deltaTime)
+        public void Add(Rotate speed, float deltaTime)
         {
-            this.rotate.X += rotate.X * deltaTime;
-            this.rotate.Y += rotate.Y * deltaTime;
-            this.rotate.Z += rotate.Z * deltaTime;
+            rotate.X += speed.X * deltaTime;
+            rotate.Y += speed.Y * deltaTime;
+            rotate.Z += speed.Z * deltaTime;
         }
 
         public Matrix4 GetModel()
@@ -60,7 +60,7 @@ namespace LeoLib
             Matrix4 translation = translate.GetTranslation();
             Matrix4 scaling = scale.GetScale();
 
-            return (Matrix4.Identity * rotation * translation * scaling);
+            return (Matrix4.Identity * scaling * rotation * translation);
         }
     }
 }

@@ -25,9 +25,11 @@ namespace Leo
 
         static void TestGame2d_01()
         {
-            //Scene2D scene = TestCase.SpinFaceTest();
+            Scene2D scene = TestCase.SpinFaceTest();
             //Scene2D scene = TestCase.SpinStateTest();
-            Scene2D scene = TestCase.SpinStateKeyBoardTest();
+            //Scene2D scene = TestCase.SpinStateKeyBoardTest();
+            //Scene2D scene = TestCase.StillTest();
+            //Scene2D scene = TestCase.FlipBookTest();
 
             Game2D game = new Game2D("Leo Client ...", scene);
         }

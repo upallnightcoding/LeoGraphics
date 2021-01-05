@@ -1,4 +1,5 @@
 ﻿using LeoLib.game.model.asset;
+using LeoLib.game.texture;
 using OpenTK.Mathematics;
 
 namespace LeoLib
@@ -35,6 +36,8 @@ namespace LeoLib
 
         public abstract void DeleteTextures();
 
+        public abstract void CreateTextures();
+
         /************************/
         /*** Public Functions ***/
         /************************/
@@ -65,7 +68,9 @@ namespace LeoLib
         /// <param name="context"></param>
         public void Check(EventContext context)
         {
-            behavior.Check(context);
+            if (behavior != null) { 
+                behavior.Check(context);
+            }
         }
 
         /// <summary>
@@ -75,6 +80,7 @@ namespace LeoLib
         /// </summary>
         public void Construct()
         {
+            CreateTextures();
             mesh.Contruct();
         }
 
@@ -93,6 +99,20 @@ namespace LeoLib
         public Matrix4 GetModel()
         {
             return (transform.GetModel());
+        }
+
+        /***************************/
+        /*** Protected Functions ***/
+        /***************************/
+
+        protected void Rotate(float x, float y, float z)
+        {
+            transform.Rotate(x, y, z);
+        }
+
+        protected void AssetImageScale(TextureData data)
+        {
+            transform.Scale(1.0f, data.Scale(), 1.0f);
         }
 
         /*************************/
