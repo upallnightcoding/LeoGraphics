@@ -6,7 +6,7 @@ Scripts is a programming language created for the Leo Graphics Library.  It is u
 
 The language is neither interpreted or compiled, but translated into a in memory tree representation and then executed.  Each command becomes a node in a tree and upon execution the tree is traversed.  
 
-![Example] (./images/ReadMeSlides/Slide1.png)
+<img src="images/ReadMeSlides/Slide1.png" width=250>
 
 Scripts does not leave a foot print.  There are no object files that need linking or dynamic linking libraries.
 
