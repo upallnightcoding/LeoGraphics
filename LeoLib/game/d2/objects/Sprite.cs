@@ -127,10 +127,6 @@ namespace LeoLib.game.model.objects
         public override void CreateTextures()
         {
             AssetImageScale(flipBook.CreateTextures());
-
-            const float delta = (float)(-90.0f * Math.PI / 180.0);
-
-            //Rotate(0.0f, delta, 0.0f);
         }
     }
 }

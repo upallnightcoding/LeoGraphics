@@ -15,19 +15,20 @@ namespace Client
         const string FACE_IMAGE = "face.png";
         const string LEVEL1_IMAGE = "Level1.png";
 
-        public static Scene2D SpinFaceTest()
+        public static Scene2D SpinOffTest()
         {
             const string SPIN_STATE = "Spin";
             const float delta = (float)(-360.0f * Math.PI / 180.0);
 
             State spinState = new State(SPIN_STATE);
             spinState.Add(new ActionSpin(0.0f, 0.0f, -delta * 0.1f));
+            spinState.Add(new ActionTranslate(0.5f, 0.5f, 0.0f));
+            spinState.Add(new ActionScale(0.1f, 0.1f, 0.1f));
 
             Behavior behavior = new Behavior();
             behavior.Add(spinState);
 
-            //Sprite sprite = new Sprite(FACE_IMAGE, behavior);
-            Sprite sprite = new Sprite(LEVEL1_IMAGE);
+            Sprite sprite = new Sprite(LEVEL1_IMAGE, behavior);
 
             Scene2D scene = new Scene2D();
             scene.Add(sprite);

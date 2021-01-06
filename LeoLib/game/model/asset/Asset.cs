@@ -105,10 +105,10 @@ namespace LeoLib
         /*** Protected Functions ***/
         /***************************/
 
-        protected void Rotate(float x, float y, float z)
+        /*protected void Rotate(float x, float y, float z)
         {
             transform.Rotate(x, y, z);
-        }
+        }*/
 
         protected void AssetImageScale(TextureData data)
         {

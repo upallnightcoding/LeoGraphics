@@ -6,9 +6,10 @@ using System.Text;
 namespace LeoLib
 {
     /// <summary>
-    /// This class contains the matrix asset translation capability.  This <br/>
-    /// allows an asset to move from one position to another.  The asset <br/>
-    /// can move freely on all axises, controlled by the caller.
+    /// This class tracks the translation of an asset.  The translation, <br/>
+    /// allows the asset to move from one position to another along the <br/>
+    /// x, y, or z axis.  It is one of the three matrix values that are <br/>
+    /// used to calculate an assets transform.  
     /// </summary>
     public class Translate
     {
@@ -20,6 +21,22 @@ namespace LeoLib
 
         // Z-Axis Translation
         public float Z { get; set; } = 0.0f;
+
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
+
+        public Translate()
+        {
+
+        }
+
+        public Translate(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
 
         /// <summary>
         /// GetTranslation() - Returns the translation matrix of the current <br/>

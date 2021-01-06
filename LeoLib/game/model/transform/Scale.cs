@@ -16,6 +16,22 @@ namespace LeoLib
         // Z-Axis Scaling
         public float Z { get; set; } = 1.0f;
 
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
+
+        public Scale()
+        {
+
+        }
+
+        public Scale(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
         public Matrix4 GetScale()
         {
             return (Matrix4.CreateScale(X, Y, Z));

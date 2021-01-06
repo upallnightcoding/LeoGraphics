@@ -54,6 +54,20 @@ namespace LeoLib
             rotate.Z += speed.Z * deltaTime;
         }
 
+        public void Add(Translate speed, float deltaTime)
+        {
+            translate.X += speed.X * deltaTime;
+            translate.Y += speed.Y * deltaTime;
+            translate.Z += speed.Z * deltaTime;
+        }
+
+        public void Add(Scale speed, float deltaTime)
+        {
+            scale.X += speed.X * deltaTime;
+            scale.Y += speed.Y * deltaTime;
+            scale.Z += speed.Z * deltaTime;
+        }
+
         public Matrix4 GetModel()
         {
             Matrix4 rotation = rotate.GetRotation();
