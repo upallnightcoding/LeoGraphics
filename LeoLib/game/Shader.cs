@@ -71,7 +71,7 @@ namespace LeoLib
             sprite.BindVao();
 
             SetUniform("texture0", 0);  
-            SetUniform("texture1", 1);
+            //SetUniform("texture1", 1);
 
             SetUniform("model", sprite.GetModel());
         }

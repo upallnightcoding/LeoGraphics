@@ -24,22 +24,16 @@ namespace LeoLib
 
             GL.BindTexture(TextureTarget.Texture2D, Handle);
 
-            using (var image = new Bitmap(path))
+            using (var bitmap = new Bitmap(path))
             {
-                // First, we get our pixels from the bitmap we loaded.
-                // Arguments:
-                //   The pixel area we want. Typically, you want to leave it as (0,0) to (width,height), but you can
-                //   use other rectangles to get segments of textures, useful for things such as spritesheets.
-                //   The locking mode. Basically, how you want to use the pixels. Since we're passing them to OpenGL,
-                //   we only need ReadOnly.
-                //   Next is the pixel format we want our pixels to be in. In this case, ARGB will suffice.
-                //   We have to fully qualify the name because OpenTK also has an enum named PixelFormat.
-                imageData = image.LockBits(
-                    new Rectangle(0, 0, image.Width, image.Height),
-                    ImageLockMode.ReadOnly,
-                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                Data = new TextureData(image.Width, image.Height);
+                imageData = bitmap.LockBits(
+                    new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                    ImageLockMode.ReadOnly,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb
+                );
+
+                Data = new TextureData(bitmap.Width, bitmap.Height);
 
                 // Now that our pixels are prepared, it's time to generate a texture. We do this with GL.TexImage2D
                 // Arguments:
@@ -55,10 +49,10 @@ namespace LeoLib
                 GL.TexImage2D(TextureTarget.Texture2D,
                     0,
                     PixelInternalFormat.Rgba,
-                    image.Width,
-                    image.Height,
+                    bitmap.Width,
+                    bitmap.Height,
                     0,
-                    PixelFormat.Bgra,
+                    PixelFormat.Rgba,
                     PixelType.UnsignedByte,
                     imageData.Scan0);
             }
@@ -98,7 +92,7 @@ namespace LeoLib
                 0,
                 Data.Width,
                 Data.Height,
-                PixelFormat.Bgra,
+                PixelFormat.Rgba,
                 PixelType.UnsignedByte,
                 imageData.Scan0);
         }

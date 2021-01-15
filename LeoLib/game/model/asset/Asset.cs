@@ -4,12 +4,23 @@ using OpenTK.Mathematics;
 
 namespace LeoLib
 {
+    /// <summary>
+    /// Class Asset <br/>
+    /// This class represents a generic asset that is to be rendered.  It <br/>
+    /// contains the transform, mesh and behavior of the asset.  The <br/>
+    /// textures that are associated with the asset are managed via a set <br/>
+    /// of abstract functions that create, assign and the delete the texture <br/>
+    /// when the asset is being destroyed.  
+    /// </summary>
     public abstract class Asset
     {
+        // Defines the transform of the asset (Rotation, Translate, Scale)
         private Transform transform = null;
 
+        // Defines the rendering mesh
         private Mesh mesh = null;
 
+        // Defines the behavior of an asset using a state mechine
         private Behavior behavior = null;
 
         /*******************/
@@ -104,11 +115,6 @@ namespace LeoLib
         /***************************/
         /*** Protected Functions ***/
         /***************************/
-
-        /*protected void Rotate(float x, float y, float z)
-        {
-            transform.Rotate(x, y, z);
-        }*/
 
         protected void AssetImageScale(TextureData data)
         {

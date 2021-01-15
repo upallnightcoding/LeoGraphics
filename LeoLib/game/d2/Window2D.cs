@@ -43,6 +43,10 @@ namespace LeoLib.game
 
             GL.Enable(EnableCap.DepthTest);
 
+            GL.Enable(EnableCap.Blend);
+            //GL.BlendFunc((BlendingFactor)BlendingFactorSrc.SrcAlpha, (BlendingFactor)BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
             CursorGrabbed = true;
 
             shader = new Shader(Constant.SHADER_VERT, Constant.SHADER_FRAG);

@@ -12,6 +12,8 @@ namespace Client
 {
     public class TestCase
     {
+        const string NINJA_ACTION = "D:\\Application\\cs\\LeoGraphics\\NinjaActions\\";
+
         const string FACE_IMAGE = "face.png";
         const string LEVEL1_IMAGE = "Level1.png";
 
@@ -22,7 +24,7 @@ namespace Client
 
             State spinState = new State(SPIN_STATE);
             spinState.Add(new ActionSpin(0.0f, 0.0f, -delta * 0.1f));
-            spinState.Add(new ActionTranslate(0.5f, 0.5f, 0.0f));
+            spinState.Add(new ActionTranslate(0.5f));
             spinState.Add(new ActionScale(0.1f, 0.1f, 0.1f));
 
             Behavior behavior = new Behavior();
@@ -93,33 +95,51 @@ namespace Client
 
         public static Scene2D FlipBookTest()
         {
-            const string IDLE00_IMAGE = "animation/idleimages/Idle__000.png";
-            const string IDLE01_IMAGE = "animation/idleimages/Idle__001.png";
-            const string IDLE02_IMAGE = "animation/idleimages/Idle__002.png";
-            const string IDLE03_IMAGE = "animation/idleimages/Idle__003.png";
-            const string IDLE04_IMAGE = "animation/idleimages/Idle__004.png";
-            const string IDLE05_IMAGE = "animation/idleimages/Idle__005.png";
-            const string IDLE06_IMAGE = "animation/idleimages/Idle__006.png";
-            const string IDLE07_IMAGE = "animation/idleimages/Idle__007.png";
-            const string IDLE08_IMAGE = "animation/idleimages/Idle__008.png";
-            const string IDLE09_IMAGE = "animation/idleimages/Idle__009.png";
+            const float FLIP_AMOUNT = (float)(180.0f * Math.PI / 180.0);
 
-            FlipBook fb = new FlipBook();
-            fb.Add(IDLE00_IMAGE);
-            fb.Add(IDLE01_IMAGE);
-            fb.Add(IDLE02_IMAGE);
-            fb.Add(IDLE03_IMAGE);
-            fb.Add(IDLE04_IMAGE);
-            fb.Add(IDLE05_IMAGE);
-            fb.Add(IDLE06_IMAGE);
-            fb.Add(IDLE07_IMAGE);
-            fb.Add(IDLE08_IMAGE);
-            fb.Add(IDLE09_IMAGE);
+            const string FLIP_STATE = "Flip";
 
-            Sprite sprite = new Sprite(fb, null);
+            string[] IDLE_IMAGE = new string[]
+            {
+                NINJA_ACTION + "Idle__000.png",
+                NINJA_ACTION + "Idle__001.png",
+                NINJA_ACTION + "Idle__002.png",
+                NINJA_ACTION + "Idle__003.png",
+                NINJA_ACTION + "Idle__004.png",
+                NINJA_ACTION + "Idle__005.png",
+                NINJA_ACTION + "Idle__006.png",
+                NINJA_ACTION + "Idle__007.png",
+                NINJA_ACTION + "Idle__008.png",
+                NINJA_ACTION + "Idle__009.png"
+            };
+
+            string[] JUMP_IMAGE = new string[]
+            {
+                NINJA_ACTION + "Jump__000.png",
+                NINJA_ACTION + "Jump__001.png",
+                NINJA_ACTION + "Jump__002.png",
+                NINJA_ACTION + "Jump__003.png",
+                NINJA_ACTION + "Jump__004.png",
+                NINJA_ACTION + "Jump__005.png",
+                NINJA_ACTION + "Jump__006.png",
+                NINJA_ACTION + "Jump__007.png",
+                NINJA_ACTION + "Jump__008.png",
+                NINJA_ACTION + "Jump__009.png"
+            };
+
+            FlipBook fb = new FlipBook(IDLE_IMAGE);
+
+            State state = new State(FLIP_STATE);
+            state.Add(new ActionSetRotate(FLIP_AMOUNT, 0.0f, 0.0f));
+            state.Add(new ActionTranslate(0.5f));
+
+            Behavior behavior = new Behavior();
+            behavior.Add(state);
+
+            Sprite sprite = new Sprite(fb, behavior);
 
             Scene2D scene = new Scene2D();
-            scene.Add(new Sprite(fb, null));
+            scene.Add(sprite);
 
             return (scene);
         }

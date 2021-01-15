@@ -44,7 +44,7 @@ namespace LeoLib.script
             @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader2D.vert";
         public const string SHADER_FRAG = 
             @"D:\Application\cs\LeoGraphics\Leo\LeoLib\glsl\shader2D.frag";
-        public const string RESOURCE = 
-            @"D:\Application\cs\LeoGraphics\Leo\Client\resources\";
+        //public const string RESOURCE = 
+          //  @"D:\Application\cs\LeoGraphics\Leo\Client\resources\";
     }
 }

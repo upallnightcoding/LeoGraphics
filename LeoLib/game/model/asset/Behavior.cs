@@ -7,10 +7,18 @@ namespace LeoLib.game.model.asset
         private Dictionary<string, State> behavior = null;
         private State activeState = null;
 
+        /*******************/
+        /*** Constructor ***/
+        /*******************/
+
         public Behavior()
         {
             behavior = new Dictionary<string, State>();
         }
+
+        /************************/
+        /*** Public Functions ***/
+        /************************/
 
         public void Add(State state)
         {

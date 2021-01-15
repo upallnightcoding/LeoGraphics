@@ -22,6 +22,8 @@ namespace LeoLib
         // Z-Axis Translation
         public float Z { get; set; } = 0.0f;
 
+        public int Level { get; set; } = 0;
+
         /*******************/
         /*** Constructor ***/
         /*******************/
@@ -31,7 +33,7 @@ namespace LeoLib
 
         }
 
-        public Translate(float x, float y, float z)
+        public Translate(float x, float y, float z = 0.0f)
         {
             X = x;
             Y = y;

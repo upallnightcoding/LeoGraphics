@@ -8,7 +8,7 @@ namespace LeoLib.game.model.asset
 {
     public class EventContext
     {
-        public Color4 Bg { get; set; } = Color4.BlueViolet;
+        public Color4 Bg { get; set; } = Color4.Coral;
         public KeyboardState Input { get; set; } = null;
 
         public float DeltaTime { get; set; } = 0.0f;

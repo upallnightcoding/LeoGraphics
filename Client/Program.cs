@@ -1,4 +1,5 @@
 ﻿using Client;
+using Client.testcases;
 using LeoLib;
 using LeoLib.game;
 using LeoLib.game.d2;
@@ -25,11 +26,13 @@ namespace Leo
 
         static void TestGame2d_01()
         {
-            Scene2D scene = TestCase.SpinOffTest();
+            //Scene2D scene = TestCase.SpinOffTest();
             //Scene2D scene = TestCase.SpinStateTest();
             //Scene2D scene = TestCase.SpinStateKeyBoardTest();
             //Scene2D scene = TestCase.StillTest();
             //Scene2D scene = TestCase.FlipBookTest();
+            //Scene2D scene = new PlayerJumpOverChest();
+            Scene2D scene = new IdleMoveLeftRight();
 
             Game2D game = new Game2D("Leo Client ...", scene);
         }
@@ -72,6 +75,7 @@ namespace Leo
 
             string[] source = new string[] {
                 "program;",
+                "  print 3 * (2 + 1) - 4;",
                 "  print 1 > 3, \" \", 1 < 3;",
                 "  print 1.0 > 3, \" \", 1 < 3.5;",
                 "  integer a = 1, b = 2, c = 45+2;",

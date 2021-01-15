@@ -4,17 +4,19 @@ using System.Text;
 
 namespace LeoLib.game.model.asset.action
 {
-    public class ActionTranslate : Action
+    public class ActionSetRotate : Action
     {
-        private float speed = 0.0f;
+        private readonly Rotate position = null;
+
+        private bool alreadySet = false;
 
         /*******************/
         /*** Constructor ***/
         /*******************/
 
-        public ActionTranslate(float speed)
+        public ActionSetRotate(float x, float y, float z = 0.0f)
         {
-            this.speed = speed;
+            position = new Rotate(x, y, z);
         }
 
         /************************/
@@ -23,7 +25,12 @@ namespace LeoLib.game.model.asset.action
 
         public void Update(float deltaTime, Transform transform)
         {
-            transform.Add(speed, deltaTime);
+            if (!alreadySet)
+            {
+                alreadySet = true;
+
+                transform.Rotate(position);
+            }
         }
     }
 }

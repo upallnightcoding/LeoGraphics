@@ -7,9 +7,17 @@ namespace LeoLib
 {
     public class Transform
     {
+        // Defines the scaling factors of a model
         private Scale scale;
+
+        // Defines the axis rotation of a model
         private Rotate rotate;
+
+        // Defines the axis translate of a model
         private Translate translate;
+
+        // Current direction of model
+        public Vector3 Direction { get; set; }
 
         /*******************/
         /*** Constructor ***/
@@ -20,27 +28,35 @@ namespace LeoLib
             scale = new Scale();
             rotate = new Rotate();
             translate = new Translate();
+            Direction = new Vector3(1.0f, 0.0f, 0.0f);
         }
 
         /************************/
         /*** Public Functions ***/
         /************************/
 
-        public void Rotate(float x, float y, float z)
+        public void Rotate(Rotate position)
         {
-            rotate.X = x;
-            rotate.Y = y;
-            rotate.Z = z;
+            rotate.X = position.X;
+            rotate.Y = position.Y;
+            rotate.Z = position.Z;
         }
 
-        public void Translate(float x, float y, float z)
+        public void Translate(Translate position)
+        {
+            translate.X = position.X;
+            translate.Y = position.Y;
+            translate.Z = position.Z;
+        }
+
+        public void Translate(float x, float y, float z = 0.0f)
         {
             translate.X = x;
             translate.Y = y;
             translate.Z = z;
         }
 
-        public void Scale(float x, float y, float z)
+        public void Scale(float x, float y, float z = 0.0f)
         {
             scale.X = x;
             scale.Y = y;
@@ -54,11 +70,11 @@ namespace LeoLib
             rotate.Z += speed.Z * deltaTime;
         }
 
-        public void Add(Translate speed, float deltaTime)
+        public void Add(float speed, float deltaTime)
         {
-            translate.X += speed.X * deltaTime;
-            translate.Y += speed.Y * deltaTime;
-            translate.Z += speed.Z * deltaTime;
+            translate.X += speed * Direction.X * deltaTime;
+            translate.Y += speed * Direction.Y * deltaTime;
+            translate.Z += speed * Direction.Z * deltaTime;
         }
 
         public void Add(Scale speed, float deltaTime)
