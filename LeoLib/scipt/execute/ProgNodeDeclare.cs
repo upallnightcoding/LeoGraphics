@@ -13,7 +13,7 @@ namespace LeoLib.scipt.execute
         {
             public string Name { get; set; }
             public SymbolTableRecType Type { get; set; }
-            public ProgNode Size { get; set; }
+            public ProgNode Size { get; set; } = null;
 
             public ProgNode Initialize { get; set; } = null;
 
@@ -31,7 +31,14 @@ namespace LeoLib.scipt.execute
 
             public int GetSize(ProgNodeContext context)
             {
-                return (Size.Evaluate(context).GetInteger());
+                int size = 1;
+
+                if (Size != null)
+                {
+                    size = Size.Evaluate(context).GetInteger();
+                }
+
+                return (size);
             }
 
             public ProgNodeValue GetInitialize(ProgNodeContext context)

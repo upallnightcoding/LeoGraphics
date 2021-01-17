@@ -14,9 +14,9 @@ namespace Leo
         {
             //TestGame01();
 
-            TestGame2d_01();
+            //TestGame2d_01();
 
-            //TestParser01();
+            TestParser01();
         }
 
         static void TestGame01()
@@ -47,6 +47,11 @@ namespace Leo
             /*string[] source = new string[] {
                 "program;",
                 "  integer a = 1, b = 2, c = 45+2;",
+                "  a = 1;",
+                "  while (a < 5);",
+                "    print a;",
+                "    a = a + 1;",
+                "  end;",
                 "  a = 11;",
                 "  print a, b +1,c*3, a;",
                 "  print 2 +3, \" \", 34.23 + 17.9, \" \", 7 - 2, \" \", 78.3/34, \" \", 3*8; ",
@@ -73,12 +78,16 @@ namespace Leo
                 "end;"
             };*/
 
-            string[] source = new string[] {
+            /*string[] source = new string[] {
                 "program;",
                 "  print 3 * (2 + 1) - 4;",
                 "  print 1 > 3, \" \", 1 < 3;",
                 "  print 1.0 > 3, \" \", 1 < 3.5;",
                 "  integer a = 1, b = 2, c = 45+2;",
+                "  while (a < 5);",
+                "    print a;",
+                "    a = a + 1;",
+                "  end;",
                 "  print a*5 > 3, \" \", 1*10 < 3;",
                 "  float x = 1.5, y = 2.5, z = 45+2;",
                 "  print a, ' ', b, ' ', c;",
@@ -91,6 +100,20 @@ namespace Leo
                 "  print 11.0 / 2, \" \", 3 / 12.5;",
                 "  print 11 % 2, \" \", 3 % 12;",
                 "  print 11 ^ 2, \" \", 3 ^ 2;",
+                "end;"
+            };*/
+
+            string[] source = new string[] {
+                "program;",
+                "  integer a = 30;",
+                "  boolean b = (1 <3);",
+                "  print 'Not: ', b, ':', not[b], ':', not[not[b]];",
+                "  print 'Maxi: ', maxi[10*a, 20, maxi[10*6, 50+2, 70], 3000];",
+                "  print 'Round: ', round[1.7], ':', round[1.2], ':', round[1.9];",
+                "  while (a <= 10);",
+                "    print a;",
+                "    a = a + 2;",
+                "  end;",
                 "end;"
             };
 

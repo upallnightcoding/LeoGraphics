@@ -32,6 +32,7 @@ namespace LeoLib
 
             Add(new ProgCmdEnd());
             Add(new ProgCmdPrint());
+            Add(new ProgCmdWhile());
             Add(new ProgCmdProgram());
             Add(new ProgCmdDeclare("INTEGER", SymbolTableRecType.INTEGER));
             Add(new ProgCmdDeclare("STRING", SymbolTableRecType.STRING));
@@ -125,6 +126,16 @@ namespace LeoLib
             {
                 token = GetToken();
             }
+        }
+
+        public bool IsSkipLeftBracket()
+        {
+            return (IsSkipChar('['));
+        }
+
+        public bool IsSkipRightBracket()
+        {
+            return (IsSkipChar(']'));
         }
 
         /*************************/
@@ -227,6 +238,12 @@ namespace LeoLib
                 case '=':
                     type = TokenType.ASSIGN;
                     break;
+                case '[':
+                    type = TokenType.LEFT_BRACKET;
+                    break;
+                case ']':
+                    type = TokenType.RIGHT_BRACKET;
+                    break;
             }
 
             MoveNextChar();
@@ -319,6 +336,18 @@ namespace LeoLib
             }
 
             return (new Number(value, n));
+        }
+
+        private bool IsSkipChar(char target)
+        {
+            bool found = IsChar(target);
+
+            if (found)
+            {
+                GetToken();
+            }
+
+            return (found);
         }
 
         /// <summary>

@@ -7,12 +7,10 @@ namespace LeoLib.scipt.command
 {
     class ProgCmdProgram : ProgCmd
     {
-        private List<ProgNode> commands = null;
-
         public ProgCmdProgram() 
             : base("PROGRAM")
         {
-            commands = new List<ProgNode>();
+
         }
 
         public override ProgNode Interpret(Script script)

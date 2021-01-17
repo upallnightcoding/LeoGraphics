@@ -44,6 +44,11 @@ namespace LeoLib.script
         NOT,
         NE,
 
+        // Left and Right Brackets
+        //------------------------
+        LEFT_BRACKET,
+        RIGHT_BRACKET,
+
         // Left and Right Parenthesis
         //---------------------------
         LEFT_PAREN,

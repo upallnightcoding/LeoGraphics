@@ -126,14 +126,19 @@ namespace LeoLib.script
             return (oper);
         }
 
+        /// <summary>
+        /// IsEof() - Returns a true if the parser has reached the end of the <br/>
+        /// source code file.
+        /// </summary>
+        /// <returns></returns>
         public bool IsEof()
         {
             return (type == TokenType.EOF);
         }
 
-        public bool  IsEoe()
+        public bool IsEoe()
         {
-            return (IsSeparator() || IsEos() || IsEof());
+            return (IsSeparator() || IsEos() || IsEof() || IsRightBacket());
         }
 
         /// <summary>
@@ -167,6 +172,11 @@ namespace LeoLib.script
         public bool IsRightParen()
         {
             return (type == TokenType.RIGHT_PAREN);
+        }
+
+        public bool IsRightBacket()
+        {
+            return (type == TokenType.RIGHT_BRACKET);
         }
 
         public bool IsBottomOfOperStack()

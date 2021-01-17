@@ -1,4 +1,5 @@
-﻿using LeoLib.script.execute;
+﻿using LeoLib.scipt.function;
+using LeoLib.script.execute;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,16 +24,21 @@ namespace LeoLib.scipt.symtable
             scope.Add(name, new SymbolTableRec(name, type, size, initialize));
         }
 
-        public ProgNodeValue GetValue(string variable, int index)
+        public void Declare(SysFunc function)
         {
-            ProgNodeValue value = null;
+            scope.Add(function.Name, new SymbolTableRec(function));
+        }
+
+        public SymbolTableRec GetSymbolTableRec(string variable)
+        {
+            SymbolTableRec symTableRec = null;
 
             if (scope.TryGetValue(variable, out SymbolTableRec record))
             {
-                value = record.GetValue(index);
+                symTableRec = record;
             }
 
-            return (value);
+            return (symTableRec);
         }
 
         public void Assign(string variable, ProgNodeValue value, int index)

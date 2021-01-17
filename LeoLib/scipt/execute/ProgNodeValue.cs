@@ -1,4 +1,6 @@
-﻿using LeoLib.scipt.execute;
+﻿using LeoLib.scipt;
+using LeoLib.scipt.execute;
+using LeoLib.scipt.symtable;
 using LeoLib.script.token;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ namespace LeoLib.script.execute
     public class ProgNodeValue : ProgNode
     {
         public ProgNodeValueType Type { get; set; } = ProgNodeValueType.UNKNOWN;
+        public ArgList Arguments { get; set; } = null;
 
         private int ivalue = 0;
         private float fvalue = 0.0f;
@@ -84,7 +87,22 @@ namespace LeoLib.script.execute
 
             if (Type == ProgNodeValueType.KEYWORD)
             {
-                value = context.SymTable.GetValue(svalue, 0);
+                SymbolTableRec record = context.SymTable.GetSymbolTableRec(svalue);
+
+                if (record != null)
+                {
+                    switch(record.Designation)
+                    {
+                        case SymbolTableRecDesig.SCALAR:
+                            value = record.GetValue(0);
+                            break;
+                        case SymbolTableRecDesig.ARRAY:
+                            break;
+                        case SymbolTableRecDesig.FUNCTION:
+                            value = record.Function.Evaluate(context, Arguments);
+                            break;
+                    }
+                }
             } else
             {
                 value = this;
@@ -93,9 +111,9 @@ namespace LeoLib.script.execute
             return (value);
         }
 
-        /************************/
-        /*** Public Functions ***/
-        /************************/
+        /****************************/
+        /*** Public Get Functions ***/
+        /****************************/
 
         public float GetFloat()
         {

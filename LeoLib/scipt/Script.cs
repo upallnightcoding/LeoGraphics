@@ -127,6 +127,8 @@ namespace LeoLib.scipt
                 token = parser.GetToken();
             }
 
+            // Pop the operator stack until the bottom is reached
+            //---------------------------------------------------
             while (!operStack.Peek().IsBottomOfOperStack())
             {
                 PopOperStack(operStack, varStack);
@@ -219,7 +221,36 @@ namespace LeoLib.scipt
 
         private void PushVarStack(Token token, Stack<ProgNode> varStack)
         {
-            varStack.Push(new ProgNodeValue(token));
+            ProgNodeValue value = new ProgNodeValue(token);
+
+            value.Arguments = GetArgList();
+
+            varStack.Push(value);
+        }
+
+        private ArgList GetArgList()
+        {
+            ArgList argList = null;
+
+            if (parser.IsSkipLeftBracket())
+            {
+                argList = new ArgList();
+
+                if (!parser.IsSkipRightBracket())
+                {
+                    ProgNode argument = null;
+
+                    do
+                    {
+                        argument = Expression();
+                        argList.Add(argument);
+                    } while (!argument.EndingToken.IsRightBacket());
+
+                }
+            }
+
+            return (argList);
         }
     }
+
 }
