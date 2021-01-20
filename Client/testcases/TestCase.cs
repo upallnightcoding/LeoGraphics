@@ -143,5 +143,28 @@ namespace Client
 
             return (scene);
         }
+
+        public static string[] TestSource_01()
+        {
+            string[] source = new string[] {
+                "program;",
+                "  # Testing comments ...",
+                "  # Testing comments ...",
+                " ",
+                "  integer a = 30;",
+                "  boolean b = (1 <3); # This is a comment test ...",
+                "  print 'Not: ', b, ':', not[b], ':', not[not[b]];",
+                "  print 'Maxi: ', maxi[10*a, 20, maxi[10*6, 50+2, 70], 3000];",
+                "  print 'Round: ', round[1.7], ':', round[1.2], ':', round[1.9];",
+                "  print 'Substr: ', substr['Testing', 0, 4], ':', substr['Testing',3];",
+                "  while (a <= 10);",
+                "    print a;",
+                "    a = a + 2;",
+                "  end;",
+                "end; # End of program"
+            };
+
+            return (source);
+        }
     }
 }

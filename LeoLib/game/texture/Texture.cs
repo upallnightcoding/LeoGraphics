@@ -8,8 +8,9 @@ namespace LeoLib
 {
     public class Texture
     {
+        // Class Properties
+        //-----------------
         public int Handle { get; set; } = 0;
-
         public TextureData Data { get; } = null;
 
         private BitmapData imageData = null;
@@ -46,7 +47,8 @@ namespace LeoLib
                 //   The format of the pixels, explained above. Since we loaded the pixels as ARGB earlier, we need to use BGRA.
                 //   Data type of the pixels.
                 //   And finally, the actual pixels.
-                GL.TexImage2D(TextureTarget.Texture2D,
+                GL.TexImage2D(
+                    TextureTarget.Texture2D,
                     0,
                     PixelInternalFormat.Rgba,
                     bitmap.Width,
@@ -54,7 +56,8 @@ namespace LeoLib
                     0,
                     PixelFormat.Rgba,
                     PixelType.UnsignedByte,
-                    imageData.Scan0);
+                    imageData.Scan0
+                );
             }
 
             // Now that our texture is loaded, we can set a few settings to affect how the image appears on rendering.

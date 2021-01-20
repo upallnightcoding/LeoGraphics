@@ -406,13 +406,7 @@ namespace LeoLib
         {
             if (!(++sourceChar < source[sourceLine].Length))
             {
-                if (!(++sourceLine < source.Length))
-                {
-                    eof = true;
-                } else
-                {
-                    sourceChar = 0;
-                }
+                MoveToNextLine();
             }
         }
 
@@ -432,9 +426,25 @@ namespace LeoLib
                 {
                     sourceChar = GetNextChar();
                 }
+
+                if (!IsEof() && IsChar('#'))
+                {
+                    MoveToNextLine();
+                    SkipBlanks();
+                }
             }
         }
 
-       
+        private void MoveToNextLine()
+        {
+            if (!(++sourceLine < source.Length))
+            {
+                eof = true;
+            }
+            else
+            {
+                sourceChar = 0;
+            }
+        }
     }
 }

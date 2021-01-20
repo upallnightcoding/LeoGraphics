@@ -51,5 +51,10 @@ namespace LeoLib.scipt
             return (argList[index].Evaluate(context).GetBoolean());
         }
 
+        public string GetString(ProgNodeContext context, int index)
+        {
+            return (argList[index].Evaluate(context).GetString());
+        }
+
     }
 }

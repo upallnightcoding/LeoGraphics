@@ -14,9 +14,9 @@ namespace Leo
         {
             //TestGame01();
 
-            //TestGame2d_01();
+            TestGame2d_01();
 
-            TestParser01();
+            //TestParser01();
         }
 
         static void TestGame01()
@@ -103,19 +103,7 @@ namespace Leo
                 "end;"
             };*/
 
-            string[] source = new string[] {
-                "program;",
-                "  integer a = 30;",
-                "  boolean b = (1 <3);",
-                "  print 'Not: ', b, ':', not[b], ':', not[not[b]];",
-                "  print 'Maxi: ', maxi[10*a, 20, maxi[10*6, 50+2, 70], 3000];",
-                "  print 'Round: ', round[1.7], ':', round[1.2], ':', round[1.9];",
-                "  while (a <= 10);",
-                "    print a;",
-                "    a = a + 2;",
-                "  end;",
-                "end;"
-            };
+            string[] source = TestCase.TestSource_01();
 
             Parser parser = new Parser(source);
              

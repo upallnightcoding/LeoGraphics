@@ -56,21 +56,21 @@ namespace Client.testcases
             const string MOVE_RIGHT_STATE = "Move Right";
             const float SPEED = 1.0f;
 
-            // Idle State
+            // IDLE_STATE
             //-----------
             State idleState = new State(IDLE_STATE);
             idleState.Add(new ActionSetRotate(FLIP_AMOUNT, 0.0f));
             idleState.Add(new EventKeyBoard(MOVE_LEFT_STATE, Keys.A));
             idleState.Add(new EventKeyBoard(MOVE_RIGHT_STATE, Keys.D));
 
-            // Left State
-            //-----------
+            // MOVE_LEFT_STATE
+            //----------------
             State moveLeftState = new State(MOVE_LEFT_STATE);
             moveLeftState.Add(new ActionTranslate(-SPEED));
             moveLeftState.Add(new EventKeyBoard(MOVE_RIGHT_STATE, Keys.D));
 
-            // Right State
-            //------------
+            // MOVE_RIGHT_STATE
+            //-----------------
             State moveRightState = new State(MOVE_RIGHT_STATE);
             moveRightState.Add(new ActionTranslate(SPEED));
             moveRightState.Add(new EventKeyBoard(MOVE_LEFT_STATE, Keys.A));

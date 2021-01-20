@@ -41,6 +41,7 @@ namespace LeoLib.scipt.symtable
             Declare(new SysFuncMaxi());
             Declare(new SysFuncRound());
             Declare(new SysFuncNot());
+            Declare(new SysFuncSubStr());
         }
 
         /************************/
