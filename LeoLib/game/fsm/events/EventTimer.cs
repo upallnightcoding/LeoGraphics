@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LeoLib.game.model.asset
 {
-    public class EventTimer : Event
+    public class EventTimer : StateEvent
     {
         public float SleepTimeSec { get; set; } = 0.0f;
 
@@ -15,7 +15,7 @@ namespace LeoLib.game.model.asset
             SleepTimeSec = sleepTimeSec;
         }
 
-        public override bool Check(EventContext context)
+        public override bool OnCheck(EventContext context)
         {
             accumulate += context.DeltaTime;
 

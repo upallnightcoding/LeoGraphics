@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LeoLib.game.model.asset.action
 {
-    public class ActionSetDirection : Action
+    public class ActionSetDirection : StateAction
     {
         private readonly Vector3 direction;
 
@@ -24,7 +24,7 @@ namespace LeoLib.game.model.asset.action
         /*** Public Functions ***/
         /************************/
 
-        public void Update(float deltaTime, Transform transform)
+        public void OnUpdate(float deltaTime, Transform transform)
         {
             if (!alreadySet)
             {

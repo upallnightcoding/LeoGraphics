@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LeoLib.game.model.asset.events
 {
-    public class EventKeyBoard : Event
+    public class EventKeyBoard : StateEvent
     {
         private readonly Keys key;
 
@@ -14,7 +14,7 @@ namespace LeoLib.game.model.asset.events
             key = aKey;
         }
 
-        public override bool Check(EventContext context)
+        public override bool OnCheck(EventContext context)
         {
             return (context.Input.IsKeyDown(key));
         }

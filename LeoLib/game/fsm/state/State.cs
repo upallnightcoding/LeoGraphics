@@ -10,9 +10,10 @@ namespace LeoLib.game.model.asset
         public string Name { set; get; } = null;
 
         // List of state actions
-        private List<Action> actions = null;
+        private List<StateAction> actions = null;
 
-        private List<Event> events = null;
+        // List of state events
+        private List<StateEvent> events = null;
 
         /*******************/
         /*** Constructor ***/
@@ -22,12 +23,12 @@ namespace LeoLib.game.model.asset
         {
         }
 
-        public State(string name, Action action)
+        public State(string name, StateAction action)
         {
             Name = name;
 
-            actions = new List<Action>();
-            events = new List<Event>();
+            actions = new List<StateAction>();
+            events = new List<StateEvent>();
 
             if (action != null)
             {
@@ -39,15 +40,25 @@ namespace LeoLib.game.model.asset
         /*** Public Functions ***/
         /************************/
 
-        public void Add(Action action)
+        /// <summary>
+        /// Add() - Adds an action to the state object, if the action is null <br/>
+        /// it will not be added to the state.
+        /// </summary>
+        /// <param name="aAction"></param>
+        public void Add(StateAction aAction)
         {
-            if (action != null)
+            if (aAction != null)
             {
-                actions.Add(action);
+                actions.Add(aAction);
             }
         }
 
-        public void Add(Event aEvent) {
+        /// <summary>
+        /// Add() - Adds an event to the state object, if the event is null <br/>
+        /// it will not be added to the state.
+        /// </summary>
+        /// <param name="aEvent"></param>
+        public void Add(StateEvent aEvent) {
 
             if (aEvent != null)
             {
@@ -59,7 +70,7 @@ namespace LeoLib.game.model.asset
         {
             foreach (var action in actions)
             {
-                action.Update(deltaTime, transform);
+                action.OnUpdate(deltaTime, transform);
             }
         }
 
@@ -69,7 +80,7 @@ namespace LeoLib.game.model.asset
 
             for (int i = 0, n = events.Count; (i < n) && (eventRaised == -1); i++)
             {
-                if (events[i].Check(context))
+                if (events[i].OnCheck(context))
                 {
                     eventRaised = i;
                 }

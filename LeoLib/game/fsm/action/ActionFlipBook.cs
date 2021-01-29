@@ -1,22 +1,23 @@
-﻿using System;
+﻿using LeoLib.game.texture;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace LeoLib.game.model.asset.action
 {
-    public class ActionSetRotate : StateAction
+    public class ActionFlipBook : StateAction
     {
-        private readonly Rotate position = null;
+        private FlipBook flipBook = null;
 
-        private bool firstUpdate = true;
+        private Boolean firstUpdate = true;
 
         /*******************/
         /*** Constructor ***/
         /*******************/
 
-        public ActionSetRotate(float x, float y, float z = 0.0f)
+        public ActionFlipBook(FlipBook flipBook)
         {
-            position = new Rotate(x, y, z);
+            this.flipBook = flipBook;
         }
 
         /************************/
@@ -29,8 +30,12 @@ namespace LeoLib.game.model.asset.action
             {
                 firstUpdate = false;
 
-                transform.Rotate(position);
+                TextureData data = flipBook.CreateTextures();
+
+                transform.Scale(1.0f, data.Scale(), 1.0f);
             }
+
+            flipBook.AssignTextures();
         }
     }
 }

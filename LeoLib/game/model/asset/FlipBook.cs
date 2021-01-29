@@ -23,7 +23,6 @@ namespace LeoLib.game.model.asset
 
         private Texture[] texture = null;
 
-
         /*******************/
         /*** Constructor ***/
         /*******************/
@@ -80,14 +79,18 @@ namespace LeoLib.game.model.asset
         public void AssignTextures()
         {
             //texture[textureIndex].Use(TextureUnit.Texture0 + textureIndex);
-            texture[textureIndex].Use(TextureUnit.Texture0);
+            //texture[textureIndex].Use(TextureUnit.Texture0);
+            texture[textureIndex].Use();
 
             textureIndex = (++textureIndex) % paths.Count;
         }
 
         public void DeleteTextures()
         {
-            GL.DeleteTexture(texture[textureIndex].Handle);
+            for (int i = 0, n = paths.Count; i < n; i++)
+            {
+                GL.DeleteTexture(texture[i].Handle);
+            }
         }
     }
 }

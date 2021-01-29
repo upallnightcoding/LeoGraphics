@@ -93,9 +93,16 @@ namespace LeoLib.game.model.objects
         /*** Constructor ***/
         /*******************/
 
-        public Sprite(string imagePath) : this(imagePath, null)
+        public Sprite(string imagePath) 
+            : this(imagePath, null)
         {
             
+        }
+
+        public Sprite(Behavior behavior) 
+            : base(new MeshSprite(), behavior)
+        {
+
         }
 
         public Sprite(string imagePath, Behavior behavior)
@@ -116,17 +123,26 @@ namespace LeoLib.game.model.objects
 
         public override void AssignTextures()
         {
-            flipBook.AssignTextures();
+            if (flipBook != null)
+            {
+                flipBook.AssignTextures();
+            }
         }
 
         public override void DeleteTextures()
         {
-            flipBook.DeleteTextures();
+            if (flipBook != null)
+            {
+                flipBook.DeleteTextures();
+            }
         }
 
         public override void CreateTextures()
         {
-            AssetImageScale(flipBook.CreateTextures());
+            if (flipBook != null)
+            {
+                AssetImageScale(flipBook.CreateTextures());
+            }
         }
     }
 }

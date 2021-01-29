@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LeoLib.game.model.asset.action
 {
-    public class ActionSpin : Action
+    public class ActionSpin : StateAction
     {
         private readonly Rotate speed = null;
 
@@ -21,7 +21,7 @@ namespace LeoLib.game.model.asset.action
         /*** Public Functions ***/
         /************************/
 
-        public void Update(float deltaTime, Transform transform)
+        public void OnUpdate(float deltaTime, Transform transform)
         {
             transform.Add(speed, deltaTime);
         }

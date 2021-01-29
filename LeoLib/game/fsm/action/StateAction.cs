@@ -4,8 +4,8 @@ using System.Text;
 
 namespace LeoLib.game.model.asset
 {
-    public interface Action
+    public interface StateAction
     {
-        public void Update(float deltaTime, Transform transform);
+        public void OnUpdate(float deltaTime, Transform transform);
     }
 }

@@ -165,7 +165,8 @@ namespace LeoLib
             GL.BindVertexArray(_vaoModel);
 
             _diffuseMap.Use();
-            _specularMap.Use(TextureUnit.Texture1);
+            //_specularMap.Use(TextureUnit.Texture1);
+            _specularMap.Use();
             _lightingShader.Use();
 
             _lightingShader.SetUniform("view", _camera.GetViewMatrix());

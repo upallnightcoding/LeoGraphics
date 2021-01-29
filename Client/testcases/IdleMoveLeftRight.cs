@@ -54,26 +54,34 @@ namespace Client.testcases
             const string IDLE_STATE = "Idle";
             const string MOVE_LEFT_STATE = "Move Left";
             const string MOVE_RIGHT_STATE = "Move Right";
-            const float SPEED = 1.0f;
+            const float SPEED = 2.5f;
 
             // IDLE_STATE
             //-----------
             State idleState = new State(IDLE_STATE);
             idleState.Add(new ActionSetRotate(FLIP_AMOUNT, 0.0f));
+            idleState.Add(new ActionFlipBook(new FlipBook(IDLE_IMAGE)));
             idleState.Add(new EventKeyBoard(MOVE_LEFT_STATE, Keys.A));
             idleState.Add(new EventKeyBoard(MOVE_RIGHT_STATE, Keys.D));
+
 
             // MOVE_LEFT_STATE
             //----------------
             State moveLeftState = new State(MOVE_LEFT_STATE);
             moveLeftState.Add(new ActionTranslate(-SPEED));
+            moveLeftState.Add(new ActionSetRotate(FLIP_AMOUNT, FLIP_AMOUNT));
+            moveLeftState.Add(new ActionFlipBook(new FlipBook(RUN_IMAGE)));
             moveLeftState.Add(new EventKeyBoard(MOVE_RIGHT_STATE, Keys.D));
+            moveLeftState.Add(new EventKeyBoard(IDLE_STATE, Keys.S));
 
             // MOVE_RIGHT_STATE
             //-----------------
             State moveRightState = new State(MOVE_RIGHT_STATE);
+            moveRightState.Add(new ActionSetRotate(FLIP_AMOUNT, FLIP_AMOUNT));
             moveRightState.Add(new ActionTranslate(SPEED));
+            moveRightState.Add(new ActionFlipBook(new FlipBook(RUN_IMAGE)));
             moveRightState.Add(new EventKeyBoard(MOVE_LEFT_STATE, Keys.A));
+            moveRightState.Add(new EventKeyBoard(IDLE_STATE, Keys.S));
 
             // Behavior
             //---------
@@ -82,9 +90,9 @@ namespace Client.testcases
             behavior.Add(moveLeftState);
             behavior.Add(moveRightState);
 
-            FlipBook flipBook = new FlipBook(IDLE_IMAGE);
+            //FlipBook flipBook = new FlipBook(IDLE_IMAGE);
 
-            Sprite sprite = new Sprite(flipBook, behavior);
+            Sprite sprite = new Sprite(behavior);
 
             return (sprite);
         }
